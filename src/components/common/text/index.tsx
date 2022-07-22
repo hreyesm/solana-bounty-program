@@ -29,7 +29,7 @@ const variants = {
     'nav-heading': 'text-lg font-medium sm:text-xl',
     paragraph: 'text-lg',
     input: 'text-sm uppercase tracking-wide',
-    label: 'text-xs uppercase',
+    label: 'text-sm uppercase tracking-wide sm:text-xs',
 };
 
 /**
