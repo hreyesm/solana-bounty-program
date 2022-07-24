@@ -9,9 +9,9 @@ import { MdChevronLeft, MdLink } from 'react-icons/md';
 
 const BountyDetail: NextPage = () => {
     const tabs = [
-        {id: 'about', section: <AboutSection createdAt={""}name={""}reward={100}tags={[{value:"TypeScript"},{value:"React"},{value:"Next.js"},{value:"Node.js"},{value:"Express"},{value:"MongoDB"},{value:"GraphQL"},{value:"Apollo"},{value:"Apollo Client"},]}/>, label: 'About'},
-        {id: 'details', section: <div></div>, label: 'Details'},
-        {id: 'fund', section: <div></div>, label: 'Fund'},
+        {id: 'about', section: <AboutSection />, label: 'About'},
+        {id: 'fund', section: <div> <Text variant="big-heading"> Fund </Text> </div>, label: 'Fund'},
+        {id: 'details', section: <div> <Text variant="big-heading"> Details </Text> </div>, label: 'Details'},
     ];
 
     const router = useRouter();
@@ -39,13 +39,14 @@ const BountyDetail: NextPage = () => {
 
             <BountyCard showDetails={true} maxTags={7} createdAt={"Jun 6"}name={''}reward={100}tags={[{value:"TypeScript"},{value:"React"},{value:"Next.js"},{value:"Node.js"},{value:"Express"},{value:"MongoDB"},{value:"GraphQL"},{value:"Apollo"},{value:"Apollo Client"},]}/>
 
-            <div className="flex h-12 flex-row gap-8 border-b-1.5 border-b-line">
+            <div className="sticky top-20 -mt-px flex h-16 pt-4 flex-row gap-8 bg-black border-b-1.5 border-b-line">
                 {tabs.map((tab, index) => (
                     <NavElement
                         key={tab.id}
                         label={tab.label}
                         href={`/explorer/${bounty}?tab=${tab.id}`}
                         as={index === 0 && `/explorer/${bounty}`}
+                        scroll={false} // TODO: Scroll to navbar position.
                     />
                 ))}
             </div>

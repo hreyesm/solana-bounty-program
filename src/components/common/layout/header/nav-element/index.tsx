@@ -11,16 +11,17 @@ import { useRouter } from "next/router";
     label: string;
     href: string;
     as?: string;
+    scroll?: boolean;
 };
 
-const NavElement = ({ label, href, as }:NavElementProps) => { 
+const NavElement = ({ label, href, as, scroll }:NavElementProps) => { 
     const router = useRouter();
     const isActive = href === router.asPath || (as && as === router.asPath);
 
     console.log(router);
 
     return (
-        <Link href={href} as={as} passHref> 
+        <Link href={href} as={as} scroll={scroll} passHref> 
             <a 
                 className={cn(
                     "group h-full flex flex-col justify-between items-center"
