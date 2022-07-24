@@ -1,4 +1,4 @@
-import React, { Children } from 'react';
+import React from 'react';
 import Text from '../text';
 import { cn } from 'utils';
 
@@ -7,6 +7,7 @@ import { cn } from 'utils';
  */
 type ButtonProps = {
     className?: string;
+    onClick?: () => void;
     type?: 'button' | 'submit' | 'reset';
     variant?: string;
     text?: string;
@@ -31,12 +32,13 @@ const variants = {
  * @param text Text to display in the button.
  */
 const Button = ({
+    onClick,
     type = 'button',
     variant = 'transparent',
     reversed = false,
     text: value,
     className,
-    children
+    children,
 }: ButtonProps) => (
     <button
         className={cn(
@@ -45,8 +47,12 @@ const Button = ({
             value || (React.Children.count(children) > 1) ? 'px-5 py-3' : 'p-3 aspect-square',
             reversed && 'flex-row-reverse',
             className
-
+            'flex h-fit max-h-full w-fit items-center justify-center gap-3 rounded-full border transition-all hover:-translate-y-[0.2rem] hover:bg-white hover:!text-black active:translate-y-[0.05rem] active:scale-95',
+            value || React.Children.count(children) > 1
+                ? 'px-5 py-3'
+                : 'aspect-square p-3',
         )}
+        onClick={onClick}
         type={type}
     >
         {value && <Text variant="input">{value}</Text>}
