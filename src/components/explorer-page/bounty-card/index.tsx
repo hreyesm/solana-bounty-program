@@ -5,13 +5,14 @@ import Card from 'components/common/card';
 import Chip from 'components/common/chip';
 import Text from 'components/common/text';
 
-const max = 5;
-
 /**
  * Properties for a "Featured Bounty" card component.
  */
-type FeaturedCardProps = Omit<Bounty, 'tags'> & {
+type BountyCardProps = Omit<Bounty, 'tags'> & {
     responsive?: boolean;
+    maxTags?: number;
+    showDetails?: boolean;
+    showTableTags?: boolean;
     tags: Array<{
         highlightValue?: string;
         value?: string;
@@ -19,36 +20,67 @@ type FeaturedCardProps = Omit<Bounty, 'tags'> & {
     }>;
 };
 
-const FeaturedBountyCard = ({
+// TODO: Add owner and hunter props.
+const BountyCard = ({
     createdAt,
     name,
     reward,
     tags,
     responsive = true,
-}: FeaturedCardProps) => (
+    maxTags = 5,
+    showDetails = false,
+}: BountyCardProps) => (
     <Card
         className={cn(
-            'flex h-fit w-98 flex-shrink-0 flex-col items-start justify-between gap-5 p-6',
+            'flex h-fit min-h-[5rem] w-98 flex-shrink-0 flex-col items-start justify-between gap-5 p-6',
             responsive && '!w-full 2lg:flex-row 2lg:items-center',
         )}
     >
-        <div className="flex w-full max-w-full flex-row items-center gap-3">
-            <div className="aspect-square h-16 w-16 rounded-lg bg-white" />
-            <div className="flex flex-col overflow-hidden">
-                <Chip
-                    value="placed"
-                    highlightValue={createdAt}
-                    reversed={true}
-                />
-                <Text
-                    variant="heading"
-                    className={cn(
-                        'inline w-full overflow-hidden text-ellipsis whitespace-nowrap',
-                        responsive && '2lg:hidden',
-                    )}
-                >
-                    {name}
-                </Text>
+        <div 
+            className={cn(
+                "flex w-full max-w-full flex-row gap-3",
+                !showDetails && "items-center"
+            )}
+        >
+            <div className="aspect-square h-20 rounded-lg bg-white" />
+            <div className="flex flex-col justify-between h-full overflow-hidden">
+                {!showDetails && (
+                    <>
+                        <Chip
+                            value="placed"
+                            highlightValue={createdAt}
+                            reversed={true} />
+                        <Text
+                            variant="heading"
+                            className={cn(
+                                'inline w-full overflow-hidden text-ellipsis whitespace-nowrap',
+                                responsive && '2lg:hidden'
+                            )}
+                        >
+                            {name}
+                        </Text>
+                    </>
+                )}
+                {showDetails && (
+                    <div className="flex flex-row gap-5 h-full">
+                        <div className="flex flex-col gap-1">
+                            <Text variant="label" className="text-secondary"> Owner </Text>
+                            <div className="flex flex-row items-center gap-3">
+                                <div className="aspect-square h-9 rounded-full bg-white" />
+                                <Text variant="user" className="hidden sm:inline"> JohnDoe </Text>
+                                <Text variant="label" className="text-primary"> Lv. 1 </Text>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <Text variant="label" className="text-secondary"> Hunter </Text>
+                            <div className="flex flex-row items-center gap-3">
+                                <div className="aspect-square h-9 rounded-full bg-white" />
+                                <Text variant="user" className="hidden sm:inline"> JohnDoe </Text>
+                                <Text variant="label" className="text-primary"> Lv. 1 </Text>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <Text
                     variant="sub-heading"
                     className={cn(
@@ -60,22 +92,27 @@ const FeaturedBountyCard = ({
                 </Text>
             </div>
         </div>
-        <div className="flex w-full flex-row items-start gap-5 2lg:items-center">
+        <div 
+            className={cn(
+                "flex w-full flex-row items-start gap-5",
+                !showDetails && "2lg:items-center"
+            )}
+        >
             <div className="flex h-full w-40 flex-col gap-1 overflow-hidden">
                 <Text
                     variant="label"
                     className={cn(
                         'inline text-secondary',
-                        responsive && '2lg:hidden',
+                        (responsive && !showDetails) && '2lg:hidden',
                     )}
                 >
-                    Reward · SOL
+                    Reward{!showDetails && "· SOL"}
                 </Text>
                 <Text
                     variant="heading"
                     className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-primary"
                 >
-                    {numberToCurrencyString(reward)}
+                    {numberToCurrencyString(reward)} {showDetails && <span className="font-extralight text-white"> SOL </span>}
                 </Text>
             </div>
             <div className="flex w-full flex-col items-end gap-1">
@@ -83,14 +120,14 @@ const FeaturedBountyCard = ({
                     variant="label"
                     className={cn(
                         'inline w-fit text-secondary',
-                        responsive && '2lg:hidden',
+                        (responsive && !showDetails) && '2lg:hidden',
                     )}
                 >
                     Tags
                 </Text>
                 <div className="flex w-full flex-row flex-wrap items-end justify-end gap-1.5">
                     {tags
-                        .slice(0, max)
+                        .slice(0, maxTags)
                         .map(({ value, highlightValue, reversed }) => (
                             <Chip
                                 key={value}
@@ -100,8 +137,8 @@ const FeaturedBountyCard = ({
                                 className="max-w-[4.25rem]"
                             />
                         ))}
-                    {tags.length > max && (
-                        <Chip highlightValue={`+${tags.length - max}`} />
+                    {tags.length > maxTags && (
+                        <Chip highlightValue={`+${tags.length - maxTags}`} />
                     )}
                 </div>
             </div>
@@ -109,4 +146,4 @@ const FeaturedBountyCard = ({
     </Card>
 );
 
-export default FeaturedBountyCard;
+export default BountyCard;
