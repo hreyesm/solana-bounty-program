@@ -32,18 +32,18 @@ const BountyCard = ({
 }: BountyCardProps) => (
     <Card
         className={cn(
-            'flex h-fit min-h-[5rem] w-98 flex-shrink-0 flex-col items-start justify-between gap-5 p-6',
+            'flex h-fit w-98 flex-shrink-0 flex-col items-start justify-between gap-5 p-6',
             responsive && '!w-full 2lg:flex-row 2lg:items-center',
         )}
     >
         <div 
             className={cn(
-                "flex w-full max-w-full flex-row gap-3",
+                "flex w-full max-w-full flex-row gap-5",
                 !showDetails && "items-center"
             )}
         >
-            <div className="aspect-square h-20 rounded-lg bg-white" />
-            <div className="flex flex-col justify-between h-full overflow-hidden">
+            <div className="aspect-square h-[4.625rem] rounded-lg bg-white" />
+            <div className="flex flex-col gap-1 h-full overflow-hidden">
                 {!showDetails && (
                     <>
                         <Chip
@@ -62,19 +62,19 @@ const BountyCard = ({
                     </>
                 )}
                 {showDetails && (
-                    <div className="flex flex-row gap-5 h-full">
-                        <div className="flex flex-col gap-1">
+                    <div className="flex flex-row gap-7 h-full">
+                        <div className="flex flex-col gap-3">
                             <Text variant="label" className="text-secondary"> Owner </Text>
                             <div className="flex flex-row items-center gap-3">
-                                <div className="aspect-square h-9 rounded-full bg-white" />
+                                <div className="aspect-square h-10 rounded-full bg-white" />
                                 <Text variant="user" className="hidden sm:inline"> JohnDoe </Text>
                                 <Text variant="label" className="text-primary"> Lv. 1 </Text>
                             </div>
                         </div>
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col gap-3">
                             <Text variant="label" className="text-secondary"> Hunter </Text>
                             <div className="flex flex-row items-center gap-3">
-                                <div className="aspect-square h-9 rounded-full bg-white" />
+                                <div className="aspect-square h-10 rounded-full bg-white" />
                                 <Text variant="user" className="hidden sm:inline"> JohnDoe </Text>
                                 <Text variant="label" className="text-primary"> Lv. 1 </Text>
                             </div>
@@ -110,9 +110,9 @@ const BountyCard = ({
                 </Text>
                 <Text
                     variant="heading"
-                    className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-primary"
+                    className="flex flex-row items-center gap-2 max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-primary"
                 >
-                    {numberToCurrencyString(reward)} {showDetails && <span className="font-extralight text-white"> SOL </span>}
+                    {numberToCurrencyString(reward)} {showDetails && <Text variant="paragraph" className="font-extralight uppercase text-white"> SOL </Text>}
                 </Text>
             </div>
             <div className="flex w-full flex-col items-end gap-1">

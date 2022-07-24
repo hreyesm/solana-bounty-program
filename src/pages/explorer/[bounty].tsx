@@ -35,7 +35,7 @@ const BountyDetail: NextPage = () => {
 
             <Text variant="big-heading">{bounty}</Text>
 
-            <Text variant="nav-heading"> Basic </Text>
+            <Text variant="nav-heading"> Basics </Text>
 
             <BountyCard showDetails={true} maxTags={7} createdAt={"Jun 6"}name={''}reward={100}tags={[{value:"TypeScript"},{value:"React"},{value:"Next.js"},{value:"Node.js"},{value:"Express"},{value:"MongoDB"},{value:"GraphQL"},{value:"Apollo"},{value:"Apollo Client"},]}/>
 
