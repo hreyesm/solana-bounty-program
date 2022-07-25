@@ -10,29 +10,31 @@ import { useRouter } from "next/router";
  type NavElementProps = {
     label: string;
     href: string;
+    as?: string;
+    scroll?: boolean;
 };
 
-const NavElement = ({ label, href }:NavElementProps) => { 
+const NavElement = ({ label, href, as, scroll }:NavElementProps) => { 
     const router = useRouter();
-    const isActive = href === router.asPath;
+    const isActive = href === router.asPath || (as && as === router.asPath);
+
+    console.log(router);
 
     return (
-        <Link href={href} passHref> 
+        <Link href={href} as={as} scroll={scroll} passHref> 
             <a 
                 className={cn(
-                    "h-20 flex flex-col justify-center",
-                    isActive && "border-b-3 border-b-primary"
+                    "group h-full flex flex-col justify-between items-center"
                 )}
             >
-                <Text 
-                    variant="nav-heading" 
+                <Text variant="nav-heading"> {label} </Text>
+                
+                <div 
                     className={cn(
-                        "capitalize",
-                        isActive && "mt-1"
-                    )}
-                > 
-                    {label} 
-                </Text>
+                        "w-1/4 h-1 transition-all duration-300 ease-out",
+                        isActive ? "!w-full bg-primary" : "group-hover:bg-primary-focus group-hover:w-1/2"
+                    )} 
+                />
             </a>
         </Link>
     );

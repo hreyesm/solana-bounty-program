@@ -6,6 +6,8 @@ import { cn } from 'utils';
  * Properties for an interactable button component.
  */
 type ButtonProps = {
+    className?: string;
+    reversed?: boolean;
     onClick?: () => void;
     type?: 'button' | 'submit' | 'reset';
     variant?: string;
@@ -19,7 +21,8 @@ type ButtonProps = {
 const variants = {
     black: 'border-transparent bg-black text-white',
     orange: 'border-transparent bg-primary text-black', // TODO: Change name of variant to `highlight`.
-    transparent: 'text-white',
+    transparent: 'text-white', // TODO: Change name of variant to `outlined`.
+    label: 'text-secondary hover:text-white !p-0 border-none',
 };
 
 /**
@@ -30,6 +33,8 @@ const variants = {
  * @param text Text to display in the button.
  */
 const Button = ({
+    className,
+    reversed = false,
     onClick,
     type = 'button',
     variant = 'black',
@@ -39,15 +44,23 @@ const Button = ({
     <button
         className={cn(
             variants[variant],
-            'flex h-fit max-h-full w-fit items-center justify-center gap-3 rounded-full border transition-all hover:-translate-y-[0.2rem] hover:bg-white hover:!text-black active:translate-y-[0.05rem] active:scale-95',
+            'flex h-fit max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border transition-all',
+            variant !== 'label' &&
+                'hover:-translate-y-[0.2rem] hover:bg-white hover:!text-black active:translate-y-[0.05rem] active:scale-95',
             value || React.Children.count(children) > 1
                 ? 'px-5 py-3'
                 : 'aspect-square p-3',
+            reversed && 'flex-row-reverse',
+            className,
         )}
         onClick={onClick}
         type={type}
     >
-        {value && <Text variant="input">{value}</Text>}
+        {value && (
+            <Text variant={variant === 'label' ? 'label' : 'input'}>
+                {value}
+            </Text>
+        )}
         {children}
     </button>
 );
