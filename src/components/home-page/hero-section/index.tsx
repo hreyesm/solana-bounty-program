@@ -1,6 +1,7 @@
 import Button from 'components/common/button';
 import Image from 'next/image';
 import cn from 'utils';
+import Text from 'components/common/text';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Headline from './component/Headline';
 import React from 'react';
@@ -37,11 +38,11 @@ const HeroSection = () => {
                 }}
             ></div>
             <div className="relative z-40 flex h-full w-full flex-col items-center justify-evenly px-4 sm:pt-10 pt-20 text-left sm:px-8 md:items-start md:px-16 lg:px-32 xl:px-64">
-                <h1 className="text-[38px] font-medium leading-snug text-white sm:text-6xl sm:leading-normal ">
+                <Text variant="hero" className="text-white">
                     <span style={{ color: '#F07546' }}>Bounties</span> are here.
                     <br />
                     Do you have what it takes?
-                </h1>
+                </Text>
                 <Headline />
                 <div className="flex gap-4">
                     <Button text="Fund Bounty" variant="orange" />
