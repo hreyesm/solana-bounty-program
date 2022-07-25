@@ -2,9 +2,7 @@ import Button from 'components/common/button';
 // import Image from 'components/common/image';
 import Image from 'next/image';
 import Text from 'components/common/text';
-import Link from 'next/link';
 import SearchBar from 'components/common/search-bar';
-import SideNavigation from './side-navigation';
 import { useState, useRef } from 'react';
 import { cn } from 'utils';
 import { VscGithubAlt } from 'react-icons/vsc';
@@ -41,7 +39,7 @@ const Header = () => {
 
                 <div className="h-8 w-px bg-line" />
 
-                <div class="dropdown-end dropdown">
+                <div className="dropdown-end dropdown">
                     <button
                         className={cn(
                             'flex h-fit max-h-full w-fit items-center justify-center gap-3 rounded-full border px-5 py-3 transition-all hover:-translate-y-[0.2rem] hover:bg-white hover:!text-black active:translate-y-[0.05rem] active:scale-95',
@@ -60,8 +58,8 @@ const Header = () => {
                         </Text>
                     </button>
                     <ul
-                        tabindex="0"
-                        class="dropdown-content menu rounded-box mt-3 w-52 bg-base pt-2 pb-2 shadow"
+                        tabIndex={0}
+                        className="dropdown-content menu rounded-box mt-3 w-52 bg-base pt-2 pb-2 shadow"
                     >
                         <li>
                             <div className="flex justify-between">
