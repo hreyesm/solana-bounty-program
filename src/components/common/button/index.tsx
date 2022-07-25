@@ -43,14 +43,12 @@ const Button = ({
     <button
         className={cn(
             variants[variant],
-            'flex items-center justify-center gap-3 w-fit h-fit max-h-full whitespace-nowrap rounded-full border transition-all hover:-translate-y-[0.2rem] hover:bg-white hover:!text-black active:translate-y-[0.05rem] active:scale-95',
-            value || (React.Children.count(children) > 1) ? 'px-5 py-3' : 'p-3 aspect-square',
-            reversed && 'flex-row-reverse',
-            className
-            'flex h-fit max-h-full w-fit items-center justify-center gap-3 rounded-full border transition-all hover:-translate-y-[0.2rem] hover:bg-white hover:!text-black active:translate-y-[0.05rem] active:scale-95',
+            'flex h-fit max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border transition-all hover:-translate-y-[0.2rem] hover:bg-white hover:!text-black active:translate-y-[0.05rem] active:scale-95',
             value || React.Children.count(children) > 1
                 ? 'px-5 py-3'
                 : 'aspect-square p-3',
+            reversed && 'flex-row-reverse',
+            className,
         )}
         onClick={onClick}
         type={type}
