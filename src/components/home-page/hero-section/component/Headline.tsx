@@ -16,11 +16,11 @@ function Headline() {
                     <div className="mb-16">
                         <Text
                             variant="heading"
-                            className="w-full pb-6  text-white"
+                            className="w-full pb-6  text-white block"
                         >
                             Headline
                         </Text>
-                        <Text variant="paragraph" className="w-full">
+                        <Text variant="paragraph" className="w-full text-white">
                             Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit. Ad sed adipiscing volutpat tincidunt amet
                             vulputate porta est.
@@ -29,11 +29,11 @@ function Headline() {
                     <div className="mb-16">
                         <Text
                             variant="heading"
-                            className="w-full pb-6  text-white"
+                            className="w-full pb-6  text-white block"
                         >
                             Headline
                         </Text>
-                        <Text variant="paragraph" className="w-full">
+                        <Text variant="paragraph" className="w-full text-white">
                             Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit. Ad sed adipiscing volutpat tincidunt amet
                             vulputate porta est.
@@ -42,11 +42,11 @@ function Headline() {
                     <div className="mb-16">
                         <Text
                             variant="heading"
-                            className="w-full pb-6  text-white"
+                            className="w-full pb-6  text-white block"
                         >
                             Headline
                         </Text>
-                        <Text variant="paragraph" className="w-full">
+                        <Text variant="paragraph" className="w-full text-white">
                             Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit. Ad sed adipiscing volutpat tincidunt amet
                             vulputate porta est.
@@ -56,30 +56,30 @@ function Headline() {
             </div>
             <div className="align-center hidden justify-evenly gap-4 text-left md:flex">
                 <div>
-                    <Text variant="heading" className="w-full pb-6  text-white">
+                    <Text variant="heading" className="w-full pb-6  text-white block">
                         Headline
                     </Text>
-                    <Text variant="paragraph" className="w-full">
+                    <Text variant="paragraph" className="w-full text-white">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Ad sed adipiscing volutpat tincidunt amet vulputate
                         porta est.
                     </Text>
                 </div>
                 <div>
-                    <Text variant="heading" className="w-full pb-6  text-white">
+                    <Text variant="heading" className="w-full pb-6  text-white block">
                         Headline
                     </Text>
-                    <Text variant="paragraph" className="w-full">
+                    <Text variant="paragraph" className="w-full text-white">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Ad sed adipiscing volutpat tincidunt amet vulputate
                         porta est.
                     </Text>
                 </div>
                 <div>
-                    <Text variant="heading" className="w-full pb-6  text-white">
+                    <Text variant="heading" className="w-full pb-6  text-white block">
                         Headline
                     </Text>
-                    <Text variant="paragraph" className="w-full">
+                    <Text variant="paragraph" className="w-full text-white"> 
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Ad sed adipiscing volutpat tincidunt amet vulputate
                         porta est.

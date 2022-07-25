@@ -1,6 +1,6 @@
 import Button from 'components/common/button';
 import Image from 'next/image';
-import cn from 'utils';
+import {cn} from 'utils';
 import Text from 'components/common/text';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Headline from './component/Headline';
