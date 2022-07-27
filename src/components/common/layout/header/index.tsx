@@ -4,12 +4,12 @@ import Button from 'components/common/button';
 import Image from 'components/common/image';
 import Link from 'next/link';
 import NavElement from './nav-element';
+import OverflowMenu from 'components/common/overflow-menu';
 import SearchBar from 'components/common/search-bar';
-import Text from 'components/common/text';
 import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/router';
 import { useUser } from '@supabase/auth-helpers-react';
-import OverflowMenu from 'components/common/overflow-menu';
+
 const Header = () => {
     const router = useRouter();
     const { user } = useUser();
