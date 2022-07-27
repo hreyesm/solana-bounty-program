@@ -4,8 +4,8 @@ import Button from 'components/common/button';
 import Image from 'components/common/image';
 import Link from 'next/link';
 import NavElement from './nav-element';
+import OverflowMenu from 'components/common/overflow-menu';
 import SearchBar from 'components/common/search-bar';
-import Text from 'components/common/text';
 import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/router';
 import { useUser } from '@supabase/auth-helpers-react';
@@ -55,24 +55,11 @@ const Header = () => {
 
                     <div className="h-1/2 w-px bg-line" />
 
-                    <div className="flex flex-row items-center gap-3">
-                        {user && (
-                            <Text variant="label">
-                                <Link
-                                    href={`${user.user_metadata.user_name}`}
-                                    passHref
-                                >
-                                    {user.user_metadata.user_name}
-                                </Link>
-                            </Text>
-                        )}
-                        <Button
-                            onClick={user ? signOut : signIn}
-                            variant="orange"
-                        >
-                            <MdManageAccounts className="aspect-square h-4" />
-                        </Button>
-                    </div>
+                    <OverflowMenu
+                        user={user}
+                        signIn={signIn}
+                        signOut={signOut}
+                    />
                 </div>
 
                 <div className="flex w-fit gap-3 md:hidden">
