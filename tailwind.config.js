@@ -21,17 +21,16 @@ module.exports = {
                 base: '#26262B',
                 'base-content': '#ffffff',
                 line: '#666666',
-                
             },
             textColor: {
                 secondary: '#999999',
             },
             width: {
-                '98': '28rem',
+                98: '28rem',
             },
             borderWidth: {
-                '1.5': '1.5px',
-                '3': '3px',
+                1.5: '1.5px',
+                3: '3px',
             },
             screens: {
                 '2lg': '1111px',
@@ -42,5 +41,5 @@ module.exports = {
         },
         screens: { ...defaultTheme.screens },
     },
-    plugins: [typography],
+    plugins: [typography, require('daisyui')],
 };
