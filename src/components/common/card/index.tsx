@@ -7,7 +7,9 @@ import { cn } from 'utils';
 type CardProps = {
     className?: string;
     children?: React.ReactNode;
+    tabIndex?: number;
     blur?: boolean;
+    border?: boolean;
 };
 
 /**
@@ -20,14 +22,24 @@ type CardProps = {
  * @param blur Whether or not to apply a blur-effect.
  */
 
-const Card = ({ className, children, blur = true }: CardProps) => (
+const Card = ({
+    className,
+    children,
+    tabIndex,
+    border,
+    blur = true,
+}: CardProps) => (
     <div
         className={cn(
             className,
             blur &&
+                border &&
                 'border border-white bg-base/75 text-white backdrop-blur-lg backdrop-filter',
             'rounded-3xl', // w-fit max-w-full
+            blur && ' bg-base/75 text-white backdrop-blur-lg backdrop-filter',
+            'rounded-3xl',
         )}
+        tabIndex={tabIndex}
     >
         {children}
     </div>
