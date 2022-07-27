@@ -1,6 +1,6 @@
 import Text from '../text';
 import Link from 'next/link';
-import { MdManageAccounts, MdLogout } from 'react-icons/md';
+import { MdManageAccounts, MdLogout, MdAccountCircle } from 'react-icons/md';
 import { VscGithubAlt } from 'react-icons/vsc';
 import { BiWalletAlt } from 'react-icons/bi';
 import { useState, useRef } from 'react';
@@ -9,6 +9,9 @@ import Card from '../card';
 const OverflowMenu = props => {
     const buttonRef = useRef();
     const [menuOpen, setMenuOpen] = useState(false);
+    // test variables for wallet will be removed later
+    const walletAddress = 'FNfUy8Qp6C9NCD6cz9xHLYSL7n3eFX8LfY1zDx6RcE8G';
+    const walletConnected = false;
     return (
         <>
             <div className="dropdown-end dropdown">
@@ -70,9 +73,20 @@ const OverflowMenu = props => {
                                 </Text>
                                 <br />
                                 {/* Here will be the wallet connection button */}
-                                <p>Connect</p>
+                                {walletConnected ? (
+                                    <p className="w-24 overflow-hidden	text-ellipsis">
+                                        {walletAddress}
+                                    </p>
+                                ) : (
+                                    <p>Connect</p>
+                                )}
                             </div>
-                            <BiWalletAlt size={25} />
+                            {walletConnected ? (
+                                // Here will be the icon of the connected wallet
+                                <MdAccountCircle size={25} />
+                            ) : (
+                                <BiWalletAlt size={25} />
+                            )}
                         </div>
                     </li>
                     {props.user && (
