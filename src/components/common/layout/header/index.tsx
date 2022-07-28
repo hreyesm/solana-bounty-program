@@ -9,6 +9,7 @@ import { VscGithubAlt } from 'react-icons/vsc';
 import { MdMenu, MdPerson } from 'react-icons/md';
 import NavElement from './nav-element';
 import { BiWalletAlt } from 'react-icons/bi';
+import DropDown from './drop-down/DropDown';
 
 const Header = () => {
     // a variable based on the github authentication (state or anything)
@@ -39,62 +40,7 @@ const Header = () => {
 
                 <div className="h-8 w-px bg-line" />
 
-                <div className="dropdown-end dropdown">
-                    <button
-                        className={cn(
-                            'flex h-fit max-h-full w-fit items-center justify-center gap-3 rounded-full border px-5 py-3 transition-all hover:-translate-y-[0.2rem] hover:bg-white hover:!text-black active:translate-y-[0.05rem] active:scale-95',
-                            loggedIn
-                                ? 'text-white'
-                                : 'border-transparent bg-primary text-black',
-                        )}
-                        onClick={() => {
-                            if (menuOpen) buttonRef.current.blur();
-                            setMenuOpen(!menuOpen);
-                        }}
-                        ref={buttonRef}
-                    >
-                        <Text variant="input">
-                            {loggedIn ? <MdPerson /> : 'Log in / Sign up'}
-                        </Text>
-                    </button>
-                    <ul
-                        tabIndex={0}
-                        className="dropdown-content menu rounded-box mt-3 w-52 bg-base pt-2 pb-2 shadow"
-                    >
-                        <li>
-                            <div className="flex justify-between">
-                                <div>
-                                    <Text
-                                        variant="label"
-                                        className="opacity-50"
-                                    >
-                                        Profile
-                                    </Text>
-                                    <br />
-                                    <p>Login with GitHub</p>
-                                </div>
-                                <VscGithubAlt size={25} />
-                            </div>
-                        </li>
-                        <hr className="w-full opacity-50" />
-                        <li>
-                            <div className="flex justify-between">
-                                <div>
-                                    <Text
-                                        variant="label"
-                                        className="opacity-50"
-                                    >
-                                        Wallet
-                                    </Text>
-                                    <br />
-                                    {/* Here will be the wallet connection button */}
-                                    <p>Connect</p>
-                                </div>
-                                <BiWalletAlt size={25} />
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                <DropDown loggedIn={loggedIn} />
             </div>
 
             <div className="inline md:hidden">
