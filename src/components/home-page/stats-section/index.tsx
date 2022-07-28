@@ -1,4 +1,4 @@
-import StatItem from 'components/common/stat-item';
+import StatItem from 'components/home-page/stats-section/stat-item';
 
 const statItems = [
     {
@@ -34,7 +34,7 @@ const statItems = [
 const StatsSection = () => (
     <section
         title="faq"
-        className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+        className="grid text-black sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
     >
         {statItems.map(
             ({

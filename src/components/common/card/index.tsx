@@ -26,15 +26,15 @@ const Card = ({
     className,
     children,
     tabIndex,
-    border,
+    border = true,
     blur = true,
 }: CardProps) => (
     <div
         className={cn(
             className,
             blur &&
-                border &&
-                'border border-white bg-base/75 text-white backdrop-blur-lg backdrop-filter',
+            border &&
+            'border border-white bg-base/75 text-white backdrop-blur-lg backdrop-filter',
             'rounded-3xl', // w-fit max-w-full
             blur && ' bg-base/75 text-white backdrop-blur-lg backdrop-filter',
             'rounded-3xl',

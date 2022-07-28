@@ -1,10 +1,10 @@
 import Button from 'components/common/button';
+import Chip from 'components/common/chip';
 import Image from 'components/common/image';
 import Link from 'next/link';
-import { MdSearch } from 'react-icons/md';
+import { MdOutlineSearch } from 'react-icons/md';
 import NavElement from './nav-element';
 import OverflowMenu from 'components/common/overflow-menu';
-import SearchBar from 'components/common/search-bar';
 
 const Header = () => (
     <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between border-b-1.5 border-b-line bg-black/25 px-6 backdrop-blur-xl backdrop-filter">
@@ -33,16 +33,18 @@ const Header = () => (
 
             <div className="h-1/2 w-px bg-line" />
 
-            <div className="hidden h-full flex-row items-center gap-5 md:flex">
-                <SearchBar />
-                <div className="h-1/2 w-px bg-line" />
-                <OverflowMenu />
-            </div>
-
-            <div className="flex w-fit gap-3 md:hidden">
-                <Button variant="transparent">
-                    <MdSearch className="aspect-square h-4" />
+            <div className="flex h-full flex-row items-center gap-3 md:gap-5">
+                <Button variant="transparent" className="hidden md:flex">
+                    <MdOutlineSearch className="aspect-square h-4" />
+                    <Chip value="CTRL + K" />
                 </Button>
+
+                <Button variant="transparent" className="flex md:hidden">
+                    <MdOutlineSearch className="aspect-square h-4" />
+                </Button>
+
+                <div className="hidden h-1/2 w-px bg-line md:inline" />
+
                 <OverflowMenu />
             </div>
         </div>
