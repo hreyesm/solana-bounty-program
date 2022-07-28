@@ -11,12 +11,10 @@ import NavElement from './nav-element';
 import { BiWalletAlt } from 'react-icons/bi';
 import DropDown from './drop-down/DropDown';
 
-const Header = () => {
+const Header = (props) => {
     // a variable based on the github authentication (state or anything)
     const loggedIn = true;
 
-    const buttonRef = useRef();
-    const [menuOpen, setMenuOpen] = useState(false);
     return (
         <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between border-b-1.5 border-b-line bg-black/25 px-6 backdrop-blur-xl backdrop-filter">
             <Image
@@ -40,14 +38,22 @@ const Header = () => {
 
                 <div className="h-8 w-px bg-line" />
 
-                <DropDown loggedIn={loggedIn} />
+                <DropDown
+                    loggedIn={loggedIn}
+                    menuOpen={props.menuOpen}
+                    callBack={props.callBack}
+                />
             </div>
 
-            <div className="h-fit flex-row items-center gap-5 text-white flex md:hidden">
+            <div className="flex h-fit flex-row items-center gap-5 text-white md:hidden">
                 {/* <Button variant="transparent">
                     <MdMenu className="aspect-square h-4" />
                 </Button> */}
-                <DropDown />
+                <DropDown
+                    loggedIn={loggedIn}
+                    menuOpen={props.menuOpen}
+                    callBack={props.callBack}
+                />
             </div>
         </header>
     );
