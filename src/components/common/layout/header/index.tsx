@@ -1,14 +1,14 @@
-import { MdManageAccounts, MdSearch } from 'react-icons/md';
+import { MdManageAccounts, MdOutlineSearch, MdSearch } from 'react-icons/md';
 
 import Button from 'components/common/button';
 import Image from 'components/common/image';
 import Link from 'next/link';
 import NavElement from './nav-element';
 import OverflowMenu from 'components/common/overflow-menu';
-import SearchBar from 'components/common/search-bar';
 import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/router';
 import { useUser } from '@supabase/auth-helpers-react';
+import Chip from 'components/common/chip';
 
 const Header = () => {
     const router = useRouter();
@@ -50,25 +50,26 @@ const Header = () => {
 
                 <div className="h-1/2 w-px bg-line" />
 
-                <div className="hidden h-full flex-row items-center gap-5 md:flex">
-                    <SearchBar />
+                <div className="flex h-full flex-row items-center gap-3 md:gap-5">
+                    <Button variant="transparent" className="hidden md:flex">
+                        <MdOutlineSearch className="h-4 aspect-square" />
+                        {/* <Text variant="label" className="text-secondary"> Search </Text> */}
+                        <div> {/* className="hidden lg:flex" */}
+                            <Chip value="CTRL + K" />
+                        </div>
+                    </Button>
 
-                    <div className="h-1/2 w-px bg-line" />
+                    <Button variant="transparent" className="flex md:hidden">
+                        <MdOutlineSearch className="aspect-square h-4" />
+                    </Button>
+
+                    <div className="h-1/2 w-px bg-line hidden md:inline" />
 
                     <OverflowMenu
                         user={user}
                         signIn={signIn}
                         signOut={signOut}
                     />
-                </div>
-
-                <div className="flex w-fit gap-3 md:hidden">
-                    <Button variant="transparent">
-                        <MdSearch className="aspect-square h-4" />
-                    </Button>
-                    <Button variant="orange">
-                        <MdManageAccounts className="aspect-square h-4" />
-                    </Button>
                 </div>
             </div>
         </header>
