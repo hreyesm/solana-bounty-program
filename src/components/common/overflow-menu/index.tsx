@@ -1,75 +1,76 @@
 import { MdAccountCircle, MdLogout, MdManageAccounts } from 'react-icons/md';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRef, useState } from 'react';
 
 import { BiWalletAlt } from 'react-icons/bi';
 import Card from '../card';
 import Link from 'next/link';
 import Text from '../text';
-import { User } from '@supabase/supabase-js';
 import { VscGithubAlt } from 'react-icons/vsc';
 import { cn } from 'utils';
+import { useRouter } from 'next/router';
 
-type OverflowMenuProps = {
-    user: User;
-    signIn: () => Promise<void>;
-    signOut: () => Promise<void>;
-};
-
-const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
+const OverflowMenu = () => {
     const buttonRef = useRef();
+    const router = useRouter();
+    const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
     // test variables for wallet will be removed later
     const walletAddress = 'FNfUy8Qp6C9NCD6cz9xHLYSL7n3eFX8LfY1zDx6RcE8G';
     const walletConnected = true;
 
+    const onProfileClick = async () => {
+        if (session) {
+            await router.push(`/${session.login}`);
+        } else {
+            await signIn('github');
+        }
+    };
+
     return (
-        <>
+        <div className="flex flex-row items-center gap-3">
+            {session && (
+                <Text className="hidden md:block" variant="label">
+                    <Link href={`/${session.login}`} passHref>
+                        {session.login}
+                    </Link>
+                </Text>
+            )}
             <div className="dropdown-end dropdown">
                 <label tabIndex={0}>
-                    <div className="flex flex-row items-center gap-3">
-                        {user && (
-                            <Text variant="label">
-                                <Link
-                                    href={`${user.user_metadata.user_name}`}
-                                    passHref
-                                >
-                                    {user.user_metadata.user_name}
-                                </Link>
-                            </Text>
+                    <button
+                        className={cn(
+                            'flex aspect-square h-fit max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border border-transparent bg-primary p-3 text-black transition-all hover:-translate-y-[0.2rem] hover:bg-white hover:!text-black active:translate-y-[0.05rem] active:scale-95',
                         )}
-                        <button
-                            className={cn(
-                                'flex aspect-square h-fit max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border border-transparent bg-primary p-3 text-black transition-all hover:-translate-y-[0.2rem] hover:bg-white hover:!text-black active:translate-y-[0.05rem] active:scale-95',
-                            )}
-                            onClick={() => setMenuOpen(!menuOpen)}
-                            ref={buttonRef}
-                        >
-                            <MdManageAccounts className="aspect-square h-4" />
-                        </button>
-                    </div>
+                        onClick={() => setMenuOpen(!menuOpen)}
+                        ref={buttonRef}
+                    >
+                        <MdManageAccounts className="aspect-square h-4" />
+                    </button>
                 </label>
                 <Card
                     tabIndex={0}
                     className="dropdown-content menu mt-3 -mr-3 block w-52 rounded-3xl pt-2  pb-2  shadow  "
                 >
-                    <li onClick={user ? null : signIn}>
+                    <li onClick={onProfileClick}>
                         <div className="flex justify-between">
                             <div>
                                 <Text variant="label" className="opacity-50">
                                     Profile
                                 </Text>
                                 <br />
-                                {user ? (
+                                {session ? (
                                     <p className="text-primary">
-                                        {user.user_metadata.user_name}
+                                        {session.login}
                                     </p>
                                 ) : (
                                     <p>Login with GitHub</p>
                                 )}
                             </div>
-                            {!user && <VscGithubAlt size={25} />}
+                            <VscGithubAlt size={25} />
                         </div>
                     </li>
+
                     <hr className="w-full opacity-50" />
                     <li>
                         <div className="flex justify-between">
@@ -95,10 +96,10 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                             )}
                         </div>
                     </li>
-                    {user && (
+                    {session && (
                         <>
                             <hr className="w-full opacity-50" />
-                            <li onClick={signOut}>
+                            <li onClick={() => signOut()}>
                                 <div className="flex ">
                                     <MdLogout
                                         className="text-red-500"
@@ -111,7 +112,7 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                     )}
                 </Card>
             </div>
-        </>
+        </div>
     );
 };
 
