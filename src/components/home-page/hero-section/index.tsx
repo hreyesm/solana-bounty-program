@@ -10,7 +10,6 @@ const HeroSection = () => {
         left: 0,
         top: 0,
     });
-    console.log(MousePosition);
 
     function handleMouseMove(ev) {
         setMousePosition({ left: ev.pageX, top: ev.pageY });
