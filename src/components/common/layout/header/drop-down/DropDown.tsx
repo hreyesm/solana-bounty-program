@@ -28,12 +28,13 @@ function DropDown(props) {
                 ref={buttonRef}
             >
                 <Text variant="input">
-                    {loggedIn ? <MdPerson /> : 'Log in / Sign up'}
+                    {/* {loggedIn ? <MdPerson /> : 'Log in / Sign up'} */}
+                    <MdPerson />
                 </Text>
             </button>
             <ul
                 tabIndex={0}
-                className="dropdown-content menu rounded-box mt-3 w-52 bg-base pt-2 pb-2 shadow"
+                className="dropdown-content menu rounded-box !-right-6 z-50 mt-5 w-screen bg-base shadow md:!right-0 md:h-auto md:w-52"
             >
                 <li>
                     <div className="flex justify-between">

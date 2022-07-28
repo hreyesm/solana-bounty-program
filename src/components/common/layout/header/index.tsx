@@ -43,10 +43,11 @@ const Header = () => {
                 <DropDown loggedIn={loggedIn} />
             </div>
 
-            <div className="inline md:hidden">
-                <Button variant="transparent">
+            <div className="h-fit flex-row items-center gap-5 text-white flex md:hidden">
+                {/* <Button variant="transparent">
                     <MdMenu className="aspect-square h-4" />
-                </Button>
+                </Button> */}
+                <DropDown />
             </div>
         </header>
     );
