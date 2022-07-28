@@ -2,15 +2,14 @@ import '../styles/globals.css';
 
 import { AppProps } from 'next/app';
 import Layout from 'components/common/layout';
-import { UserProvider } from '@supabase/auth-helpers-react';
-import { supabaseClient } from '@supabase/auth-helpers-nextjs';
+import { SessionProvider } from 'next-auth/react';
 
-const App = ({ Component, pageProps }: AppProps) => (
-    <UserProvider supabaseClient={supabaseClient}>
+const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
+    <SessionProvider session={session}>
         <Layout>
             <Component {...pageProps} />
         </Layout>
-    </UserProvider>
+    </SessionProvider>
 );
 
 export default App;
