@@ -1,4 +1,4 @@
-import { MdAccountCircle, MdLogout, MdManageAccounts } from 'react-icons/md';
+import { MdAccountCircle, MdContentCopy, MdLogout, MdManageAccounts } from 'react-icons/md';
 import { useRef, useState } from 'react';
 
 import { BiWalletAlt } from 'react-icons/bi';
@@ -8,6 +8,7 @@ import Text from '../text';
 import { User } from '@supabase/supabase-js';
 import { VscGithubAlt } from 'react-icons/vsc';
 import { cn } from 'utils';
+import Chip from '../chip';
 
 type OverflowMenuProps = {
     user: User;
@@ -24,7 +25,7 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
 
     return (
         <>
-            <div className="dropdown-end dropdown">
+            <div className="dropdown-open dropdown-end dropdown backdrop-filter backdrop-blur">
                 <label tabIndex={0}>
                     <div className="flex flex-row items-center gap-3">
                         {user && (
@@ -50,42 +51,34 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                 </label>
                 <Card
                     tabIndex={0}
-                    className="dropdown-content menu mt-3 -mr-3 block w-52 rounded-3xl pt-2  pb-2  shadow  "
+                    className="dropdown-content menu block mt-3 w-64"
                 >
                     <li onClick={user ? null : signIn}>
                         <div className="flex justify-between">
-                            <div>
-                                <Text variant="label" className="opacity-50">
-                                    Profile
+                            <div className="flex flex-col">
+                                <Text variant="label" className="text-secondary"> Profile </Text>
+        
+                                <Text 
+                                    variant="paragraph"
+                                    className={`${user && "text-primary"}`}
+                                >
+                                    {user ? user.user_metadata.user_name : "Login with GitHub"}
                                 </Text>
-                                <br />
-                                {user ? (
-                                    <p className="text-primary">
-                                        {user.user_metadata.user_name}
-                                    </p>
-                                ) : (
-                                    <p>Login with GitHub</p>
-                                )}
                             </div>
                             {!user && <VscGithubAlt size={25} />}
                         </div>
                     </li>
-                    <hr className="w-full opacity-50" />
+                    <div className="h-px w-full bg-line"/>
                     <li>
                         <div className="flex justify-between">
-                            <div>
-                                <Text variant="label" className="opacity-50">
-                                    Wallet
-                                </Text>
-                                <br />
-                                {/* Here will be the wallet connection button */}
-                                {walletConnected ? (
-                                    <p className="w-24 overflow-hidden	text-ellipsis">
-                                        {walletAddress}
-                                    </p>
-                                ) : (
-                                    <p>Connect</p>
-                                )}
+                            <div className="flex flex-col w-full">
+                                <Text variant="label" className="text-secondary"> Wallet </Text>
+
+                                {/* <Text variant="paragraph" className="w-full overflow-hidden text-ellipsis">
+                                    {walletConnected ? walletAddress : "Connect"}
+                                </Text> */}
+
+                                <Chip highlightValue={walletAddress} icon={MdContentCopy} className="first:w-32 !normal-case" />
                             </div>
                             {walletConnected ? (
                                 // Here will be the icon of the connected wallet
@@ -99,12 +92,9 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                         <>
                             <hr className="w-full opacity-50" />
                             <li onClick={signOut}>
-                                <div className="flex ">
-                                    <MdLogout
-                                        className="text-red-500"
-                                        size={25}
-                                    />
-                                    <p className="text-red-500">Sign out</p>
+                                <div className="flex">
+                                    <MdLogout size={25} />
+                                    <Text variant="paragraph"> Sign out </Text>
                                 </div>
                             </li>
                         </>

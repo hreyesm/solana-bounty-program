@@ -43,7 +43,7 @@ hero: 'text-4xl font-medium sm:text-6xl',
  * @param className Custom classes to be applied to the element.
  * @param children Child elements to be rendered within the component.
  */
-const Text = ({ variant, className, children }: TextProps) => (
+const Text = ({ variant, className, children}: TextProps) => (
     <text className={cn(className, variants[variant])}>{children}</text>
 );
 
