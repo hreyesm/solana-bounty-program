@@ -10,7 +10,12 @@ type ButtonProps = {
     className?: string;
     reversed?: boolean;
     onClick?: () => void;
-    variant?: string;
+    variant:
+    | 'black'
+    | 'orange'
+    | 'transparent'
+    | 'danger'
+    | 'label';
     text?: string;
     icon?: IconType;
     children?: React.ReactNode;
@@ -25,6 +30,7 @@ const variants = {
     black: 'border-transparent bg-black text-white',
     orange: 'border-transparent bg-primary text-black', // TODO: Change name of variant to `highlight`.
     transparent: 'text-white', // TODO: Change name of variant to `outlined`.
+    danger: 'border-secondary text-danger hover:text-white hover:bg-secondary',
     label: 'text-secondary hover:text-white !p-0 border-none',
 };
 
@@ -50,8 +56,10 @@ const Button = ({
         className={cn(
             variants[variant],
             'flex h-11 max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border transition-all',
+            (variant !== 'label' && variant !== 'danger') &&
+                'hover:bg-white hover:!text-black',
             variant !== 'label' &&
-                'hover:-translate-y-[0.15rem] hover:bg-white hover:!text-black active:translate-y-[0.025rem] active:scale-[0.975]',
+                'hover:-translate-y-[0.15rem] active:translate-y-[0.025rem] active:scale-[0.975]',
             (icon && (!value && !children)) ? 'aspect-square p-3' : 'px-5 py-3',
             reversed && 'flex-row-reverse',
             className,

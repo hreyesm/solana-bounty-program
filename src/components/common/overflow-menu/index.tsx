@@ -1,4 +1,4 @@
-import { MdAccountCircle, MdContentCopy, MdLogout, MdManageAccounts, MdOutlineAccountBalanceWallet } from 'react-icons/md';
+import { MdAccountCircle, MdCheck, MdClose, MdContentCopy, MdLogout, MdManageAccounts, MdOutlineAccountBalanceWallet } from 'react-icons/md';
 import { VscGithubAlt } from 'react-icons/vsc';
 import { useRef, useState } from 'react';
 
@@ -50,64 +50,63 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                     tabIndex={0}
                     className="dropdown-content block mt-3 w-64"
                 >
-                    <div onClick={user ? null : signIn}>
-                        <div className="flex justify-between">
-                            <div className="flex flex-col">
+                    <div className="flex flex-col gap-3 p-3" onClick={user ? null : signIn}>
+                        <div className="flex justify-between items-center">
+                            <div className="flex flex-col gap-1 w-full">
                                 <Text variant="label" className="text-secondary"> Profile </Text>
-        
                                 <Text 
-                                    variant="paragraph"
+                                    variant="nav"
                                     className={`${user && "text-primary"}`}
                                 >
                                     {user ? user.user_metadata.user_name : "Login with GitHub"}
                                 </Text>
-                            </div>
+                            </div>  
                             {!user && <VscGithubAlt size={25} />}
                         </div>
+                        <Button text="Sign out" icon={MdLogout} variant="danger" className="!w-full" />
                     </div>
                     <div className="h-px w-full bg-line"/>
-                    <div>
-                        <div className="flex justify-between">
-                            <div className="flex flex-col gap-2 w-full">
+                    <div className="flex flex-col gap-3 p-3">
+                        <div className="flex justify-between items-center">
+                            <div className="flex flex-col gap-1 w-full">
                                 <Text variant="label" className="text-secondary"> Wallet </Text>
 
-                                {/* <Text variant="paragraph" className="w-full overflow-hidden text-ellipsis">
+                                {/* <Text variant="nav" className="w-32 overflow-hidden text-ellipsis">
                                     {walletConnected ? walletAddress : "Connect"}
                                 </Text> */}
 
                                 <div className="tooltip tooltip-open tooltip-success w-fit" data-tip="Copied!">
                                     <Chip 
                                         highlightValue={walletAddress} 
-                                        icon={MdContentCopy} 
+                                        // icon={MdContentCopy} 
                                         className="w-32 !normal-case"
                                         interactive={true}
                                         onClick={() => {
                                             navigator.clipboard.writeText(walletAddress)
                                         }}    
-                                    />
+                                    >
+                                        <label className="swap swap-rotate">
+
+                                            <MdContentCopy size={13} className="swap-off" />
+                                            <MdCheck size={13}  className="swap-on" />
+                                        </label>
+                                    </Chip>
                                 </div>
                             </div>
                             {walletConnected ? (
-                                // Here will be the icon of the connected wallet
+                            // Here will be the icon of the connected wallet
                                 <MdOutlineAccountBalanceWallet size={25} />
                             ) : (
                                 <MdOutlineAccountBalanceWallet size={25} />
                             )}
                         </div>
+
+                        <Button text="Disconnect" icon={MdClose} variant="transparent" className="!w-full" />
                     </div>
-                    {user && (
-                        <>
-                            <hr className="w-full opacity-50" />
-                            <li onClick={signOut}>
-                                <div className="flex">
-                                    <MdLogout size={25} />
-                                    <Text variant="paragraph"> Sign out </Text>
-                                </div>
-                            </li>
-                        </>
-                    )}
                 </Card>
             </div>
+
+            <input type="checkbox" id="wallet-modal" className="modal-toggle" />
         </>
     );
 };

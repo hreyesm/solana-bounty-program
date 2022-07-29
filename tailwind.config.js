@@ -24,6 +24,7 @@ module.exports = {
             },
             textColor: {
                 secondary: '#999999',
+                danger: '#F64B62'
             },
             width: {
                 98: '28rem',

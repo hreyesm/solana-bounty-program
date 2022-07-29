@@ -9,8 +9,9 @@ import React from 'react';
 type ChipProps = {
     className?: string;
     highlightValue?: string;
-    icon?: IconType;
     value?: string;
+    icon?: IconType;
+    children?: React.ReactNode;
     reversed?: boolean;
     interactive?: boolean;
     onClick?: () => void;
@@ -25,7 +26,7 @@ type ChipProps = {
  * @param children Child elements to be rendered within the component.
  * @param blur Whether or not to apply a blur-effect.
  */
-const Chip = ({ className, highlightValue, value, icon, reversed, interactive, onClick}: ChipProps) => (
+const Chip = ({ className, highlightValue, value, icon, children, reversed, interactive, onClick}: ChipProps) => (
     <div 
         className={cn(
             interactive && "cursor-pointer hover:bg-black/30 transition-colors",
@@ -54,8 +55,8 @@ const Chip = ({ className, highlightValue, value, icon, reversed, interactive, o
                 </span>
             )}  
         </Text>
-
         { icon && React.createElement(icon, { size: 13 }) }
+        { children }
     </div>
 );
 
