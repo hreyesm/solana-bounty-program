@@ -44,9 +44,9 @@ const Button = ({
     <button
         className={cn(
             variants[variant],
-            'flex h-fit max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border transition-all',
+            'flex h-11 max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border transition-all',
             variant !== 'label' &&
-                'hover:-translate-y-[0.2rem] hover:bg-white hover:!text-black active:translate-y-[0.05rem] active:scale-95',
+                'hover:-translate-y-[0.15rem] hover:bg-white hover:!text-black active:translate-y-[0.025rem] active:scale-95',
             value || React.Children.count(children) > 1
                 ? 'px-5 py-3'
                 : 'aspect-square p-3',
