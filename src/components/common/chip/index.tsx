@@ -12,6 +12,8 @@ type ChipProps = {
     icon?: IconType;
     value?: string;
     reversed?: boolean;
+    interactive?: boolean;
+    onClick?: () => void;
 };
 
 /**
@@ -23,8 +25,14 @@ type ChipProps = {
  * @param children Child elements to be rendered within the component.
  * @param blur Whether or not to apply a blur-effect.
  */
-const Chip = ({ className, highlightValue, value, icon, reversed,}: ChipProps) => (
-    <div className="flex flex-row items-center gap-1.5 w-fit rounded-full bg-black/50 px-2 py-1">
+const Chip = ({ className, highlightValue, value, icon, reversed, interactive, onClick}: ChipProps) => (
+    <div 
+        className={cn(
+            interactive && "cursor-pointer hover:bg-black/30 transition-colors",
+            "flex flex-row items-center gap-1.5 w-fit rounded-full bg-black/50 px-2 py-1" 
+        )}
+        onClick={onClick}
+    >
         <Text
             variant="label"
             className={cn(

@@ -13,6 +13,7 @@ type ButtonProps = {
     variant?: string;
     text?: string;
     children?: React.ReactNode;
+    ref?: React.Ref<HTMLButtonElement>;
 };
 
 /**
@@ -36,6 +37,7 @@ const Button = ({
     className,
     reversed = false,
     onClick,
+    ref,
     type = 'button',
     variant = 'black',
     text: value,
@@ -54,6 +56,7 @@ const Button = ({
             className,
         )}
         onClick={onClick}
+        ref={ref}
         type={type}
     >
         {value && (

@@ -1,14 +1,14 @@
-import { MdAccountCircle, MdContentCopy, MdLogout, MdManageAccounts } from 'react-icons/md';
+import { MdAccountCircle, MdContentCopy, MdLogout, MdManageAccounts, MdOutlineAccountBalanceWallet } from 'react-icons/md';
+import { VscGithubAlt } from 'react-icons/vsc';
 import { useRef, useState } from 'react';
 
-import { BiWalletAlt } from 'react-icons/bi';
 import Card from '../card';
 import Link from 'next/link';
 import Text from '../text';
 import { User } from '@supabase/supabase-js';
-import { VscGithubAlt } from 'react-icons/vsc';
 import { cn } from 'utils';
 import Chip from '../chip';
+import Button from '../button';
 
 type OverflowMenuProps = {
     user: User;
@@ -38,22 +38,20 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                                 </Link>
                             </Text>
                         )}
-                        <button
-                            className={cn(
-                                'flex aspect-square h-fit max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border border-transparent bg-primary p-3 text-black transition-all hover:-translate-y-[0.2rem] hover:bg-white hover:!text-black active:translate-y-[0.05rem] active:scale-95',
-                            )}
+                        <Button
+                            variant="orange"
                             onClick={() => setMenuOpen(!menuOpen)}
                             ref={buttonRef}
                         >
                             <MdManageAccounts className="aspect-square h-4" />
-                        </button>
+                        </Button>
                     </div>
                 </label>
                 <Card
                     tabIndex={0}
-                    className="dropdown-content menu block mt-3 w-64"
+                    className="dropdown-content block mt-3 w-64"
                 >
-                    <li onClick={user ? null : signIn}>
+                    <div onClick={user ? null : signIn}>
                         <div className="flex justify-between">
                             <div className="flex flex-col">
                                 <Text variant="label" className="text-secondary"> Profile </Text>
@@ -67,27 +65,37 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                             </div>
                             {!user && <VscGithubAlt size={25} />}
                         </div>
-                    </li>
+                    </div>
                     <div className="h-px w-full bg-line"/>
-                    <li>
+                    <div>
                         <div className="flex justify-between">
-                            <div className="flex flex-col w-full">
+                            <div className="flex flex-col gap-2 w-full">
                                 <Text variant="label" className="text-secondary"> Wallet </Text>
 
                                 {/* <Text variant="paragraph" className="w-full overflow-hidden text-ellipsis">
                                     {walletConnected ? walletAddress : "Connect"}
                                 </Text> */}
 
-                                <Chip highlightValue={walletAddress} icon={MdContentCopy} className="first:w-32 !normal-case" />
+                                <div className="tooltip tooltip-open tooltip-success w-fit" data-tip="Copied!">
+                                    <Chip 
+                                        highlightValue={walletAddress} 
+                                        icon={MdContentCopy} 
+                                        className="w-32 !normal-case"
+                                        interactive={true}
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(walletAddress)
+                                        }}    
+                                    />
+                                </div>
                             </div>
                             {walletConnected ? (
                                 // Here will be the icon of the connected wallet
-                                <MdAccountCircle size={25} />
+                                <MdOutlineAccountBalanceWallet size={25} />
                             ) : (
-                                <BiWalletAlt size={25} />
+                                <MdOutlineAccountBalanceWallet size={25} />
                             )}
                         </div>
-                    </li>
+                    </div>
                     {user && (
                         <>
                             <hr className="w-full opacity-50" />
