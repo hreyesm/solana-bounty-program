@@ -40,11 +40,10 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                         )}
                         <Button
                             variant="orange"
+                            icon={MdManageAccounts}
                             onClick={() => setMenuOpen(!menuOpen)}
                             ref={buttonRef}
-                        >
-                            <MdManageAccounts className="aspect-square h-4" />
-                        </Button>
+                        />
                     </div>
                 </label>
                 <Card

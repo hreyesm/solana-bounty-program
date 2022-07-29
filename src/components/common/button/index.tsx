@@ -1,6 +1,7 @@
 import React from 'react';
 import Text from '../text';
 import { cn } from 'utils';
+import { IconType } from 'react-icons';
 
 /**
  * Properties for an interactable button component.
@@ -9,11 +10,12 @@ type ButtonProps = {
     className?: string;
     reversed?: boolean;
     onClick?: () => void;
-    type?: 'button' | 'submit' | 'reset';
     variant?: string;
     text?: string;
+    icon?: IconType;
     children?: React.ReactNode;
     ref?: React.Ref<HTMLButtonElement>;
+    type?: 'button' | 'submit' | 'reset';
 };
 
 /**
@@ -42,16 +44,15 @@ const Button = ({
     variant = 'black',
     text: value,
     children,
+    icon
 }: ButtonProps) => (
     <button
         className={cn(
             variants[variant],
             'flex h-11 max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border transition-all',
             variant !== 'label' &&
-                'hover:-translate-y-[0.15rem] hover:bg-white hover:!text-black active:translate-y-[0.025rem] active:scale-95',
-            value || React.Children.count(children) > 1
-                ? 'px-5 py-3'
-                : 'aspect-square p-3',
+                'hover:-translate-y-[0.15rem] hover:bg-white hover:!text-black active:translate-y-[0.025rem] active:scale-[0.975]',
+            (icon && (!value && !children)) ? 'aspect-square p-3' : 'px-5 py-3',
             reversed && 'flex-row-reverse',
             className,
         )}
@@ -59,6 +60,7 @@ const Button = ({
         ref={ref}
         type={type}
     >
+        { icon && React.createElement(icon, { size: 20 }) }
         {value && (
             <Text variant={variant === 'label' ? 'label' : 'input'}>
                 {value}
