@@ -1,4 +1,4 @@
-import { MdManageAccounts, MdOutlineSearch, MdSearch } from 'react-icons/md';
+import { MdOutlineSearch } from 'react-icons/md';
 
 import Button from 'components/common/button';
 import Image from 'components/common/image';
@@ -8,7 +8,6 @@ import OverflowMenu from 'components/common/overflow-menu';
 import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/router';
 import { useUser } from '@supabase/auth-helpers-react';
-import Chip from 'components/common/chip';
 
 const Header = () => {
     const router = useRouter();
@@ -24,7 +23,7 @@ const Header = () => {
     };
 
     return (
-        <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between border-b-1.5 border-b-line bg-black/25 px-6 backdrop-blur-xl backdrop-filter">
+        <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between border-b-1.5 border-b-line bg-black bg-opacity-40 px-6 backdrop-blur-xl">
             <Link href="/" passHref>
                 <div className="flex w-fit flex-row items-center gap-3">
                     <Image

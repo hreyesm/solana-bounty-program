@@ -1,12 +1,12 @@
-import { MdAccountCircle, MdCheck, MdClose, MdContentCopy, MdLogout, MdManageAccounts, MdOutlineAccountBalanceWallet } from 'react-icons/md';
-import { VscGithubAlt } from 'react-icons/vsc';
+import { MdCheck, MdContentCopy, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
+import { DiGithubAlt } from 'react-icons/di';
+import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
 import { useRef, useState } from 'react';
 
 import Card from '../card';
 import Link from 'next/link';
 import Text from '../text';
 import { User } from '@supabase/supabase-js';
-import { cn } from 'utils';
 import Chip from '../chip';
 import Button from '../button';
 
@@ -21,11 +21,11 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
     const [menuOpen, setMenuOpen] = useState(false);
     // test variables for wallet will be removed later
     const walletAddress = 'FNfUy8Qp6C9NCD6cz9xHLYSL7n3eFX8LfY1zDx6RcE8G';
-    const walletConnected = true;
+    const wallet = true;
 
     return (
         <>
-            <div className="dropdown-open dropdown-end dropdown backdrop-filter backdrop-blur">
+            <div className="dropdown-end dropdown">
                 <label tabIndex={0}>
                     <div className="flex flex-row items-center gap-3">
                         {user && (
@@ -40,7 +40,7 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                         )}
                         <Button
                             variant="orange"
-                            icon={MdManageAccounts}
+                            icon={MdOutlineManageAccounts}
                             onClick={() => setMenuOpen(!menuOpen)}
                             ref={buttonRef}
                         />
@@ -48,60 +48,66 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                 </label>
                 <Card
                     tabIndex={0}
-                    className="dropdown-content block mt-3 w-64"
+                    className="dropdown-content block mt-3 w-[calc(100vw-3rem)] sm:w-80 !bg-[#222227] bg-opacity-85" // TODO: Background is temporarily solid color due to blur issue.
                 >
-                    <div className="flex flex-col gap-3 p-3" onClick={user ? null : signIn}>
+                    <div className="flex flex-col gap-3 p-5">
                         <div className="flex justify-between items-center">
                             <div className="flex flex-col gap-1 w-full">
                                 <Text variant="label" className="text-secondary"> Profile </Text>
                                 <Text 
                                     variant="nav"
-                                    className={`${user && "text-primary"}`}
+                                    className={user && "text-primary"}
                                 >
-                                    {user ? user.user_metadata.user_name : "Login with GitHub"}
+                                    {user ? user.user_metadata.user_name : "Sign in with GitHub"}
                                 </Text>
+                                {!user ? (
+                                    <Text variant="label" className="text-secondary !normal-case">
+                                        Informative text about enhanced experience, public profile and claiming bounties.
+                                    </Text>
+                                ) : (
+                                    <Chip value="Lv. 1" />
+                                )}
                             </div>  
-                            {!user && <VscGithubAlt size={25} />}
+                            {/* User's profile image instead of `DiGithubAlt`. */}
+                            {user && <DiGithubAlt size={25} />}
                         </div>
-                        <Button text="Sign out" icon={MdLogout} variant="danger" className="!w-full" />
+                        <Button 
+                            text={"Sign " + (user ? "out" : "in")} 
+                            icon={user ? MdLogout : TbBrandGithub} 
+                            variant={user ? "danger" : "orange"} 
+                            className="!w-full"
+                            onClick={user ? signOut : signIn}
+                        />
                     </div>
                     <div className="h-px w-full bg-line"/>
-                    <div className="flex flex-col gap-3 p-3">
+                    <div className="flex flex-col gap-3 p-5">
                         <div className="flex justify-between items-center">
                             <div className="flex flex-col gap-1 w-full">
                                 <Text variant="label" className="text-secondary"> Wallet </Text>
-
-                                {/* <Text variant="nav" className="w-32 overflow-hidden text-ellipsis">
-                                    {walletConnected ? walletAddress : "Connect"}
-                                </Text> */}
-
-                                <div className="tooltip tooltip-open tooltip-success w-fit" data-tip="Copied!">
-                                    <Chip 
-                                        highlightValue={walletAddress} 
-                                        // icon={MdContentCopy} 
-                                        className="w-32 !normal-case"
-                                        interactive={true}
-                                        onClick={() => {
-                                            navigator.clipboard.writeText(walletAddress)
-                                        }}    
-                                    >
-                                        <label className="swap swap-rotate">
-
-                                            <MdContentCopy size={13} className="swap-off" />
-                                            <MdCheck size={13}  className="swap-on" />
-                                        </label>
-                                    </Chip>
-                                </div>
+                                <Text variant="nav">
+                                    {wallet ? "Phantom" : "Connect your crypto wallet"}
+                                </Text>
+                                {!wallet ? (<>
+                                    <Text variant="label" className="text-secondary !normal-case">
+                                        Informative text about enhanced experience, public profile and claiming bounties.
+                                    </Text>
+                                </>) : (
+                                    <div className=" w-fit max-w-ful" data-tip="Copied!">
+                                        <Chip 
+                                            highlightValue={walletAddress} 
+                                            // icon={MdContentCopy} 
+                                            className="!normal-case w-72 sm:w-44"
+                                            interactive={true}
+                                            copyable={true} 
+                                        />
+                                    </div>
+                                )}
                             </div>
-                            {walletConnected ? (
-                            // Here will be the icon of the connected wallet
-                                <MdOutlineAccountBalanceWallet size={25} />
-                            ) : (
-                                <MdOutlineAccountBalanceWallet size={25} />
-                            )}
+                            { /* Wallet logo instead of `MdAccountBalanceWallet`. */ }
+                            { wallet && <TbWallet size={25} /> }
                         </div>
 
-                        <Button text="Disconnect" icon={MdClose} variant="transparent" className="!w-full" />
+                        <Button text={(wallet ? "Dis" : "C") + "onnect" } icon={wallet ? TbWalletOff : TbWallet } variant="transparent" className="!w-full" />
                     </div>
                 </Card>
             </div>
