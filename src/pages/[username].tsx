@@ -1,42 +1,31 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { getUser, withPageAuth } from '@supabase/auth-helpers-nextjs';
+import { getBountiesByAsignee, getUser } from 'lib/github';
 
+import { Bounty } from 'types/bounty';
 import BountyList from 'components/common/bounty-list';
 import Hero from 'components/profile-page/hero';
+import Text from 'components/common/text';
 import { User } from 'types/user';
-import { mockBounties } from 'mocks/bounties';
-import { mockUser } from 'mocks/user';
-import { useRouter } from 'next/router';
 
 type ProfilePageProps = {
-    authenticatedUser: User;
+    bounties: Bounty[];
+    user: User;
 };
 
-const ProfilePage: NextPage<ProfilePageProps> = ({ authenticatedUser }) => {
-    const { query } = useRouter();
-
-    const isOwnProfile = query.username === authenticatedUser.username;
-
-    const heroProps = {
-        isOwnProfile,
-        ...(isOwnProfile ? authenticatedUser : mockUser),
-    };
-
-    const fullName = isOwnProfile
-        ? authenticatedUser.fullName
-        : mockUser.fullName;
+const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
+    const { fullName, isCurrentUser } = user;
     const firstName = fullName.split(' ')[0];
-    const bountyListTitlePronoun = isOwnProfile ? 'My' : `${firstName}'s`;
+    const bountyListTitlePronoun = isCurrentUser ? 'My' : `${firstName}'s`;
 
     return (
         <div className="mt-8">
             <div className="flex flex-col gap-16 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">
-                <Hero {...heroProps} />
+                <Hero {...user} />
                 <div className="flex flex-col gap-7">
-                    <h2 className="text-2xl font-medium text-white">
+                    <Text className="text-white" variant="sub-heading">
                         {bountyListTitlePronoun} Bounties
-                    </h2>
-                    <BountyList bounties={mockBounties} />
+                    </Text>
+                    <BountyList bounties={bounties} />
                 </div>
             </div>
         </div>
@@ -45,19 +34,11 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ authenticatedUser }) => {
 
 export default ProfilePage;
 
-export const getServerSideProps: GetServerSideProps = withPageAuth({
-    async getServerSideProps(context) {
-        const { user } = await getUser(context);
-        const userMetadata = user?.user_metadata;
+export const getServerSideProps: GetServerSideProps = async context => {
+    const user = await getUser(context);
+    const bounties = await getBountiesByAsignee(context);
 
-        return {
-            props: {
-                authenticatedUser: {
-                    avatarUrl: userMetadata.avatar_url,
-                    fullName: userMetadata.full_name,
-                    username: userMetadata.user_name,
-                },
-            },
-        };
-    },
-});
+    return {
+        props: { bounties, user },
+    };
+};

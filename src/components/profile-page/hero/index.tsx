@@ -5,10 +5,10 @@ import Stars from './stars';
 import { User } from 'types/user';
 
 type HeroProps = User & {
-    isOwnProfile: boolean;
+    isCurrentUser: boolean;
 };
 
-const Hero = ({ avatarUrl, fullName, isOwnProfile, username }: HeroProps) => (
+const Hero = ({ avatarUrl, fullName, isCurrentUser, username }: HeroProps) => (
     <div className="flex flex-col">
         <div className="h-60 w-full rounded-tl-[theme(spacing.24)] bg-gradient-to-tr from-primary/75 to-secondary/75" />
         <div className="flex flex-row justify-between gap-12 px-2 md:px-6">
@@ -31,8 +31,8 @@ const Hero = ({ avatarUrl, fullName, isOwnProfile, username }: HeroProps) => (
                 </div>
             </div>
             <div className="mt-6">
-                {isOwnProfile && (
-                    <Link href="/settings" passHref>
+                {isCurrentUser && (
+                    <Link href="/" passHref>
                         <MdOutlineSettings color="#999999" size={32} />
                     </Link>
                 )}

@@ -1,11 +1,11 @@
 import Card from 'components/common/card';
-import Text from 'components/common/text';
 import Image from 'components/common/image';
+import Text from 'components/common/text';
 
 const Footer = () => (
-    <footer className="my-16 flex flex-col justify-center gap-16 px-4 md:px-16 lg:px-32 xl:px-48 text-white">
-        <div className="h-px w-full bg-line"/>
-        <Card className="w-full flex flex-row justify-between rounded-xl p-7">
+    <footer className="my-16 flex flex-col justify-center gap-16 px-4 text-white md:px-16 lg:px-32 xl:px-48">
+        <div className="h-px w-full bg-line" />
+        <Card className="flex w-full flex-row justify-between rounded-xl p-7">
             <Image
                 src="/logo-icon.svg"
                 alt="solana icon"
