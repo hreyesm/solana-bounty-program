@@ -4,7 +4,7 @@ import { Bounty } from 'types/bounty';
 import BountyCard from 'components/explorer-page/bounty-card';
 import FilterMenu from 'components/common/filter-section';
 import Text from '../text';
-import { filterBounties } from 'utils';
+import { filterBounties } from 'utils/bounties';
 
 type BountyListProps = { bounties: Bounty[] };
 
@@ -38,8 +38,8 @@ const BountyList = ({ bounties: initialBounties }: BountyListProps) => {
             </div>
             <div className="flex flex-col gap-6">
                 {bounties.length ? (
-                    bounties.map((bounty, index) => (
-                        <BountyCard key={index} {...bounty} />
+                    bounties.map(bounty => (
+                        <BountyCard key={bounty.id} {...bounty} />
                     ))
                 ) : (
                     <div className="flex h-20 items-center justify-center">
