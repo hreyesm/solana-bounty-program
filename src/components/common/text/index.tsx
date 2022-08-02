@@ -12,6 +12,7 @@ type TextProps = {
         | 'sub-heading'
         | 'nav-heading'
         | 'paragraph'
+        | 'user'
         | 'input'
         | 'label';
     className?: string;
@@ -22,14 +23,15 @@ type TextProps = {
  * Pre-defined styling, according to agreed-upon design-system.
  */
 const variants = {
-    hero: 'text-4xl font-medium leading-snug sm:leading-normal sm:text-6xl',
+hero: 'text-4xl font-medium sm:text-6xl',
     'big-heading': 'text-4xl font-medium md:text-6xl',
     heading: 'text-3xl font-medium',
     'sub-heading': 'text-2xl font-medium',
-    'nav-heading': 'text-xl font-medium',
+    'nav-heading': 'text-lg font-medium sm:text-xl',
     paragraph: 'text-lg',
+    user: 'text-base font-medium text-inherit',
     input: 'text-sm uppercase tracking-wide',
-    label: 'text-xs uppercase',
+    label: 'text-xs uppercase tracking-wide',
 };
 
 /**

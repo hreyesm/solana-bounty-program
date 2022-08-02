@@ -2,14 +2,14 @@ import '../styles/globals.css';
 
 import { AppProps } from 'next/app';
 import Layout from 'components/common/layout';
-import { ContextProvider } from 'components/common/context/ContextProvider';
+import { SessionProvider } from 'next-auth/react';
 
-const App = ({ Component, pageProps }: AppProps) => (
-    <ContextProvider>
+const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
+    <SessionProvider session={session}>
         <Layout>
             <Component {...pageProps} />
         </Layout>
-    </ContextProvider>
+    </SessionProvider>
 );
 
 export default App;

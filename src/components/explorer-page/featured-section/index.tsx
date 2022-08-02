@@ -1,4 +1,4 @@
-import FeaturedBountyCard from '../bounty-card';
+import BountyCard from '../bounty-card';
 import Text from 'components/common/text';
 import { mockBounties } from 'mocks/bounties';
 
@@ -11,7 +11,7 @@ const FeaturedSection = () => (
         <Text variant="big-heading">Popular Bounties</Text>
         <div className="flex w-full flex-row justify-start gap-5 overflow-x-auto scroll-smooth">
             {mockBounties.map((bounty, index) => (
-                <FeaturedBountyCard
+                <BountyCard
                     key={index}
                     responsive={false}
                     {...bounty}
