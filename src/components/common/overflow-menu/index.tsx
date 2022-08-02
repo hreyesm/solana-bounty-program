@@ -6,38 +6,35 @@ import { useRef, useState } from 'react';
 import Card from '../card';
 import Link from 'next/link';
 import Text from '../text';
-import { User } from '@supabase/supabase-js';
 import Chip from '../chip';
 import Button from '../button';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import Image from '../image';
 
-type OverflowMenuProps = {
-    user: User;
-    signIn: () => Promise<void>;
-    signOut: () => Promise<void>;
-};
 
-const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
+const OverflowMenu = () => {
     const buttonRef = useRef();
+    const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
+
     // test variables for wallet will be removed later
     const walletAddress = 'FNfUy8Qp6C9NCD6cz9xHLYSL7n3eFX8LfY1zDx6RcE8G';
     const wallet = true;
+
+    const onProfileClick =  async () => {
+        if (session) {
+            await signOut();
+        }
+        else {
+            await signIn('github');
+        }
+    }   
 
     return (
         <>
             <div className="dropdown-end dropdown">
                 <label tabIndex={0}>
                     <div className="flex flex-row items-center gap-3">
-                        {user && (
-                            <Text variant="label">
-                                <Link
-                                    href={`${user.user_metadata.user_name}`}
-                                    passHref
-                                >
-                                    {user.user_metadata.user_name}
-                                </Link>
-                            </Text>
-                        )}
                         <Button
                             variant="orange"
                             icon={MdOutlineManageAccounts}
@@ -56,27 +53,45 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                                 <Text variant="label" className="text-secondary"> Profile </Text>
                                 <Text 
                                     variant="nav"
-                                    className={user && "text-primary"}
+                                    className={session && "text-primary"}
                                 >
-                                    {user ? user.user_metadata.user_name : "Sign in with GitHub"}
+                                    {session ? (
+                                        <Link
+                                            href={`/${session.login}`}
+                                            passHref
+                                        >
+                                            {session.login}
+                                        </Link>
+                                    ) : (
+                                        "Sign in with GitHub"
+                                    )}
                                 </Text>
-                                {!user ? (
+                                {!session ? (
                                     <Text variant="label" className="text-secondary !normal-case">
                                         Informative text about enhanced experience, public profile and claiming bounties.
                                     </Text>
                                 ) : (
                                     <Chip value="Lv. 1" />
                                 )}
-                            </div>  
-                            {/* User's profile image instead of `DiGithubAlt`. */}
-                            {user && <DiGithubAlt size={25} />}
+                            </div>
+                            {session && (
+                                // eslint-disable-next-line jsx-a11y/alt-text
+                                <Image
+                                    src={session.user.image}
+                                    // alt={session.login}
+                                    height={40}
+                                    className="aspect-square"
+                                    style={{ borderRadius: '50%' }}
+                                />
+                            )}
                         </div>
                         <Button 
-                            text={"Sign " + (user ? "out" : "in")} 
-                            icon={user ? MdLogout : TbBrandGithub} 
-                            variant={user ? "danger" : "orange"} 
+                            text={"Sign " + (session ? "out" : "in")} 
+                            icon={session ? MdLogout : TbBrandGithub} 
+                            variant={session ? "danger" : "orange"} 
                             className="!w-full"
-                            onClick={user ? signOut : signIn}
+                            onClick={onProfileClick
+                            }
                         />
                     </div>
                     <div className="h-px w-full bg-line"/>
