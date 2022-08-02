@@ -1,5 +1,4 @@
-import { MdCheck, MdContentCopy, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
-import { DiGithubAlt } from 'react-icons/di';
+import { MdLink, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
 import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
 import { useRef, useState } from 'react';
 
@@ -24,15 +23,14 @@ const OverflowMenu = () => {
     const onProfileClick =  async () => {
         if (session) {
             await signOut();
-        }
-        else {
+        } else {
             await signIn('github');
         }
     }   
 
     return (
         <>
-            <div className="dropdown-end dropdown">
+            <div className="dropdown dropdown-end">
                 <label tabIndex={0}>
                     <div className="flex flex-row items-center gap-3">
                         <Button
@@ -52,12 +50,13 @@ const OverflowMenu = () => {
                             <div className="flex flex-col gap-1 w-full">
                                 <Text variant="label" className="text-secondary"> Profile </Text>
                                 <Text 
-                                    variant="nav"
+                                    variant="nav-heading"
                                     className={session && "text-primary"}
                                 >
                                     {session ? (
                                         <Link
                                             href={`/${session.login}`}
+                                            onClick={() => setMenuOpen(false)}
                                             passHref
                                         >
                                             {session.login}
@@ -71,7 +70,10 @@ const OverflowMenu = () => {
                                         Informative text about enhanced experience, public profile and claiming bounties.
                                     </Text>
                                 ) : (
-                                    <Chip value="Lv. 1" />
+                                    <div className="flex flex-row items-center gap-1">
+                                        <Chip highlightValue="0" value="Bounties" />
+                                        <Chip value="Lv. 1" />
+                                    </div>
                                 )}
                             </div>
                             {session && (
@@ -90,16 +92,15 @@ const OverflowMenu = () => {
                             icon={session ? MdLogout : TbBrandGithub} 
                             variant={session ? "danger" : "orange"} 
                             className="!w-full"
-                            onClick={onProfileClick
-                            }
+                            onClick={onProfileClick}
                         />
                     </div>
-                    <div className="h-px w-full bg-line"/>
+                    <div className="h-px w-full bg-line" />
                     <div className="flex flex-col gap-3 p-5">
                         <div className="flex justify-between items-center">
                             <div className="flex flex-col gap-1 w-full">
                                 <Text variant="label" className="text-secondary"> Wallet </Text>
-                                <Text variant="nav">
+                                <Text variant="nav-heading">
                                     {wallet ? "Phantom" : "Connect your crypto wallet"}
                                 </Text>
                                 {!wallet ? (<>
@@ -107,13 +108,15 @@ const OverflowMenu = () => {
                                         Informative text about enhanced experience, public profile and claiming bounties.
                                     </Text>
                                 </>) : (
-                                    <div className=" w-fit max-w-ful" data-tip="Copied!">
+                                    <div className="flex flex-row items-center gap-1">
                                         <Chip 
                                             highlightValue={walletAddress} 
-                                            // icon={MdContentCopy} 
-                                            className="!normal-case w-72 sm:w-44"
-                                            interactive={true}
-                                            copyable={true} 
+                                            icon={MdLink}
+                                            className="!normal-case w-60 sm:w-28"
+                                            href={`https://explorer.solana.com/address/${walletAddress}`}
+                                        />
+                                        <Chip
+                                            copyValue={walletAddress} 
                                         />
                                     </div>
                                 )}
