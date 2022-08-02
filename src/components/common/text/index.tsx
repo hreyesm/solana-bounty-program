@@ -11,6 +11,7 @@ type TextProps = {
         | 'heading'
         | 'sub-heading'
         | 'nav-heading'
+        | 'nav'
         | 'paragraph'
         | 'user'
         | 'input'
@@ -23,11 +24,12 @@ type TextProps = {
  * Pre-defined styling, according to agreed-upon design-system.
  */
 const variants = {
-hero: 'text-4xl font-medium sm:text-6xl',
+    hero: 'text-4xl font-medium sm:text-6xl',
     'big-heading': 'text-4xl font-medium md:text-6xl',
     heading: 'text-3xl font-medium',
     'sub-heading': 'text-2xl font-medium',
     'nav-heading': 'text-lg font-medium sm:text-xl',
+    nav: 'font-medium',
     paragraph: 'text-lg',
     user: 'text-base font-medium text-inherit',
     input: 'text-sm uppercase tracking-wide',
@@ -43,7 +45,7 @@ hero: 'text-4xl font-medium sm:text-6xl',
  * @param className Custom classes to be applied to the element.
  * @param children Child elements to be rendered within the component.
  */
-const Text = ({ variant, className, children }: TextProps) => (
+const Text = ({ variant, className, children}: TextProps) => (
     <text className={cn(className, variants[variant])}>{children}</text>
 );
 
