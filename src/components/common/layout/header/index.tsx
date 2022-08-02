@@ -2,6 +2,7 @@ import Button from 'components/common/button';
 import Chip from 'components/common/chip';
 import Image from 'components/common/image';
 import Link from 'next/link';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { MdOutlineSearch } from 'react-icons/md';
 import NavElement from './nav-element';
 import OverflowMenu from 'components/common/overflow-menu';
@@ -46,6 +47,7 @@ const Header = () => (
                 <div className="hidden h-1/2 w-px bg-line md:inline" />
 
                 <OverflowMenu />
+                <WalletMultiButton className="btn mr-4 text-gray-300" />
             </div>
         </div>
     </header>

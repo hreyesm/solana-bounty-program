@@ -6,7 +6,6 @@ import { SessionProvider } from 'next-auth/react';
 import { ContextProvider } from 'components/common/context/ContextProvider';
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
-    
     <ContextProvider>
         <SessionProvider session={session}>
             <Layout>
