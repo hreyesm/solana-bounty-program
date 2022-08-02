@@ -47,7 +47,6 @@ const Header = () => (
                 <div className="hidden h-1/2 w-px bg-line md:inline" />
 
                 <OverflowMenu />
-                <WalletMultiButton className="btn mr-4 text-gray-300" />
             </div>
         </div>
     </header>
