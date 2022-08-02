@@ -26,11 +26,13 @@ const toBountyList = (issues: Issue[]): Bounty[] =>
     issues.map(
         ({
             created_at: createdAt,
+            number,
             labels,
             title: name,
             html_url: githubUrl,
         }) => ({
             createdAt: formatDate(createdAt),
+            id: number,
             githubUrl,
             name,
             reward: 0,
