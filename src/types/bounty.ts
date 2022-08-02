@@ -1,9 +1,14 @@
-export type Bounty = {
+type Bounty = {
+    // TODO: Add owner and hunter props
     createdAt: string;
     githubUrl: string;
     id: number;
+    mdDescription: string;
     name: string;
     reward: number;
     tags: { value: string }[];
-    // TODO: Add owner and hunter props
 };
+
+type BountyWithDrillInfo = Bounty & { mdDrillInfo: string };
+
+export type { Bounty, BountyWithDrillInfo };

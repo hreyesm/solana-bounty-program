@@ -17,27 +17,34 @@ const filterBounties = ({ name }: Bounty, rawQuery: string) => {
 };
 
 /**
- * Returns a list of issues (fetched from the GitHub API) converted to
- * Bounties.
+ * Converts a GitHub issue (fetched from the GitHub API) into a Bounty object.
+ *
+ * @param issue GitHub issue.
+ */
+const toBounty = ({
+    body: mdDescription,
+    created_at: createdAt,
+    number,
+    labels,
+    title: name,
+    html_url: githubUrl,
+}: Issue): Bounty => ({
+    createdAt: formatDate(createdAt),
+    id: number,
+    githubUrl,
+    mdDescription,
+    name,
+    reward: 0,
+    tags: labels.map(label => ({ value: label.name })),
+});
+
+/**
+ * Returns a list of GitHub issues (fetched from the GitHub API) converted to
+ * Bounty objects.
  *
  * @param issues GitHub issues.
  */
 const toBountyList = (issues: Issue[]): Bounty[] =>
-    issues.map(
-        ({
-            created_at: createdAt,
-            number,
-            labels,
-            title: name,
-            html_url: githubUrl,
-        }) => ({
-            createdAt: formatDate(createdAt),
-            id: number,
-            githubUrl,
-            name,
-            reward: 0,
-            tags: labels.map(label => ({ value: label.name })),
-        }),
-    );
+    issues.map(issue => toBounty(issue));
 
-export { toBountyList, filterBounties };
+export { toBounty, toBountyList, filterBounties };
