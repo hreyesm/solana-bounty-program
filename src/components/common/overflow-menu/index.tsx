@@ -1,118 +1,137 @@
-import { MdAccountCircle, MdLogout, MdManageAccounts } from 'react-icons/md';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { MdLink, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
+import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
 import { useRef, useState } from 'react';
 
-import { BiWalletAlt } from 'react-icons/bi';
 import Card from '../card';
 import Link from 'next/link';
 import Text from '../text';
-import { VscGithubAlt } from 'react-icons/vsc';
-import { cn } from 'utils';
-import { useRouter } from 'next/router';
+import Chip from '../chip';
+import Button from '../button';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import Image from '../image';
+
 
 const OverflowMenu = () => {
     const buttonRef = useRef();
-    const router = useRouter();
     const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
+
     // test variables for wallet will be removed later
     const walletAddress = 'FNfUy8Qp6C9NCD6cz9xHLYSL7n3eFX8LfY1zDx6RcE8G';
-    const walletConnected = true;
+    const wallet = true;
 
-    const onProfileClick = async () => {
+    const onProfileClick =  async () => {
         if (session) {
-            await router.push(`/${session.login}`);
+            await signOut();
         } else {
             await signIn('github');
         }
-    };
+    }   
 
     return (
-        <div className="flex flex-row items-center gap-3">
-            {session && (
-                <Text className="hidden md:block" variant="label">
-                    <Link href={`/${session.login}`} passHref>
-                        {session.login}
-                    </Link>
-                </Text>
-            )}
-            <div className="dropdown-end dropdown">
+        <>
+            <div className="dropdown dropdown-end">
                 <label tabIndex={0}>
-                    <button
-                        className={cn(
-                            'flex aspect-square h-fit max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border border-transparent bg-primary p-3 text-black transition-all hover:-translate-y-[0.2rem] hover:bg-white hover:!text-black active:translate-y-[0.05rem] active:scale-95',
-                        )}
-                        onClick={() => setMenuOpen(!menuOpen)}
-                        ref={buttonRef}
-                    >
-                        <MdManageAccounts className="aspect-square h-4" />
-                    </button>
+                    <div className="flex flex-row items-center gap-3">
+                        <Button
+                            variant="orange"
+                            icon={MdOutlineManageAccounts}
+                            onClick={() => setMenuOpen(!menuOpen)}
+                            ref={buttonRef}
+                        />
+                    </div>
                 </label>
                 <Card
                     tabIndex={0}
-                    className="dropdown-content menu mt-3 -mr-3 block w-52 rounded-3xl pt-2  pb-2  shadow  "
+                    className="dropdown-content block mt-3 w-[calc(100vw-3rem)] sm:w-80 !bg-[#222227] bg-opacity-85" // TODO: Background is temporarily solid color due to blur issue.
                 >
-                    <li onClick={onProfileClick}>
-                        <div className="flex justify-between">
-                            <div>
-                                <Text variant="label" className="opacity-50">
-                                    Profile
+                    <div className="flex flex-col gap-3 p-5">
+                        <div className="flex justify-between items-center">
+                            <div className="flex flex-col gap-1 w-full">
+                                <Text variant="label" className="text-secondary"> Profile </Text>
+                                <Text 
+                                    variant="nav-heading"
+                                    className={session && "text-primary"}
+                                >
+                                    {session ? (
+                                        <Link
+                                            href={`/${session.login}`}
+                                            onClick={() => setMenuOpen(false)}
+                                            passHref
+                                        >
+                                            {session.login}
+                                        </Link>
+                                    ) : (
+                                        "Sign in with GitHub"
+                                    )}
                                 </Text>
-                                <br />
-                                {session ? (
-                                    <p className="text-primary">
-                                        {session.login}
-                                    </p>
+                                {!session ? (
+                                    <Text variant="label" className="text-secondary !normal-case">
+                                        Informative text about enhanced experience, public profile and claiming bounties.
+                                    </Text>
                                 ) : (
-                                    <p>Login with GitHub</p>
+                                    <div className="flex flex-row items-center gap-1">
+                                        <Chip highlightValue="0" value="Bounties" />
+                                        <Chip value="Lv. 1" />
+                                    </div>
                                 )}
                             </div>
-                            <VscGithubAlt size={25} />
-                        </div>
-                    </li>
-
-                    <hr className="w-full opacity-50" />
-                    <li>
-                        <div className="flex justify-between">
-                            <div>
-                                <Text variant="label" className="opacity-50">
-                                    Wallet
-                                </Text>
-                                <br />
-                                {/* Here will be the wallet connection button */}
-                                {walletConnected ? (
-                                    <p className="w-24 overflow-hidden	text-ellipsis">
-                                        {walletAddress}
-                                    </p>
-                                ) : (
-                                    <p>Connect</p>
-                                )}
-                            </div>
-                            {walletConnected ? (
-                                // Here will be the icon of the connected wallet
-                                <MdAccountCircle size={25} />
-                            ) : (
-                                <BiWalletAlt size={25} />
+                            {session && (
+                                // eslint-disable-next-line jsx-a11y/alt-text
+                                <Image
+                                    src={session.user.image}
+                                    // alt={session.login}
+                                    height={40}
+                                    className="aspect-square"
+                                    style={{ borderRadius: '50%' }}
+                                />
                             )}
                         </div>
-                    </li>
-                    {session && (
-                        <>
-                            <hr className="w-full opacity-50" />
-                            <li onClick={() => signOut()}>
-                                <div className="flex ">
-                                    <MdLogout
-                                        className="text-red-500"
-                                        size={25}
-                                    />
-                                    <p className="text-red-500">Sign out</p>
-                                </div>
-                            </li>
-                        </>
-                    )}
+                        <Button 
+                            text={"Sign " + (session ? "out" : "in")} 
+                            icon={session ? MdLogout : TbBrandGithub} 
+                            variant={session ? "danger" : "orange"} 
+                            className="!w-full"
+                            onClick={onProfileClick}
+                        />
+                    </div>
+                    <div className="h-px w-full bg-line" />
+                    <div className="flex flex-col gap-3 p-5">
+                        <div className="flex justify-between items-center">
+                            <div className="flex flex-col gap-1 w-full">
+                                <Text variant="label" className="text-secondary"> Wallet </Text>
+                                <Text variant="nav-heading">
+                                    {wallet ? "Phantom" : "Connect your crypto wallet"}
+                                </Text>
+                                {!wallet ? (<>
+                                    <Text variant="label" className="text-secondary !normal-case">
+                                        Informative text about enhanced experience, public profile and claiming bounties.
+                                    </Text>
+                                </>) : (
+                                    <div className="flex flex-row items-center gap-1">
+                                        <Chip 
+                                            highlightValue={walletAddress} 
+                                            icon={MdLink}
+                                            className="!normal-case w-60 sm:w-28"
+                                            href={`https://explorer.solana.com/address/${walletAddress}`}
+                                        />
+                                        <Chip
+                                            copyValue={walletAddress} 
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                            { /* Wallet logo instead of `MdAccountBalanceWallet`. */ }
+                            { wallet && <TbWallet size={25} /> }
+                        </div>
+
+                        <Button text={(wallet ? "Dis" : "C") + "onnect" } icon={wallet ? TbWalletOff : TbWallet } variant="transparent" className="!w-full" />
+                    </div>
                 </Card>
             </div>
-        </div>
+
+            <input type="checkbox" id="wallet-modal" className="modal-toggle" />
+        </>
     );
 };
 

@@ -32,12 +32,9 @@ const Card = ({
     <div
         className={cn(
             className,
-            blur &&
-            border &&
-            'border border-white bg-base/75 text-white backdrop-blur-lg backdrop-filter',
-            'rounded-3xl', // w-fit max-w-full
-            blur && ' bg-base/75 text-white backdrop-blur-lg backdrop-filter',
-            'rounded-3xl',
+            border && 'border border-white',
+            blur && ' bg-base bg-opacity-70 backdrop-blur-lg firefox:bg-opacity-90',
+            'rounded-3xl text-white',
         )}
         tabIndex={tabIndex}
     >
