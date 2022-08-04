@@ -51,7 +51,7 @@ function SearchBar(
             value={search}
             // placeholder={placeholder}
             placeholder="Search for anything.."
-            className="block w-96 rounded-2xl bg-base py-3 pl-10 pr-6 tracking-wide text-white  placeholder:overflow-visible placeholder:text-base-content placeholder:opacity-50 focus:outline-none "
+            className="block w-96 rounded-t-2xl border-b-2 border-line bg-base py-3 pl-10 pr-6  tracking-wide text-white placeholder:overflow-visible placeholder:text-base-content placeholder:opacity-50 focus:outline-none"
             onChange={event => {
                 props.onChange?.(event);
                 query.setSearch(event.target.value);
