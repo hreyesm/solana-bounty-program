@@ -42,6 +42,7 @@ const actions = [
         name: 'Blog',
         shortcut: ['b'],
         keywords: 'writing words',
+        section: "Actions",
         perform: () => (window.location.pathname = 'blog'),
     },
     {
@@ -49,6 +50,7 @@ const actions = [
         name: 'Contact',
         shortcut: ['c'],
         keywords: 'email',
+        section: "Actions",
         perform: () => (window.location.pathname = 'contact'),
     },
     {
@@ -56,6 +58,7 @@ const actions = [
         name: 'MLH Fellowship',
         shortcut: ['c'],
         keywords: 'intern',
+        section: "Navigation",
         perform: () => (window.location.pathname = 'mlh'),
     },
     {
@@ -63,6 +66,7 @@ const actions = [
         name: 'Zeyad Tarek',
         shortcut: ['c'],
         keywords: 'student',
+        section: "Navigation",
         perform: () => (window.location.pathname = 'zeyadtarekk'),
     },
 ];
