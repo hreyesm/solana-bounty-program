@@ -65,6 +65,10 @@ const getBountiesByAsignee = async (
         token,
     );
 
+    if (!issues) {
+        return null;
+    }
+
     return toBountyList(issues);
 };
 
@@ -102,11 +106,19 @@ const getUser = async (context: GetServerSidePropsContext): Promise<User> => {
     const token = session?.accessToken as string;
     const login = session?.login as string;
 
+    const githubUser = await fetchGithubData<GithubUser>(url, token);
+
+    console.log(githubUser);
+
+    if (!githubUser) {
+        return null;
+    }
+
     const {
         avatar_url: avatarUrl,
         name: fullName,
         login: username,
-    } = await fetchGithubData<GithubUser>(url, token);
+    } = githubUser;
 
     return {
         avatarUrl,
