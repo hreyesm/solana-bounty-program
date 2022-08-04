@@ -13,8 +13,8 @@ type ProfilePageProps = {
 };
 
 const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
-    const { fullName, isCurrentUser } = user;
-    const firstName = fullName.split(' ')[0];
+    const { fullName, isCurrentUser, username } = user;
+    const firstName = fullName ? fullName.split(' ')[0] : username;
     const bountyListTitlePronoun = isCurrentUser ? 'My' : `${firstName}'s`;
 
     return (
@@ -37,6 +37,10 @@ export default ProfilePage;
 export const getServerSideProps: GetServerSideProps = async context => {
     const user = await getUser(context);
     const bounties = await getBountiesByAsignee(context);
+
+    if (!user) {
+        return { notFound: true };
+    }
 
     return {
         props: { bounties, user },
