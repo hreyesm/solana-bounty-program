@@ -1,7 +1,7 @@
 import { MdLink, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
 import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
 import { useRef, useState } from 'react';
-
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import Card from '../card';
 import Link from 'next/link';
 import Text from '../text';
@@ -9,7 +9,6 @@ import Chip from '../chip';
 import Button from '../button';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from '../image';
-
 
 const OverflowMenu = () => {
     const buttonRef = useRef();
@@ -20,17 +19,17 @@ const OverflowMenu = () => {
     const walletAddress = 'FNfUy8Qp6C9NCD6cz9xHLYSL7n3eFX8LfY1zDx6RcE8G';
     const wallet = true;
 
-    const onProfileClick =  async () => {
+    const onProfileClick = async () => {
         if (session) {
             await signOut();
         } else {
             await signIn('github');
         }
-    }   
+    };
 
     return (
         <>
-            <div className="dropdown dropdown-end">
+            <div className="dropdown-end dropdown">
                 <label tabIndex={0}>
                     <div className="flex flex-row items-center gap-3">
                         <Button
@@ -43,15 +42,21 @@ const OverflowMenu = () => {
                 </label>
                 <Card
                     tabIndex={0}
-                    className="dropdown-content block mt-3 w-[calc(100vw-3rem)] sm:w-80 !bg-[#222227] bg-opacity-85" // TODO: Background is temporarily solid color due to blur issue.
+                    className="bg-opacity-85 dropdown-content mt-3 block w-[calc(100vw-3rem)] !bg-[#222227] sm:w-80" // TODO: Background is temporarily solid color due to blur issue.
                 >
                     <div className="flex flex-col gap-3 p-5">
-                        <div className="flex justify-between items-center">
-                            <div className="flex flex-col gap-1 w-full">
-                                <Text variant="label" className="text-secondary"> Profile </Text>
-                                <Text 
+                        <div className="flex items-center justify-between">
+                            <div className="flex w-full flex-col gap-1">
+                                <Text
+                                    variant="label"
+                                    className="text-secondary"
+                                >
+                                    {' '}
+                                    Profile{' '}
+                                </Text>
+                                <Text
                                     variant="nav-heading"
-                                    className={session && "text-primary"}
+                                    className={session && 'text-primary'}
                                 >
                                     {session ? (
                                         <Link
@@ -62,16 +67,24 @@ const OverflowMenu = () => {
                                             {session.login}
                                         </Link>
                                     ) : (
-                                        "Sign in with GitHub"
+                                        'Sign in with GitHub'
                                     )}
                                 </Text>
                                 {!session ? (
-                                    <Text variant="label" className="text-secondary !normal-case">
-                                        Informative text about enhanced experience, public profile and claiming bounties.
+                                    <Text
+                                        variant="label"
+                                        className="!normal-case text-secondary"
+                                    >
+                                        Informative text about enhanced
+                                        experience, public profile and claiming
+                                        bounties.
                                     </Text>
                                 ) : (
                                     <div className="flex flex-row items-center gap-1">
-                                        <Chip highlightValue="0" value="Bounties" />
+                                        <Chip
+                                            highlightValue="0"
+                                            value="Bounties"
+                                        />
                                         <Chip value="Lv. 1" />
                                     </div>
                                 )}
@@ -87,45 +100,64 @@ const OverflowMenu = () => {
                                 />
                             )}
                         </div>
-                        <Button 
-                            text={"Sign " + (session ? "out" : "in")} 
-                            icon={session ? MdLogout : TbBrandGithub} 
-                            variant={session ? "danger" : "orange"} 
+                        <Button
+                            text={'Sign ' + (session ? 'out' : 'in')}
+                            icon={session ? MdLogout : TbBrandGithub}
+                            variant={session ? 'danger' : 'orange'}
                             className="!w-full"
                             onClick={onProfileClick}
                         />
                     </div>
                     <div className="h-px w-full bg-line" />
                     <div className="flex flex-col gap-3 p-5">
-                        <div className="flex justify-between items-center">
-                            <div className="flex flex-col gap-1 w-full">
-                                <Text variant="label" className="text-secondary"> Wallet </Text>
-                                <Text variant="nav-heading">
-                                    {wallet ? "Phantom" : "Connect your crypto wallet"}
+                        <div className="flex items-center justify-between">
+                            <div className="flex w-full flex-col gap-1">
+                                <Text
+                                    variant="label"
+                                    className="text-secondary"
+                                >
+                                    {' '}
+                                    Wallet{' '}
                                 </Text>
-                                {!wallet ? (<>
-                                    <Text variant="label" className="text-secondary !normal-case">
-                                        Informative text about enhanced experience, public profile and claiming bounties.
-                                    </Text>
-                                </>) : (
+                                <Text variant="nav-heading">
+                                    {wallet
+                                        ? 'Phantom'
+                                        : 'Connect your crypto wallet'}
+                                </Text>
+                                {!wallet ? (
+                                    <>
+                                        <Text
+                                            variant="label"
+                                            className="!normal-case text-secondary"
+                                        >
+                                            Informative text about enhanced
+                                            experience, public profile and
+                                            claiming bounties.
+                                        </Text>
+                                    </>
+                                ) : (
                                     <div className="flex flex-row items-center gap-1">
-                                        <Chip 
-                                            highlightValue={walletAddress} 
+                                        <Chip
+                                            highlightValue={walletAddress}
                                             icon={MdLink}
-                                            className="!normal-case w-60 sm:w-28"
+                                            className="w-60 !normal-case sm:w-28"
                                             href={`https://explorer.solana.com/address/${walletAddress}`}
                                         />
-                                        <Chip
-                                            copyValue={walletAddress} 
-                                        />
+                                        <Chip copyValue={walletAddress} />
                                     </div>
                                 )}
                             </div>
-                            { /* Wallet logo instead of `MdAccountBalanceWallet`. */ }
-                            { wallet && <TbWallet size={25} /> }
+                            {/* Wallet logo instead of `MdAccountBalanceWallet`. */}
+                            {wallet && <TbWallet size={25} />}
                         </div>
 
-                        <Button text={(wallet ? "Dis" : "C") + "onnect" } icon={wallet ? TbWalletOff : TbWallet } variant="transparent" className="!w-full" />
+                        <Button
+                            text={(wallet ? 'Dis' : 'C') + 'onnect'}
+                            icon={wallet ? TbWalletOff : TbWallet}
+                            variant="transparent"
+                            className="!w-full"
+                        />
+                        <WalletMultiButton className="btn mr-4 text-gray-300" />
                     </div>
                 </Card>
             </div>
