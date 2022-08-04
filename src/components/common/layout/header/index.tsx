@@ -9,7 +9,7 @@ import OverflowMenu from 'components/common/overflow-menu';
 const Header = () => (
     <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between border-b-1.5 border-b-line bg-black bg-opacity-40 px-6 backdrop-blur-xl">
         <Link href="/" passHref>
-            <div className="flex w-fit flex-row items-center gap-3">
+            <div className="flex w-fit flex-row items-center gap-3 cursor-pointer">
                 <Image
                     src="/logo-icon.svg"
                     alt="solana icon"
