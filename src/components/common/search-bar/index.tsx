@@ -44,13 +44,6 @@ function SearchBar(
         return () => query.setSearch('');
     }, [currentRootActionId, query]);
 
-    const placeholder = React.useMemo((): string => {
-        const defaultText = defaultPlaceholder ?? 'Type a command or search…';
-        return currentRootActionId && actions[currentRootActionId]
-            ? actions[currentRootActionId].name
-            : defaultText;
-    }, [actions, currentRootActionId, defaultPlaceholder]);
-
     return (
         <input
             {...rest}
