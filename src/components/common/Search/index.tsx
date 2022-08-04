@@ -8,38 +8,29 @@ import {
     useMatches,
     KBarResults,
 } from 'kbar';
+import Card from '../card';
+import SearchElement from './search-element';
+import Text from '../text';
 
 function RenderResults() {
     const { results } = useMatches();
+
+    if (results.length === 0) return (
+        <div className="w-full p-2 pl-5 pb-3">
+            <Text variant="label" className="text-secondary !normal-case"> No results found </Text>
+        </div>
+    );
 
     return (
         <KBarResults
             items={results}
             onRender={({ item, active }) =>
                 typeof item === 'string' ? (
-                    <div
-                        className={cn(
-                            'block w-96  bg-base py-3 pl-10 pr-6 tracking-wide text-white  placeholder:overflow-visible placeholder:text-base-content placeholder:opacity-50 focus:outline-none ',
-                            active ? 'bg-[#999999]' : ' ',
-                            item === results[results.length - 1]
-                                ? 'rounded-b-2xl'
-                                : '',
-                        )}
-                    >
-                        {item}
+                    <div className="w-full p-2 pl-5 pb-3">
+                        <Text variant="label" className="text-secondary"> {item} </Text> 
                     </div>
                 ) : (
-                    <div
-                        className={cn(
-                            'block w-96  bg-base py-3 pl-10 pr-6 tracking-wide text-white  placeholder:overflow-visible placeholder:text-base-content placeholder:opacity-50 focus:outline-none ',
-                            active ? 'bg-[#999999]' : ' ',
-                            item === results[results.length - 1]
-                                ? 'rounded-b-2xl'
-                                : '',
-                        )}
-                    >
-                        {item.name}
-                    </div>
+                    <SearchElement item={item.name} isActive={active} isOnlyItem={results.length === 1} />
                 )
             }
         />
@@ -78,11 +69,14 @@ const actions = [
 const Search = props => (
     <KBarProvider actions={actions}>
         <KBarPortal>
-            <KBarPositioner>
-                <KBarAnimator>
+            <KBarPositioner className="z-[200] bg-base bg-opacity-50 backdrop-blur-sm">
+                {/* <Card className="h-fit w-fit overflow-hidden transition-all duration-300 ease-out"> */}
+                <KBarAnimator className="w-[600px] overflow-hidden bg-base bg-opacity-70 backdrop-blur-lg firefox:bg-opacity-90 rounded-3xl text-white border border-white"> {/* TODO: Don't copy styling from `Card`-component - reuse it!  bg-base bg-opacity-70 backdrop-blur-lg firefox:bg-opacity-90 rounded-3xl text-white border border-white*/} 
                     <SearchBar />
+                    <div className="h-px w-full bg-line" />
                     <RenderResults />
                 </KBarAnimator>
+                {/* </Card> */}
             </KBarPositioner>
         </KBarPortal>
         {props.children}
