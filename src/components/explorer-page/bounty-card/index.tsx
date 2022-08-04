@@ -36,7 +36,7 @@ const BountyCard = ({
         <a>
             <Card
                 className={cn(
-                    'flex h-fit w-98 flex-shrink-0 flex-col items-start justify-between gap-5 p-6 hover:bg-base',
+                    'flex h-fit w-98 flex-shrink-0 flex-col items-start justify-between gap-5 p-6 hover:bg-base snap-start',
                     responsive && '!w-full 2lg:flex-row 2lg:items-center',
                 )}
             >
