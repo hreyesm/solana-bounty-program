@@ -17,7 +17,15 @@ function RenderResults() {
             items={results}
             onRender={({ item, active }) =>
                 typeof item === 'string' ? (
-                    <div className="block w-96 rounded-2xl bg-base py-3 pl-10 pr-6 tracking-wide text-white  placeholder:overflow-visible placeholder:text-base-content placeholder:opacity-50 focus:outline-none ">
+                    <div
+                        className={cn(
+                            'block w-96  bg-base py-3 pl-10 pr-6 tracking-wide text-white  placeholder:overflow-visible placeholder:text-base-content placeholder:opacity-50 focus:outline-none ',
+                            active ? 'bg-[#999999]' : ' ',
+                            item === results[results.length - 1]
+                                ? 'rounded-b-2xl'
+                                : '',
+                        )}
+                    >
                         {item}
                     </div>
                 ) : (
@@ -64,7 +72,7 @@ const actions = [
         name: 'Zeyad Tarek',
         shortcut: ['c'],
         keywords: 'student',
-        perform: () => (window.location.pathname = 'zeyad'),
+        perform: () => (window.location.pathname = 'zeyadtarekk'),
     },
 ];
 const Search = props => (
