@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { cn } from 'utils';
 
 /**
@@ -17,6 +18,7 @@ type TextProps = {
         | 'input'
         | 'label';
     className?: string;
+    href?: string;
     children?: React.ReactNode;
 };
 
@@ -45,8 +47,18 @@ const variants = {
  * @param className Custom classes to be applied to the element.
  * @param children Child elements to be rendered within the component.
  */
-const Text = ({ variant, className, children}: TextProps) => (
-    <text className={cn(className, variants[variant])}>{children}</text>
+const Text = ({ variant, className, href, children}: TextProps) => (
+    <text className={cn(className, variants[variant])}> 
+        {href ? (
+            <Link href={href}>
+                <a className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
+                    {children}
+                </a>
+            </Link>
+        ) : (
+            children
+        )}                    
+    </text>
 );
 
 export default Text;

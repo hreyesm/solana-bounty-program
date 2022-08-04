@@ -7,7 +7,7 @@ import NavElement from './nav-element';
 import OverflowMenu from 'components/common/overflow-menu';
 
 const Header = () => (
-    <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between border-b-1.5 border-b-line bg-black/25 px-6 backdrop-blur-xl backdrop-filter">
+    <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between border-b-1.5 border-b-line bg-black bg-opacity-40 px-6 backdrop-blur-xl">
         <Link href="/" passHref>
             <div className="flex w-fit flex-row items-center gap-3">
                 <Image
@@ -34,16 +34,16 @@ const Header = () => (
             <div className="h-1/2 w-px bg-line" />
 
             <div className="flex h-full flex-row items-center gap-3 md:gap-5">
-                <Button variant="transparent" className="hidden md:flex">
-                    <MdOutlineSearch className="aspect-square h-4" />
-                    <Chip value="CTRL + K" />
+                <Button variant="transparent" icon={MdOutlineSearch} className="hidden md:flex group">
+                    <div className="flex gap-0.5">
+                        <kbd className="kbd kbd-xs bg-black/50 group-hover:text-white group-hover:bg-black/80"> ctrl </kbd>
+                        <kbd className="kbd kbd-xs bg-black/50 group-hover:text-white group-hover:bg-black/80"> k </kbd>
+                    </div>
                 </Button>
 
-                <Button variant="transparent" className="flex md:hidden">
-                    <MdOutlineSearch className="aspect-square h-4" />
-                </Button>
+                <Button variant="transparent" icon={MdOutlineSearch} className="flex md:hidden" />
 
-                <div className="hidden h-1/2 w-px bg-line md:inline" />
+                <div className="h-1/2 w-px bg-line hidden md:inline" />
 
                 <OverflowMenu />
             </div>

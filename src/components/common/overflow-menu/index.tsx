@@ -1,44 +1,37 @@
-import { MdCheck, MdContentCopy, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
-import { DiGithubAlt } from 'react-icons/di';
+import { MdLink, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
 import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
 import { useRef, useState } from 'react';
-
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import Card from '../card';
 import Link from 'next/link';
 import Text from '../text';
-import { User } from '@supabase/supabase-js';
 import Chip from '../chip';
 import Button from '../button';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import Image from '../image';
 
-type OverflowMenuProps = {
-    user: User;
-    signIn: () => Promise<void>;
-    signOut: () => Promise<void>;
-};
-
-const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
+const OverflowMenu = () => {
     const buttonRef = useRef();
+    const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
+
     // test variables for wallet will be removed later
     const walletAddress = 'FNfUy8Qp6C9NCD6cz9xHLYSL7n3eFX8LfY1zDx6RcE8G';
     const wallet = true;
+
+    const onProfileClick = async () => {
+        if (session) {
+            await signOut();
+        } else {
+            await signIn('github');
+        }
+    };
 
     return (
         <>
             <div className="dropdown-end dropdown">
                 <label tabIndex={0}>
                     <div className="flex flex-row items-center gap-3">
-                        {user && (
-                            <Text variant="label">
-                                <Link
-                                    href={`${user.user_metadata.user_name}`}
-                                    passHref
-                                >
-                                    {user.user_metadata.user_name}
-                                </Link>
-                            </Text>
-                        )}
                         <Button
                             variant="orange"
                             icon={MdOutlineManageAccounts}
@@ -62,14 +55,22 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                                     Profile{' '}
                                 </Text>
                                 <Text
-                                    variant="nav"
-                                    className={user && 'text-primary'}
+                                    variant="nav-heading"
+                                    className={session && 'text-primary'}
                                 >
-                                    {user
-                                        ? user.user_metadata.user_name
-                                        : 'Sign in with GitHub'}
+                                    {session ? (
+                                        <Link
+                                            href={`/${session.login}`}
+                                            onClick={() => setMenuOpen(false)}
+                                            passHref
+                                        >
+                                            {session.login}
+                                        </Link>
+                                    ) : (
+                                        'Sign in with GitHub'
+                                    )}
                                 </Text>
-                                {!user ? (
+                                {!session ? (
                                     <Text
                                         variant="label"
                                         className="!normal-case text-secondary"
@@ -79,18 +80,32 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                                         bounties.
                                     </Text>
                                 ) : (
-                                    <Chip value="Lv. 1" />
+                                    <div className="flex flex-row items-center gap-1">
+                                        <Chip
+                                            highlightValue="0"
+                                            value="Bounties"
+                                        />
+                                        <Chip value="Lv. 1" />
+                                    </div>
                                 )}
                             </div>
-                            {/* User's profile image instead of `DiGithubAlt`. */}
-                            {user && <DiGithubAlt size={25} />}
+                            {session && (
+                                // eslint-disable-next-line jsx-a11y/alt-text
+                                <Image
+                                    src={session.user.image}
+                                    // alt={session.login}
+                                    height={40}
+                                    className="aspect-square"
+                                    style={{ borderRadius: '50%' }}
+                                />
+                            )}
                         </div>
                         <Button
-                            text={'Sign ' + (user ? 'out' : 'in')}
-                            icon={user ? MdLogout : TbBrandGithub}
-                            variant={user ? 'danger' : 'orange'}
+                            text={'Sign ' + (session ? 'out' : 'in')}
+                            icon={session ? MdLogout : TbBrandGithub}
+                            variant={session ? 'danger' : 'orange'}
                             className="!w-full"
-                            onClick={user ? signOut : signIn}
+                            onClick={onProfileClick}
                         />
                     </div>
                     <div className="h-px w-full bg-line" />
@@ -104,7 +119,7 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                                     {' '}
                                     Wallet{' '}
                                 </Text>
-                                <Text variant="nav">
+                                <Text variant="nav-heading">
                                     {wallet
                                         ? 'Phantom'
                                         : 'Connect your crypto wallet'}
@@ -121,17 +136,14 @@ const OverflowMenu = ({ user, signIn, signOut }: OverflowMenuProps) => {
                                         </Text>
                                     </>
                                 ) : (
-                                    <div
-                                        className=" max-w-ful w-fit"
-                                        data-tip="Copied!"
-                                    >
+                                    <div className="flex flex-row items-center gap-1">
                                         <Chip
                                             highlightValue={walletAddress}
-                                            // icon={MdContentCopy}
-                                            className="w-72 !normal-case sm:w-44"
-                                            interactive={true}
-                                            copyable={true}
+                                            icon={MdLink}
+                                            className="w-60 !normal-case sm:w-28"
+                                            href={`https://explorer.solana.com/address/${walletAddress}`}
                                         />
+                                        <Chip copyValue={walletAddress} />
                                     </div>
                                 )}
                             </div>
