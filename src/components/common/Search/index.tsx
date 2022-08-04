@@ -29,9 +29,6 @@ function RenderResults() {
                                 ? 'rounded-b-2xl'
                                 : '',
                         )}
-                        // style={{
-                        //     background: active ? '#eee' : 'transparent',
-                        // }}
                     >
                         {item.name}
                     </div>
