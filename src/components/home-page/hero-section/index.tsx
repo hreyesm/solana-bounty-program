@@ -38,7 +38,7 @@ const HeroSection = () => {
                     background: `radial-gradient(circle at center 30%, rgba(240, 117, 70, 0.765) 0%, rgba(203, 68, 184, 0) 40%, rgba(219, 65, 75, 0) 40%)`,
                 }}
             ></div>
-            <div className="relative z-40 flex h-full w-full flex-col items-center justify-evenly px-4 pt-20 text-left sm:px-8 sm:pt-10 md:items-start md:px-16 lg:px-32 xl:px-64">
+            <div className="relative flex h-full w-full flex-col items-center justify-evenly px-4 pt-20 text-left sm:px-8 sm:pt-10 md:items-start md:px-16 lg:px-32 xl:px-64">
                 <Text variant="hero" className="text-white"> 
                     <span style={{ color: '#F07546' }}>Bounties</span> are here.
                     <br />
