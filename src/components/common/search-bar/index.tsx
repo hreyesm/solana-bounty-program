@@ -2,16 +2,8 @@ import { MdOutlineSearch } from 'react-icons/md';
 import * as React from 'react';
 import { VisualState, useKBar } from 'kbar';
 
-export const KBAR_LISTBOX = 'kbar-listbox';
-export const getListboxItemId = (id: number) => `kbar-listbox-item-${id}`;
-/*const SearchBar = () => (
-    // <input
-    //     autoFocus
-    //     className="block w-96 rounded-2xl bg-base py-3 pl-10 pr-6 tracking-wide text-white  placeholder:overflow-visible placeholder:text-base-content placeholder:opacity-50 focus:outline-none "
-    //     placeholder="Search for anything.."
-    //     type="text"
-    // />
-); */
+const KBAR_LISTBOX = 'kbar-listbox';
+const getListboxItemId = (id: number) => `kbar-listbox-item-${id}`;
 
 function SearchBar(
     props: React.InputHTMLAttributes<HTMLInputElement> & {
