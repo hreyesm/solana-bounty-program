@@ -1,7 +1,7 @@
 import { MdOutlineSearch } from 'react-icons/md';
 import * as React from 'react';
 import { VisualState, useKBar } from 'kbar';
-
+import Card from '../card';
 const KBAR_LISTBOX = 'kbar-listbox';
 const getListboxItemId = (id: number) => `kbar-listbox-item-${id}`;
 
