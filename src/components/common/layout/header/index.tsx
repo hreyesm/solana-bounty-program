@@ -45,7 +45,7 @@ const Header = () => {
                         </div>
                     </Button>
 
-                    <Button variant="transparent" icon={MdOutlineSearch} className="flex md:hidden" />
+                    <Button variant="transparent" icon={MdOutlineSearch} className="flex md:hidden" onClick={query.toggle} />
 
                     <div className="h-1/2 w-px bg-line hidden md:inline" />
 
