@@ -24,11 +24,13 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                 content: <BountyList bounties={bounties} />,
                 id: 'open',
                 label: 'Open',
+                amount: '15'
             },
             {
                 content: null,
                 id: 'closed',
                 label: 'Closed',
+                amount: '30'
             },
         ],
         [bounties],
@@ -61,7 +63,7 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                                     href={`/${username}?tab=${tab.id}`}
                                     key={tab.id}
                                     label={tab.label}
-                                    chipLabel="30" // Amount of bounties in each category.
+                                    chipLabel={tab.amount}// Amount of bounties in each category.
                                     scroll={false} // TODO: Scroll to navbar position.
                                 />
                             ))}
