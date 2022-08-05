@@ -58,6 +58,7 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                                 href={`/${username}?tab=${tab.id}`}
                                 key={tab.id}
                                 label={tab.label}
+                                chipLabel="30";
                                 scroll={false} // TODO: Scroll to navbar position.
                             />
                         ))}

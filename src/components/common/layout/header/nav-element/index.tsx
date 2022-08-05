@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Text from 'components/common/text';
 import { cn } from 'utils';
 import { useRouter } from 'next/router';
+import Chip from 'components/common/chip';
 
 /**
  * Properties for an interactable navigation element.
@@ -12,9 +13,10 @@ type NavElementProps = {
     href: string;
     as?: string;
     scroll?: boolean;
+    chipLabel?: string;
 };
 
-const NavElement = ({ label, href, as, scroll }: NavElementProps) => {
+const NavElement = ({ label, href, as, scroll, chipLabel }: NavElementProps) => {
     const router = useRouter();
     const isActive = href === router.asPath || (as && as === router.asPath);
 
@@ -25,7 +27,12 @@ const NavElement = ({ label, href, as, scroll }: NavElementProps) => {
                     'group flex h-full flex-col items-center justify-between',
                 )}
             >
-                <Text variant="nav-heading"> {label} </Text>
+                <div className="flex flex-row items-center gap-2">
+                    <Text variant="nav-heading"> {label} </Text>
+                    {chipLabel && (
+                        <Chip highlightValue={chipLabel} />
+                    )}
+                </div>
 
                 <div
                     className={cn(
