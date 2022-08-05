@@ -27,7 +27,7 @@ const NavElement = ({ label, href, as, scroll, chipLabel }: NavElementProps) => 
                     'group flex h-full flex-col items-center justify-between',
                 )}
             >
-                <div className="flex flex-row items-center gap-2">
+                <div className="flex flex-row items-center gap-3">
                     <Text variant="nav-heading"> {label} </Text>
                     {chipLabel && (
                         <Chip highlightValue={chipLabel} />

@@ -53,12 +53,17 @@ module.exports = {
                 });
                 isFirefoxRule.append(container.nodes);
                 container.append(isFirefoxRule);
-                isFirefoxRule.walkRules((rule) => {
+                isFirefoxRule.walkRules(rule => {
                     rule.selector = `.${e(
                         `firefox${separator}${rule.selector.slice(1)}`
                     )}`;
                 });
             });
+        }),
+        plugin(function({ addVariant, e }) {
+            addVariant('group-focus-within', ({ modifySelectors, separator }) => {
+                modifySelectors(({ className }) => `.group:focus-within .${e(`group-focus-within${separator}${className}`)}`)
+            })
         }),
     ],
 };

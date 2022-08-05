@@ -9,6 +9,8 @@ import { User } from 'types/user';
 import NavElement from 'components/common/layout/header/nav-element';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
+import { MdOutlineSearch } from 'react-icons/md';
+import FilterBar from 'components/common/bounty-list/filter-bar';
 
 type ProfilePageProps = {
     bounties: Bounty[];
@@ -51,17 +53,21 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                 <div className="flex flex-col gap-7">
                     <Text variant="big-heading"> Bounties </Text>
                     
-                    <div className="sticky top-20 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-black pt-4">
-                        {tabs.map((tab, index) => (
-                            <NavElement
-                                as={index === 0 && `/${username}`}
-                                href={`/${username}?tab=${tab.id}`}
-                                key={tab.id}
-                                label={tab.label}
-                                chipLabel="30" // Amount of bounties in each category
-                                scroll={false} // TODO: Scroll to navbar position.
-                            />
-                        ))}
+                    <div className="sticky top-20 -mt-px h-16 flex flex-row justify-between border-b-1.5 border-b-line bg-black pt-4">
+                        <div className="h-full flex flex-row gap-8">
+                            {tabs.map((tab, index) => (
+                                <NavElement
+                                    as={index === 0 && `/${username}`}
+                                    href={`/${username}?tab=${tab.id}`}
+                                    key={tab.id}
+                                    label={tab.label}
+                                    chipLabel="30" // Amount of bounties in each category.
+                                    scroll={false} // TODO: Scroll to navbar position.
+                                />
+                            ))}
+                        </div>
+
+                        <FilterBar />
                     </div>
 
                     {currentTab.content}
