@@ -50,7 +50,7 @@ const Hero = ({ avatarUrl, fullName, isCurrentUser, username }: HeroProps) => (
                                 To next: <span className="text-danger font-medium"> 4 </span> 
 
                                 <div className="tooltip" data-tip="Complete bounties to earn levels">
-                                    <MdInfoOutline size={13} className="aspect-square" />
+                                    <MdInfoOutline size={15} className="aspect-square" />
                                 </div>
                             </Text>
                         </div>
