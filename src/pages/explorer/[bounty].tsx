@@ -11,6 +11,7 @@ import Text from 'components/common/text';
 import { getBountyWithDrillInfo } from 'lib/github';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
+import FundTab from 'components/detail-page/fund-tab';
 
 type BountyDetailsPageProps = {
     bounty: BountyWithDrillInfo;
@@ -27,7 +28,7 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                 label: 'About',
             },
             {
-                content: null,
+                content: <FundTab />,
                 id: 'fund',
                 label: 'Fund',
             },
@@ -88,7 +89,6 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
             </div>
 
             <section className="flex flex-col gap-5">
-                <Text variant="big-heading">{currentTab.label}</Text>
                 {currentTab.content}
             </section>
         </div>
