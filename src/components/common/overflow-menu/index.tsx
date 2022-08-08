@@ -1,7 +1,7 @@
 import { MdLink, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
 import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
 import { useRef, useState } from 'react';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { WalletMultiButton } from '../wallet-adapter';
 import Card from '../card';
 import Link from 'next/link';
 import Text from '../text';
