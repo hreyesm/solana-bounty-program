@@ -36,9 +36,7 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
         [bounties],
     );
 
-    const { fullName, isCurrentUser, username } = user;
-    const firstName = fullName ? fullName.split(' ')[0] : username;
-    const bountyListTitlePronoun = isCurrentUser ? 'My' : `${firstName}'s`;
+    const { username } = user;
 
     const router = useRouter();
     const currentTabId = (router.query.tab as string) || tabs[0].id;
@@ -55,7 +53,7 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                 <div className="flex flex-col gap-7 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">
                     <Text variant="big-heading"> Bounties </Text>
                     
-                    <div className="sticky top-20 -mt-px h-16 flex flex-row justify-between border-b-1.5 border-b-line bg-black pt-4 z-50">
+                    <div className="sticky top-20 -mt-px h-16 flex flex-row justify-between border-b-1.5 border-b-line bg-black pt-4 z-30">
                         <div className="h-full flex flex-row gap-8">
                             {tabs.map((tab, index) => (
                                 <NavElement

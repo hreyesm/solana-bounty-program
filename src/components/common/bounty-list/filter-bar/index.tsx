@@ -13,7 +13,7 @@ const FilterBar = () => (
         <div className="flex flex-row items-center gap-3">
             <MdOutlineSearch size={20} className="text-white" />
             <input
-                className="outline-none bg-transparent w-32 text-sm tracking-wide text-secondary"
+                className="outline-none bg-transparent w-32 text-sm tracking-wide text-secondary valid:text-primary"
                 // onChange={onSearchInputChange}
                 placeholder="Filter bounties..."
                 type="text"
@@ -23,7 +23,7 @@ const FilterBar = () => (
         <div
             className={cn(
                 'h-1 w-1/4 transition-all duration-300 ease-out',
-                'group-focus-within:w-full group-focus-within:bg-primary group-valid:w-full',
+                'group-focus-within:w-full group-focus-within:bg-primary group-valid-within:w-full',
                 'group-hover:w-1/2 group-hover:bg-primary-focus',
             )}
         />
