@@ -1,16 +1,15 @@
 import { GetServerSideProps, NextPage } from 'next';
+import React, { useMemo } from 'react';
 import { getBountiesByAsignee, getUser } from 'lib/github';
 
 import { Bounty } from 'types/bounty';
 import BountyList from 'components/common/bounty-list';
+import FilterBar from 'components/common/bounty-list/filter-bar';
 import Hero from 'components/profile-page/hero';
+import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
 import { User } from 'types/user';
-import NavElement from 'components/common/layout/header/nav-element';
-import { useMemo } from 'react';
 import { useRouter } from 'next/router';
-import { MdOutlineSearch } from 'react-icons/md';
-import FilterBar from 'components/common/bounty-list/filter-bar';
 
 type ProfilePageProps = {
     bounties: Bounty[];
@@ -18,27 +17,35 @@ type ProfilePageProps = {
 };
 
 const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
+    const closedBounties = bounties.filter(({ state }) => state === 'closed');
+    const openBounties = bounties.filter(({ state }) => state === 'open');
+
     const tabs = useMemo(
         () => [
             {
-                content: <BountyList bounties={bounties} />,
+                content: (
+                    <BountyList bounties={openBounties} key="open-bounties" />
+                ),
                 id: 'open',
                 label: 'Open',
-                amount: '15'
+                amount: openBounties.length,
             },
             {
-                content: null,
+                content: (
+                    <BountyList
+                        bounties={closedBounties}
+                        key="closed-bounties"
+                    />
+                ),
                 id: 'closed',
                 label: 'Closed',
-                amount: '30'
+                amount: closedBounties.length,
             },
         ],
-        [bounties],
+        [closedBounties, openBounties],
     );
 
-    const { fullName, isCurrentUser, username } = user;
-    const firstName = fullName ? fullName.split(' ')[0] : username;
-    const bountyListTitlePronoun = isCurrentUser ? 'My' : `${firstName}'s`;
+    const { username } = user;
 
     const router = useRouter();
     const currentTabId = (router.query.tab as string) || tabs[0].id;
@@ -54,16 +61,16 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                 <Hero {...user} />
                 <div className="flex flex-col gap-7 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">
                     <Text variant="big-heading"> Bounties </Text>
-                    
-                    <div className="sticky top-20 -mt-px h-16 flex flex-row justify-between border-b-1.5 border-b-line bg-black pt-4 z-50">
-                        <div className="h-full flex flex-row gap-8">
+
+                    <div className="sticky top-20 z-50 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black pt-4">
+                        <div className="flex h-full flex-row gap-8">
                             {tabs.map((tab, index) => (
                                 <NavElement
                                     as={index === 0 && `/${username}`}
                                     href={`/${username}?tab=${tab.id}`}
                                     key={tab.id}
                                     label={tab.label}
-                                    chipLabel={tab.amount}// Amount of bounties in each category.
+                                    chipLabel={tab.amount.toString()} // Amount of bounties in each category.
                                     scroll={false} // TODO: Scroll to navbar position.
                                 />
                             ))}
