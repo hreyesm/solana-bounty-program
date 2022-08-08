@@ -2,7 +2,7 @@ import Button from "components/common/button";
 import Card from "components/common/card";
 import Chip from "components/common/chip";
 import Text from "components/common/text";
-import { MdInfoOutline, MdLink, MdOutlinePayments, MdOutlineSearch } from "react-icons/md";
+import { MdInfoOutline, MdOutlinePayments } from "react-icons/md";
 import { TbWallet } from "react-icons/tb";
 import TransactionCard from "./transaction-card";
 
