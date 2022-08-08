@@ -2,7 +2,7 @@ import Button from "components/common/button";
 import Card from "components/common/card";
 import Chip from "components/common/chip";
 import Text from "components/common/text";
-import { MdInfoOutline, MdOutlinePayments } from "react-icons/md";
+import { MdInfoOutline, MdLink, MdOutlinePayments } from "react-icons/md";
 import { TbWallet } from "react-icons/tb";
 import TransactionCard from "./transaction-card";
 
@@ -12,9 +12,9 @@ const FundTab = () => {
     return (
         <section
             title="actions"
-            className="flex flex-row gap-5"
+            className="flex flex-col md:flex-row gap-10"
         >
-            <div className="flex flex-col gap-7 w-fit">
+            <div className="flex flex-col gap-7 w-full">
                 <div className="flex flex-col gap-5 w-full">
                     <Text variant="heading" className="flex-shrink-0 whitespace-nowrap"> Current reward </Text>
                     <Card className="flex flex-col gap-3 p-5 w-full !bg-gradient-to-tr from-primary/75 to-secondary/75 border-none">
@@ -77,7 +77,7 @@ const FundTab = () => {
             <div className="flex flex-col gap-5">
                 <Text variant="heading"> Recent donations </Text>
 
-                <div className="flex flex-col gap-3 w-98">
+                <div className="flex flex-col gap-3 w-full md:w-98">
                     <div className="flex flex-row justify-between gap-3 px-3 text-base-content">
                         <div className="flex flex-row items-center w-2/3 gap-3">
                             <Text variant="label" className="w-2/3"> Signature </Text>
@@ -89,7 +89,37 @@ const FundTab = () => {
                         </div>
                     </div>
 
-                    <div className="flex-col gap-3">
+                    <div className="flex flex-col gap-3">
+                        <TransactionCard
+                            signature="3ddYMpSzCPx4cBAqxnj7ZhDmbphbd8ebQb2xLGYe2qYTVsQTYpsW1D1DCjenMvcbb9RC7PQWj8Np3rkhEqxGZpxc"
+                            amount={300}
+                            date="Aug 08"
+                            status="success"
+                        />
+                        <TransactionCard
+                            signature="3ddYMpSzCPx4cBAqxnj7ZhDmbphbd8ebQb2xLGYe2qYTVsQTYpsW1D1DCjenMvcbb9RC7PQWj8Np3rkhEqxGZpxc"
+                            amount={300}
+                            date="Aug 08"
+                            status="failed"
+                        />
+                        <TransactionCard
+                            signature="3ddYMpSzCPx4cBAqxnj7ZhDmbphbd8ebQb2xLGYe2qYTVsQTYpsW1D1DCjenMvcbb9RC7PQWj8Np3rkhEqxGZpxc"
+                            amount={300}
+                            date="Aug 08"
+                            status="pending"
+                        />
+                        <TransactionCard
+                            signature="3ddYMpSzCPx4cBAqxnj7ZhDmbphbd8ebQb2xLGYe2qYTVsQTYpsW1D1DCjenMvcbb9RC7PQWj8Np3rkhEqxGZpxc"
+                            amount={300}
+                            date="Aug 08"
+                            status="success"
+                        />
+                        <TransactionCard
+                            signature="3ddYMpSzCPx4cBAqxnj7ZhDmbphbd8ebQb2xLGYe2qYTVsQTYpsW1D1DCjenMvcbb9RC7PQWj8Np3rkhEqxGZpxc"
+                            amount={300}
+                            date="Aug 08"
+                            status="failed"
+                        />
                         <TransactionCard
                             signature="3ddYMpSzCPx4cBAqxnj7ZhDmbphbd8ebQb2xLGYe2qYTVsQTYpsW1D1DCjenMvcbb9RC7PQWj8Np3rkhEqxGZpxc"
                             amount={300}
