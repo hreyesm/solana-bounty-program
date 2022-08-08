@@ -50,7 +50,7 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
     );
 
     return (
-        <div className="flex flex-col gap-8 p-5 text-white sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+        <div className="flex flex-col gap-8 p-5 text-white !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
             <div className="flex flex-row items-center justify-between">
                 <Link href="/explorer" passHref>
                     <a>

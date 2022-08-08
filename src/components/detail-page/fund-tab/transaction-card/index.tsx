@@ -19,7 +19,7 @@ const statuses = {
 
 const TransactionCard = ({width, signature, amount, date, status}: TransactionCardProps) => (
     <a href={`https://explorer.solana.com/tx/${signature}?cluster=devnet`} target="_blank" rel="noreferrer">
-        <Card className="flex flex-row justify-between items-center gap-3 p-3 !rounded-lg">
+        <Card className="flex flex-row justify-between items-center gap-3 p-3 !rounded-lg hover:bg-opacity-[97%] transition-all duration-300">
             <div className="flex flex-row items-center gap-3 w-2/3">
                 <Text variant="sub-paragraph" className="w-2/3 overflow-hidden text-ellipsis whitespace-nowrap text-base-content"> {signature} </Text>
                 <Text variant="sub-paragraph" className="w-1/3 !text-primary"> {amount} </Text>

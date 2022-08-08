@@ -2,7 +2,7 @@ import Button from "components/common/button";
 import Card from "components/common/card";
 import Chip from "components/common/chip";
 import Text from "components/common/text";
-import { MdInfoOutline, MdLink, MdOutlinePayments } from "react-icons/md";
+import { MdInfoOutline, MdOutlinePayments } from "react-icons/md";
 import { TbWallet } from "react-icons/tb";
 import TransactionCard from "./transaction-card";
 
@@ -29,7 +29,7 @@ const FundTab = () => {
                         <Text variant="heading"> Send payment </Text>
                         <Text variant="label" className="text-secondary !normal-case"> Choose between... </Text>
                     </div>
-                    <div className="flex flex-row gap-7 h-min">
+                    <div className="flex flex-row gap-7">
                         <div className="w-fit flex flex-col gap-5">
                             <Text variant="label" className="w-full flex flex-row items-center justify-between">
                                 Solana Pay
@@ -41,7 +41,7 @@ const FundTab = () => {
                             <div className="h-40 aspect-square rounded-lg bg-white" />
                         </div>
                         <div className="w-px h-48 bg-line" />
-                        <div className="flex flex-col gap-5 h-full">
+                        <div className="flex flex-col gap-5 h-full w-full max-w-full">
                             <Text variant="label"> Using your wallet </Text>
                             <div className="flex flex-col gap-2">
                                 <Card className="flex flex-row items-center justify-between p-5">
@@ -54,19 +54,19 @@ const FundTab = () => {
                                         <TbWallet size={25} />
                                     </div>
                                 </Card>
-                                <div className="flex flex-row gap-2">
-                                    <div className="group flex flex-row items-center justify-between h-11 px-5 py-3 rounded-full border border-white text-white background-transparent w-full">
+                                <div className="flex flex-row flex-wrap gap-2">
+                                    <div className="group flex flex-row gap-3 items-center justify-between flex-[1_1_fit-content] h-11 min-w-fit px-5 py-3 rounded-full border border-white text-white background-transparent w-full">
                                         <div className="flex flex-row items-center gap-3">
                                             <MdOutlinePayments size={20} />
                                             <input
-                                                className="outline-none bg-transparent text-sm tracking-wide text-secondary valid:text-primary"
+                                                className="w-28 outline-none bg-transparent text-sm tracking-wide text-secondary valid:text-primary"
                                                 placeholder="Enter amount..."
                                                 type="text"
                                             />
                                         </div>
                                         <Text variant="label"> SOL </Text>
                                     </div>
-                                    <Button variant="orange" text="Send" />
+                                    <Button variant="orange" text="Send" className="flex-[2_2_fit-content]" />
                                 </div>
                             </div>
                         </div>
