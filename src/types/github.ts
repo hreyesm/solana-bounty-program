@@ -7,7 +7,7 @@ type Issue = {
     labels: { name: string }[];
     number: number;
     title: string;
-    state: 'open' | 'close';
+    state: 'open' | 'closed';
     user: User;
 };
 
