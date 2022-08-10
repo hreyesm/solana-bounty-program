@@ -1,14 +1,15 @@
 import { MdLink, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
 import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRef, useState } from 'react';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+
+import Button from '../button';
 import Card from '../card';
+import Chip from '../chip';
+import Image from '../image';
 import Link from 'next/link';
 import Text from '../text';
-import Chip from '../chip';
-import Button from '../button';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import Image from '../image';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 const OverflowMenu = () => {
     const buttonRef = useRef();
@@ -36,7 +37,7 @@ const OverflowMenu = () => {
                             variant="orange"
                             icon={MdOutlineManageAccounts}
                             onClick={() => setMenuOpen(!menuOpen)}
-                            ref={buttonRef}
+                            buttonRef={buttonRef}
                         />
                     </div>
                 </label>

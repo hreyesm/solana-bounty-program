@@ -15,7 +15,7 @@ type ButtonProps = {
     text?: string;
     icon?: IconType;
     children?: React.ReactNode;
-    ref?: React.Ref<HTMLButtonElement>;
+    buttonRef?: React.Ref<HTMLButtonElement>;
     type?: 'button' | 'submit' | 'reset';
 };
 
@@ -42,7 +42,7 @@ const Button = ({
     disabled = false,
     reversed = false,
     onClick,
-    ref,
+    buttonRef,
     type = 'button',
     variant = 'black',
     text: value,
@@ -66,7 +66,7 @@ const Button = ({
         )}
         disabled={disabled}
         onClick={!disabled ? onClick : undefined}
-        ref={ref}
+        ref={buttonRef}
         type={type}
     >
         {icon && React.createElement(icon, { size: 20 })}
