@@ -1,21 +1,17 @@
+import { IconType } from 'react-icons';
 import React from 'react';
 import Text from '../text';
 import { cn } from 'utils';
-import { IconType } from 'react-icons';
 
 /**
  * Properties for an interactable button component.
  */
 type ButtonProps = {
     className?: string;
+    disabled?: boolean;
     reversed?: boolean;
     onClick?: () => void;
-    variant:
-    | 'black'
-    | 'orange'
-    | 'transparent'
-    | 'danger'
-    | 'label';
+    variant: 'black' | 'orange' | 'transparent' | 'danger' | 'label';
     text?: string;
     icon?: IconType;
     children?: React.ReactNode;
@@ -43,6 +39,7 @@ const variants = {
  */
 const Button = ({
     className,
+    disabled = false,
     reversed = false,
     onClick,
     ref,
@@ -50,25 +47,29 @@ const Button = ({
     variant = 'black',
     text: value,
     children,
-    icon
+    icon,
 }: ButtonProps) => (
     <button
         className={cn(
             variants[variant],
-            'flex h-11 max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border transition-all',
-            (variant !== 'label' && variant !== 'danger') &&
+            'disabled: flex h-11 max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border transition-all disabled:cursor-not-allowed disabled:opacity-50',
+            !disabled &&
+                variant !== 'danger' &&
+                variant !== 'label' &&
                 'hover:bg-white hover:!text-black',
-            variant !== 'label' &&
+            !disabled &&
+                variant !== 'label' &&
                 'hover:-translate-y-[0.15rem] active:translate-y-[0.025rem] active:scale-[0.975]',
-            (icon && (!value && !children)) ? 'aspect-square p-3' : 'px-5 py-3',
+            icon && !value && !children ? 'aspect-square p-3' : 'px-5 py-3',
             reversed && 'flex-row-reverse',
             className,
         )}
-        onClick={onClick}
+        disabled={disabled}
+        onClick={!disabled ? onClick : undefined}
         ref={ref}
         type={type}
     >
-        { icon && React.createElement(icon, { size: 20 }) }
+        {icon && React.createElement(icon, { size: 20 })}
         {value && (
             <Text variant={variant === 'label' ? 'label' : 'input'}>
                 {value}
