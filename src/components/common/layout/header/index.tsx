@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { MdOutlineSearch } from 'react-icons/md';
 import NavElement from './nav-element';
 import OverflowMenu from 'components/common/overflow-menu';
+import Text from 'components/common/text';
 import { useKBar } from 'kbar';
 
 const Header = () => {
@@ -13,20 +14,23 @@ const Header = () => {
     return (
         <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between border-b-1.5 border-b-line bg-black bg-opacity-40 px-6 backdrop-blur-xl">
             <Link href="/" passHref>
-                <div className="flex w-fit flex-row items-center gap-3">
+                <div className="flex w-fit flex-row items-center gap-3 md:gap-6">
                     <Image
                         src="/logo-icon.svg"
                         alt="solana icon"
                         width={29.16}
                         height={26.08}
                     />
-                    <Image
-                        src="/logo-text.svg"
-                        alt="solana text"
-                        className="hidden md:inline"
-                        width={134.46}
-                        height={20.1}
-                    />
+                    <div className="flex flex-row items-center gap-3">
+                        <Image
+                            src="/logo-text.svg"
+                            alt="solana text"
+                            className="hidden md:inline"
+                            width={134.46}
+                            height={20.1}
+                        />
+                        <Text variant="label" className="text-white font-thin !tracking-widest"> Bounty </Text>
+                    </div>
                 </div>
             </Link>
             <div className="flex h-full flex-row items-center gap-5 text-white">
