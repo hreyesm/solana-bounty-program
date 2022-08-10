@@ -10,6 +10,8 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@heavy-duty/anchor": "^0.24.2-2",
+        "@solana/spl-token": "^0.2.0",
         "@solana/wallet-adapter-base": "^0.9.3",
         "@solana/wallet-adapter-react": "^0.15.3",
         "@solana/wallet-adapter-react-ui": "^0.9.5",

@@ -6,7 +6,7 @@ import FeaturedSection from 'components/explorer-page/featured-section';
 import FilterBar from 'components/common/bounty-list/filter-bar';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
-import { getBounties } from 'lib/github';
+import { getBounties } from 'lib';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 

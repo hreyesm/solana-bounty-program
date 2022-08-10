@@ -1,4 +1,5 @@
 import { Bounty } from 'types/bounty';
+import { DrillResponse } from 'types/drill';
 import { Issue } from 'types/github';
 import { formatDate } from 'utils';
 
@@ -21,24 +22,23 @@ const filterBounties = ({ name }: Bounty, rawQuery: string) => {
  *
  * @param issue GitHub issue.
  */
-const toBounty = ({
-    body: mdDescription,
-    created_at: createdAt,
-    number,
-    labels,
-    state,
-    title: name,
-    html_url: githubUrl,
-}: Issue): Bounty => ({
-    createdAt: formatDate(createdAt),
-    id: number,
-    githubUrl,
-    mdDescription,
-    name,
-    reward: 0,
-    state,
-    tags: labels.map(label => ({ value: label.name })),
-});
+const toBounty = (issueWithDrillResponse: Issue & DrillResponse): Bounty => {
+    const { amount, created_at, body, html_url, labels, number, state, title } =
+        issueWithDrillResponse;
+
+    const reward = Number(amount) / 1_000_000;
+
+    return {
+        createdAt: formatDate(created_at),
+        description: body,
+        githubUrl: html_url,
+        id: number,
+        name: title,
+        reward,
+        state,
+        tags: labels.map(label => ({ value: label.name })),
+    };
+};
 
 /**
  * Returns a list of GitHub issues (fetched from the GitHub API) converted to
@@ -46,7 +46,8 @@ const toBounty = ({
  *
  * @param issues GitHub issues.
  */
-const toBountyList = (issues: Issue[]): Bounty[] =>
-    issues.map(issue => toBounty(issue));
+const toBountyList = (
+    issuesWithDrillResponse: (Issue & DrillResponse)[],
+): Bounty[] => issuesWithDrillResponse.map(issue => toBounty(issue));
 
-export { toBounty, toBountyList, filterBounties };
+export { filterBounties, toBounty, toBountyList };
