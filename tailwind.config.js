@@ -7,6 +7,24 @@ module.exports = {
     mode: 'jit',
     content: ['./src/**/*.{js,jsx,ts,tsx}'],
     darkMode: 'media',
+    daisyui: {
+        themes: [
+            {
+                mytheme: {
+            
+                    "primary": "#e37542",
+                    "secondary": "#D926A9",
+                    "accent": "#1FB2A6",
+                    "neutral": "#191D24",
+                    "base-100": "#2A303C",
+                    "info": "#3ABFF8",
+                    "success": "#36D399",
+                    "warning": "#FBBD23",
+                    "error": "#F64B62",
+                },
+            },
+        ],
+    },
     theme: {
         extend: {
             colors: {
