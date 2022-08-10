@@ -16,8 +16,8 @@ const OverflowMenu = () => {
     const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
     const { publicKey, wallet, disconnect } = useWallet();
-    console.log(publicKey)
     const walletAddress = useMemo(() => publicKey?.toBase58(), [publicKey]);
+    const walletName = useMemo(() => wallet?.adapter.name, [wallet]);
 
     const onProfileClick = async () => {
         if (session) {
@@ -121,7 +121,7 @@ const OverflowMenu = () => {
                                 </Text>
                                 <Text variant="nav-heading">
                                     {wallet
-                                        ? 'Phantom'
+                                        ? walletName
                                         : 'Connect your crypto wallet'}
                                 </Text>
                                 {!wallet ? (
