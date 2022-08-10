@@ -2,11 +2,12 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import type { FC } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ButtonProps } from './Button';
-import { Button } from './Button';
+import Button from '../button';
 import { useWalletModal } from './useWalletModal';
 import { WalletConnectButton } from './WalletConnectButton';
 import { WalletIcon } from './WalletIcon';
 import { WalletModalButton } from './WalletModalButton';
+import { TbWallet, TbWalletOff } from 'react-icons/tb';
 
 export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
     const { publicKey, wallet, disconnect } = useWallet();
@@ -66,33 +67,12 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
     if (!base58) return <WalletConnectButton {...props}>{children}</WalletConnectButton>;
 
     return (
-        <div className="wallet-adapter-dropdown">
-            <Button
-                aria-expanded={active}
-                className="wallet-adapter-button-trigger"
-                style={{ pointerEvents: active ? 'none' : 'auto', ...props.style }}
-                onClick={openDropdown}
-                startIcon={<WalletIcon wallet={wallet} />}
-                {...props}
-            >
-                {content}
-            </Button>
-            <ul
-                aria-label="dropdown-list"
-                className={`wallet-adapter-dropdown-list ${active && 'wallet-adapter-dropdown-list-active'}`}
-                ref={ref}
-                role="menu"
-            >
-                <li onClick={copyAddress} className="wallet-adapter-dropdown-list-item" role="menuitem">
-                    {copied ? 'Copied' : 'Copy address'}
-                </li>
-                <li onClick={openModal} className="wallet-adapter-dropdown-list-item" role="menuitem">
-                    Change wallet
-                </li>
-                <li onClick={disconnect} className="wallet-adapter-dropdown-list-item" role="menuitem">
-                    Disconnect
-                </li>
-            </ul>
-        </div>
+        <Button
+            text={'Disconnect'}
+            icon={TbWalletOff}
+            variant="transparent"
+            className="!w-full"
+            onClick={disconnect}
+        />
     );
 };

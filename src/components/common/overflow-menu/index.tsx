@@ -159,7 +159,7 @@ const OverflowMenu = () => {
                         </div>
 
                         <Button
-                            text={(wallet ? 'Dis' : 'C') + 'onnect'}
+                            text={(wallet ? 'Disc' : 'C') + 'onnect'}
                             icon={wallet ? TbWalletOff : TbWallet}
                             variant="transparent"
                             className="!w-full"
