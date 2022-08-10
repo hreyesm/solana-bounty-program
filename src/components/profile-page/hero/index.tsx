@@ -39,7 +39,7 @@ const Hero = ({ avatarUrl, fullName, isCurrentUser, username }: HeroProps) => {
                                     </a>
                                 </Text>
                                 {!isCurrentUser && (
-                                    <Chip value="Level" highlightValue="3" reversed={true} />
+                                    <Chip value="Level" highlightValue={level.toString()} reversed={true} />
                                 )}
                             </div>
                         </div>
