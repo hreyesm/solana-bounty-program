@@ -14,7 +14,7 @@ type TextProps = {
         | 'nav-heading'
         | 'nav'
         | 'paragraph'
-        | 'user'
+        | 'sub-paragraph'
         | 'input'
         | 'label';
     className?: string;
@@ -33,7 +33,7 @@ const variants = {
     'nav-heading': 'text-lg font-medium sm:text-xl',
     nav: 'font-medium',
     paragraph: 'text-lg',
-    user: 'text-base font-medium text-inherit',
+    "sub-paragraph": 'text-base font-medium text-inherit',
     input: 'text-sm uppercase tracking-wide',
     label: 'text-xs uppercase tracking-wide',
 };

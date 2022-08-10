@@ -26,6 +26,7 @@ const toBounty = ({
     created_at: createdAt,
     number,
     labels,
+    state,
     title: name,
     html_url: githubUrl,
 }: Issue): Bounty => ({
@@ -35,6 +36,7 @@ const toBounty = ({
     mdDescription,
     name,
     reward: 0,
+    state,
     tags: labels.map(label => ({ value: label.name })),
 });
 

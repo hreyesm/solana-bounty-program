@@ -1,21 +1,21 @@
+import { IconType } from 'react-icons';
 import React from 'react';
 import Text from '../text';
 import { cn } from 'utils';
-import { IconType } from 'react-icons';
 
 /**
  * Properties for an interactable button component.
  */
 type ButtonProps = {
     className?: string;
+    disabled?: boolean;
     reversed?: boolean;
     onClick?;
-    disabled?: boolean;
     variant: 'black' | 'orange' | 'transparent' | 'danger' | 'label';
     text?: string;
     icon?: IconType;
     children?: React.ReactNode;
-    ref?: React.Ref<HTMLButtonElement>;
+    buttonRef?: React.Ref<HTMLButtonElement>;
     type?: 'button' | 'submit' | 'reset';
 };
 
@@ -39,10 +39,10 @@ const variants = {
  */
 const Button = ({
     className,
+    disabled = false,
     reversed = false,
     onClick,
-    disabled,
-    ref,
+    buttonRef,
     type = 'button',
     variant = 'black',
     text: value,
@@ -52,19 +52,21 @@ const Button = ({
     <button
         className={cn(
             variants[variant],
-            'flex h-11 max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border transition-all',
-            variant !== 'label' &&
+            'disabled: flex h-11 max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border transition-all disabled:cursor-not-allowed disabled:opacity-50',
+            !disabled &&
                 variant !== 'danger' &&
+                variant !== 'label' &&
                 'hover:bg-white hover:!text-black',
-            variant !== 'label' &&
+            !disabled &&
+                variant !== 'label' &&
                 'hover:-translate-y-[0.15rem] active:translate-y-[0.025rem] active:scale-[0.975]',
             icon && !value && !children ? 'aspect-square p-3' : 'px-5 py-3',
             reversed && 'flex-row-reverse',
             className,
         )}
-        onClick={onClick}
         disabled={disabled}
-        ref={ref}
+        onClick={!disabled ? onClick : undefined}
+        ref={buttonRef}
         type={type}
     >
         {icon && React.createElement(icon, { size: 20 })}

@@ -6,6 +6,7 @@ type Bounty = {
     mdDescription: string;
     name: string;
     reward: number;
+    state: 'open' | 'closed';
     tags: { value: string }[];
 };
 
