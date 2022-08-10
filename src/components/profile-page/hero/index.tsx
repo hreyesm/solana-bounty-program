@@ -13,15 +13,8 @@ type HeroProps = User & {
 };
 
 const Hero = ({ avatarUrl, fullName, isCurrentUser, username }: HeroProps) => {
-    const completedBounties = 37;
-
+    const completedBounties = 38;
     const level = bountiesToLevel(completedBounties);
-    const nextLevel = Math.round(levelToBounties(level + 1));
-    const minimumExp = Math.floor(levelToBounties(level));
-    const maxRemainingExp = nextLevel - minimumExp;
-    const remainingExp = nextLevel - completedBounties;
-
-    console.log(minimumExp, remainingExp, maxRemainingExp);
 
     return (
         <div className="flex flex-col">
@@ -56,18 +49,24 @@ const Hero = ({ avatarUrl, fullName, isCurrentUser, username }: HeroProps) => {
                 {isCurrentUser && (
                     <div className="flex flex-row items-center gap-5 h-min">
                         <div className="flex flex-col gap-2 h-full w-52">
-                            <div className="flex flex-row justify-between items-center">
-                                <Chip value="Level" highlightValue={level.toString()} reversed={true} />
-                                <Text variant="label" className="flex flex-row items-center gap-1 text-secondary !normal-case">
-                                    To next: <span className="text-danger font-medium"> {remainingExp} </span> 
+                            <div className="flex flex-row gap-1 items-center">
+                                {/* <Chip value="Level" highlightValue={level.toString()} reversed={true} /> */}
 
-                                    <div className="tooltip" data-tip="Complete bounties to earn levels">
-                                        <MdInfoOutline size={15} className="aspect-square" />
-                                    </div>
+                                <Text variant="label" className="flex flex-row items-center gap-1 text-secondary !normal-case">
+                                    Level <span className="text-primary font-medium"> {level} </span> 
                                 </Text>
+
+                                {/* <Text variant="label" className="flex flex-row items-center gap-1 text-secondary !normal-case">
+                                    To next: <span className="text-danger font-medium"> {remainingExp} </span> 
+                            </Text> */}
+
+                                <div className="tooltip" data-tip="Complete bounties to earn levels">
+                                    <MdInfoOutline size={15} className="aspect-square" />
+                                </div>
                             </div>
-                            <progress className="progress progress-error bg-base/75" value={maxRemainingExp - remainingExp} max={maxRemainingExp} />
+                            <progress className="progress progress-error bg-base/75" value={level} max={100} />
                         </div>
+                        <div className="h-11 w-px bg-line" />
                         <Button icon={MdOutlineEdit} variant="orange" />
                     </div>
                 )}
