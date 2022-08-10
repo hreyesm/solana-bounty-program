@@ -158,13 +158,7 @@ const OverflowMenu = () => {
                             {wallet && <TbWallet size={25} />}
                         </div>
 
-                        <Button
-                            text={(wallet ? 'Disc' : 'C') + 'onnect'}
-                            icon={wallet ? TbWalletOff : TbWallet}
-                            variant="transparent"
-                            className="!w-full"
-                        />
-                        <WalletMultiButton className="btn mr-4 text-gray-300" />
+                        <WalletMultiButton />
                     </div>
                 </Card>
             </div>

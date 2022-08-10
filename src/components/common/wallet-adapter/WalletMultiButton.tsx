@@ -1,70 +1,17 @@
 import { useWallet } from '@solana/wallet-adapter-react';
-import type { FC } from 'react';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { ButtonProps } from './Button';
+import React, {useMemo} from 'react';
 import Button from '../button';
-import { useWalletModal } from './useWalletModal';
 import { WalletConnectButton } from './WalletConnectButton';
-import { WalletIcon } from './WalletIcon';
 import { WalletModalButton } from './WalletModalButton';
-import { TbWallet, TbWalletOff } from 'react-icons/tb';
+import { TbWalletOff } from 'react-icons/tb';
 
-export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
+export const WalletMultiButton = () => {
     const { publicKey, wallet, disconnect } = useWallet();
-    const { setVisible } = useWalletModal();
-    const [copied, setCopied] = useState(false);
-    const [active, setActive] = useState(false);
-    const ref = useRef<HTMLUListElement>(null);
 
     const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
-    const content = useMemo(() => {
-        if (children) return children;
-        if (!wallet || !base58) return null;
-        return base58.slice(0, 4) + '..' + base58.slice(-4);
-    }, [children, wallet, base58]);
 
-    const copyAddress = useCallback(async () => {
-        if (base58) {
-            await navigator.clipboard.writeText(base58);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 400);
-        }
-    }, [base58]);
-
-    const openDropdown = useCallback(() => {
-        setActive(true);
-    }, []);
-
-    const closeDropdown = useCallback(() => {
-        setActive(false);
-    }, []);
-
-    const openModal = useCallback(() => {
-        setVisible(true);
-        closeDropdown();
-    }, [closeDropdown]);
-
-    useEffect(() => {
-        const listener = (event: MouseEvent | TouchEvent) => {
-            const node = ref.current;
-
-            // Do nothing if clicking dropdown or its descendants
-            if (!node || node.contains(event.target as Node)) return;
-
-            closeDropdown();
-        };
-
-        document.addEventListener('mousedown', listener);
-        document.addEventListener('touchstart', listener);
-
-        return () => {
-            document.removeEventListener('mousedown', listener);
-            document.removeEventListener('touchstart', listener);
-        };
-    }, [ref, closeDropdown]);
-
-    if (!wallet) return <WalletModalButton {...props}>{children}</WalletModalButton>;
-    if (!base58) return <WalletConnectButton {...props}>{children}</WalletConnectButton>;
+    if (!wallet) return <WalletModalButton></WalletModalButton>;
+    if (!base58) return <WalletConnectButton></WalletConnectButton>;
 
     return (
         <Button
