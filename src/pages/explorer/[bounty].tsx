@@ -11,6 +11,7 @@ import Text from 'components/common/text';
 import { getBountyWithDrillInfo } from 'lib/github';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
+import FundTab from 'components/detail-page/fund-tab';
 
 type BountyDetailsPageProps = {
     bounty: BountyWithDrillInfo;
@@ -27,7 +28,7 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                 label: 'About',
             },
             {
-                content: null,
+                content: <FundTab />,
                 id: 'fund',
                 label: 'Fund',
             },
@@ -49,7 +50,7 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
     );
 
     return (
-        <div className="flex flex-col gap-8 p-5 text-white sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+        <div className="flex flex-col gap-8 p-5 text-white !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
             <div className="flex flex-row items-center justify-between">
                 <Link href="/explorer" passHref>
                     <a>
@@ -75,7 +76,7 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
 
             <BountyCard {...bounty} maxTags={7} name="" showDetails />
 
-            <div className="sticky top-20 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-black pt-4">
+            <div className="sticky top-20 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-black bg-opacity-40 backdrop-blur-xl pt-4 z-30">
                 {tabs.map((tab, index) => (
                     <NavElement
                         as={index === 0 && `/explorer/${id}`}
@@ -88,7 +89,6 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
             </div>
 
             <section className="flex flex-col gap-5">
-                <Text variant="big-heading">{currentTab.label}</Text>
                 {currentTab.content}
             </section>
         </div>
