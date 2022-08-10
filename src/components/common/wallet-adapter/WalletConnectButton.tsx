@@ -2,8 +2,8 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import type { FC, MouseEventHandler } from 'react';
 import React, { useCallback, useMemo } from 'react';
 import type { ButtonProps } from './Button';
-import { Button } from './Button';
-import { WalletIcon } from './WalletIcon';
+import  Button from '../button';
+import { TbWallet, TbWalletOff } from 'react-icons/tb';
 
 export const WalletConnectButton: FC<ButtonProps> = ({ children, disabled, onClick, ...props }) => {
     const { wallet, connect, connecting, connected } = useWallet();
@@ -27,10 +27,12 @@ export const WalletConnectButton: FC<ButtonProps> = ({ children, disabled, onCli
 
     return (
         <Button
-            className="wallet-adapter-button-trigger"
             disabled={disabled || !wallet || connecting || connected}
-            startIcon={wallet ? <WalletIcon wallet={wallet} /> : undefined}
+            icon={wallet ? TbWalletOff : TbWallet}
             onClick={handleClick}
+            variant="transparent"
+            className="!w-full"
+            text="Connect Wallet"
             {...props}
         >
             {content}

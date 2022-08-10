@@ -9,13 +9,9 @@ import { IconType } from 'react-icons';
 type ButtonProps = {
     className?: string;
     reversed?: boolean;
-    onClick?: () => void;
-    variant:
-    | 'black'
-    | 'orange'
-    | 'transparent'
-    | 'danger'
-    | 'label';
+    onClick?;
+    disabled?: boolean;
+    variant: 'black' | 'orange' | 'transparent' | 'danger' | 'label';
     text?: string;
     icon?: IconType;
     children?: React.ReactNode;
@@ -45,30 +41,33 @@ const Button = ({
     className,
     reversed = false,
     onClick,
+    disabled,
     ref,
     type = 'button',
     variant = 'black',
     text: value,
     children,
-    icon
+    icon,
 }: ButtonProps) => (
     <button
         className={cn(
             variants[variant],
             'flex h-11 max-h-full w-fit items-center justify-center gap-3 whitespace-nowrap rounded-full border transition-all',
-            (variant !== 'label' && variant !== 'danger') &&
+            variant !== 'label' &&
+                variant !== 'danger' &&
                 'hover:bg-white hover:!text-black',
             variant !== 'label' &&
                 'hover:-translate-y-[0.15rem] active:translate-y-[0.025rem] active:scale-[0.975]',
-            (icon && (!value && !children)) ? 'aspect-square p-3' : 'px-5 py-3',
+            icon && !value && !children ? 'aspect-square p-3' : 'px-5 py-3',
             reversed && 'flex-row-reverse',
             className,
         )}
         onClick={onClick}
+        disabled={disabled}
         ref={ref}
         type={type}
     >
-        { icon && React.createElement(icon, { size: 20 }) }
+        {icon && React.createElement(icon, { size: 20 })}
         {value && (
             <Text variant={variant === 'label' ? 'label' : 'input'}>
                 {value}

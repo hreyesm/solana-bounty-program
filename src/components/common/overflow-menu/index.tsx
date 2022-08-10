@@ -1,7 +1,8 @@
 import { MdLink, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
 import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo } from 'react';
 import { WalletMultiButton } from '../wallet-adapter';
+import { useWallet } from '@solana/wallet-adapter-react';
 import Card from '../card';
 import Link from 'next/link';
 import Text from '../text';
@@ -14,10 +15,9 @@ const OverflowMenu = () => {
     const buttonRef = useRef();
     const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
-
-    // test variables for wallet will be removed later
-    const walletAddress = 'FNfUy8Qp6C9NCD6cz9xHLYSL7n3eFX8LfY1zDx6RcE8G';
-    const wallet = true;
+    const { publicKey, wallet, disconnect } = useWallet();
+    console.log(publicKey)
+    const walletAddress = useMemo(() => publicKey?.toBase58(), [publicKey]);
 
     const onProfileClick = async () => {
         if (session) {
@@ -138,12 +138,19 @@ const OverflowMenu = () => {
                                 ) : (
                                     <div className="flex flex-row items-center gap-1">
                                         <Chip
-                                            highlightValue={walletAddress}
+                                            highlightValue={
+                                            walletAddress}
                                             icon={MdLink}
                                             className="w-60 !normal-case sm:w-28"
-                                            href={`https://explorer.solana.com/address/${walletAddress}`}
+                                            href={`https://explorer.solana.com/address/${
+                                                walletAddress
+                                            }`}
                                         />
-                                        <Chip copyValue={walletAddress} />
+                                        <Chip
+                                            copyValue={
+                                                walletAddress
+                                            }
+                                        />
                                     </div>
                                 )}
                             </div>
