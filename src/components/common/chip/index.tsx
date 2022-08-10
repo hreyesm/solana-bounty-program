@@ -64,7 +64,6 @@ const Chip = ({ className, highlightValue, value, copyValue, icon, children, rev
                             'flex flex-row items-center gap-1',
                             reversed && 'flex-row-reverse',
                         )}
-                        href={href}
                     > 
                         {highlightValue && (
                             <span className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap font-medium text-primary">
