@@ -3,11 +3,11 @@ import { User as GithubUser, Issue } from 'types/github';
 import { toBounty, toBountyList } from 'utils/bounties';
 
 import { GetServerSidePropsContext } from 'next';
-import { URLSearchParams } from 'url';
 import { User } from 'types/user';
 import { getSession } from 'next-auth/react';
 
-const DRILL_BOUNTY_LABEL = 'drill:bounty:enabled';
+const DRILL_BOUNTY_LABEL_ENABLED = 'drill:bounty:enabled';
+const DRILL_BOUNTY_LABEL_CLOSED = 'drill:bounty:closed';
 
 type SearchApiResponse = {
     items: [];
@@ -32,18 +32,24 @@ const fetchGithubData = async <T>(url: string, token: string): Promise<T> => {
 
 const getBounties = async (
     context: GetServerSidePropsContext,
-    options?: Record<string, unknown>,
 ): Promise<Bounty[]> => {
-    const params = { labels: DRILL_BOUNTY_LABEL, state: 'all', ...options };
+    const queryString = `q=${encodeURIComponent(
+        `is:issue label:"${DRILL_BOUNTY_LABEL_ENABLED}","${DRILL_BOUNTY_LABEL_CLOSED}" repo:${process.env.GITHUB_REPOSITORY}`,
+    )}`;
 
-    const url = `${process.env.GITHUB_API}/repos/${
-        process.env.GITHUB_REPOSITORY
-    }/issues?${new URLSearchParams(params).toString()}`;
+    const url = `${process.env.GITHUB_API}/search/issues?${queryString}`;
 
     const session = await getSession(context);
     const token = session?.accessToken as string;
 
-    const issues = await fetchGithubData<Issue[]>(url, token);
+    const { items: issues } = await fetchGithubData<SearchApiResponse>(
+        url,
+        token,
+    );
+
+    if (!issues) {
+        return null;
+    }
 
     return toBountyList(issues);
 };
@@ -52,7 +58,7 @@ const getBountiesByAsignee = async (
     context: GetServerSidePropsContext,
 ): Promise<Bounty[]> => {
     const queryString = `q=${encodeURIComponent(
-        `assignee:${context.query.username} is:issue label:"${DRILL_BOUNTY_LABEL}" repo:${process.env.GITHUB_REPOSITORY}`,
+        `assignee:${context.query.username} is:issue label:"${DRILL_BOUNTY_LABEL_ENABLED}","${DRILL_BOUNTY_LABEL_CLOSED}" repo:${process.env.GITHUB_REPOSITORY}`,
     )}`;
 
     const url = `${process.env.GITHUB_API}/search/issues?${queryString}`;
@@ -107,8 +113,6 @@ const getUser = async (context: GetServerSidePropsContext): Promise<User> => {
     const login = session?.login as string;
 
     const githubUser = await fetchGithubData<GithubUser>(url, token);
-
-    console.log(githubUser);
 
     if (!githubUser) {
         return null;
