@@ -42,6 +42,9 @@ const Chip = ({ className, highlightValue, value, copyValue, icon, children, rev
                     setShowTooltip(true);
                     setTimeout(() => setShowTooltip(false), 2000);
                 }
+                if (href) {
+                    window.open(href, '_blank');
+                }
             }}
         >
             { copyValue ? (
