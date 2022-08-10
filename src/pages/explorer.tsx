@@ -3,32 +3,42 @@ import { GetServerSideProps, NextPage } from 'next';
 import { Bounty } from 'types/bounty';
 import BountyList from 'components/common/bounty-list';
 import FeaturedSection from 'components/explorer-page/featured-section';
-import { getBounties } from 'lib/github';
-import Text from 'components/common/text';
 import FilterBar from 'components/common/bounty-list/filter-bar';
 import NavElement from 'components/common/layout/header/nav-element';
-import { useRouter } from 'next/router';
+import Text from 'components/common/text';
+import { getBounties } from 'lib/github';
 import { useMemo } from 'react';
+import { useRouter } from 'next/router';
 
 type ExplorerPageProps = { bounties: Bounty[] };
 
 const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
+    const closedBounties = bounties.filter(({ state }) => state === 'closed');
+    const openBounties = bounties.filter(({ state }) => state === 'open');
+
     const tabs = useMemo(
         () => [
             {
-                content: <BountyList bounties={bounties} />,
+                content: (
+                    <BountyList bounties={openBounties} key="open-bounties" />
+                ),
                 id: 'open',
                 label: 'Open',
-                amount: '15'
+                amount: openBounties.length,
             },
             {
-                content: null,
+                content: (
+                    <BountyList
+                        bounties={closedBounties}
+                        key="closed-bounties"
+                    />
+                ),
                 id: 'closed',
                 label: 'Closed',
-                amount: '30'
+                amount: closedBounties.length,
             },
         ],
-        [bounties],
+        [closedBounties, openBounties],
     );
 
     const router = useRouter();
@@ -47,15 +57,15 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                     <Text variant="label"> Browse </Text>
                     <Text variant="big-heading"> Open Bounties </Text>
 
-                    <div className="sticky top-20 -mt-px h-16 flex flex-row justify-between border-b-1.5 border-b-line bg-black pt-4 z-30">
-                        <div className="h-full flex flex-row gap-8">
+                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black pt-4">
+                        <div className="flex h-full flex-row gap-8">
                             {tabs.map((tab, index) => (
                                 <NavElement
                                     as={index === 0 && `/explorer`}
                                     href={`/explorer?tab=${tab.id}`}
                                     key={tab.id}
                                     label={tab.label}
-                                    chipLabel={tab.amount}// Amount of bounties in each category.
+                                    chipLabel={tab.amount.toString()} // Amount of bounties in each category.
                                     scroll={false} // TODO: Scroll to navbar position.
                                 />
                             ))}
