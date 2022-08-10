@@ -104,7 +104,7 @@ const FundTab = () => {
                                             {balance}
                                             <span className="text-sm font-light">
                                                 {' '}
-                                                ?SOL{' '}
+                                                SOL{' '}
                                             </span>{' '}
                                         </Text> : <Text variant='paragraph'>Wallet Not Connected</Text>}
                                     </div>
