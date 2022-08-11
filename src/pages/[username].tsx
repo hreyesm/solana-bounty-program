@@ -8,9 +8,10 @@ import Hero from 'components/profile-page/hero';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
 import { User } from 'types/user';
+import { authOptions } from './api/auth/[...nextauth]';
 import { getBountiesByAssignee } from 'lib/bounties';
-import { getSession } from 'next-auth/react';
 import { getUser } from 'lib/github';
+import { unstable_getServerSession } from 'next-auth';
 import { useRouter } from 'next/router';
 
 type ProfilePageProps = {
@@ -92,7 +93,13 @@ export default ProfilePage;
 
 export const getServerSideProps: GetServerSideProps = async context => {
     const username = context.query.username as string;
-    const session = await getSession(context);
+
+    const session = await unstable_getServerSession(
+        context.req,
+        context.res,
+        authOptions,
+    );
+
     const accessToken = session?.accessToken as string;
 
     const bounties = await getBountiesByAssignee(username, accessToken);

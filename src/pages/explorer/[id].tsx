@@ -9,8 +9,9 @@ import Link from 'next/link';
 import Markdown from 'components/common/markdown';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
+import { authOptions } from 'pages/api/auth/[...nextauth]';
 import { getBounty } from 'lib/bounties';
-import { getSession } from 'next-auth/react';
+import { unstable_getServerSession } from 'next-auth';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 
@@ -99,7 +100,13 @@ export default BountyDetailsPage;
 
 export const getServerSideProps: GetServerSideProps = async context => {
     const id = parseInt(context.query.id as string);
-    const session = await getSession(context);
+
+    const session = await unstable_getServerSession(
+        context.req,
+        context.res,
+        authOptions,
+    );
+
     const accessToken = session?.accessToken as string;
 
     const bounty = await getBounty(id, accessToken);
