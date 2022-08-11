@@ -1,7 +1,9 @@
 import { MdLink, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
 import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
+import { useRef, useState, useMemo } from 'react';
+import { WalletMultiButton } from '../wallet-adapter';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useRef, useState } from 'react';
 
 import Button from '../button';
 import Card from '../card';
@@ -9,16 +11,14 @@ import Chip from '../chip';
 import Image from '../image';
 import Link from 'next/link';
 import Text from '../text';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 const OverflowMenu = () => {
     const buttonRef = useRef();
     const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
-
-    // test variables for wallet will be removed later
-    const walletAddress = 'FNfUy8Qp6C9NCD6cz9xHLYSL7n3eFX8LfY1zDx6RcE8G';
-    const wallet = true;
+    const { publicKey, wallet, disconnect } = useWallet();
+    const walletAddress = useMemo(() => publicKey?.toBase58(), [publicKey]);
+    const walletName = useMemo(() => wallet?.adapter.name, [wallet]);
 
     const onProfileClick = async () => {
         if (session) {
@@ -122,7 +122,7 @@ const OverflowMenu = () => {
                                 </Text>
                                 <Text variant="nav-heading">
                                     {wallet
-                                        ? 'Phantom'
+                                        ? walletName
                                         : 'Connect your crypto wallet'}
                                 </Text>
                                 {!wallet ? (
@@ -139,12 +139,19 @@ const OverflowMenu = () => {
                                 ) : (
                                     <div className="flex flex-row items-center gap-1">
                                         <Chip
-                                            highlightValue={walletAddress}
+                                            highlightValue={
+                                            walletAddress}
                                             icon={MdLink}
                                             className="w-60 !normal-case sm:w-28"
-                                            href={`https://explorer.solana.com/address/${walletAddress}`}
+                                            href={`https://explorer.solana.com/address/${
+                                                walletAddress
+                                            }`}
                                         />
-                                        <Chip copyValue={walletAddress} />
+                                        <Chip
+                                            copyValue={
+                                                walletAddress
+                                            }
+                                        />
                                     </div>
                                 )}
                             </div>
@@ -152,13 +159,7 @@ const OverflowMenu = () => {
                             {wallet && <TbWallet size={25} />}
                         </div>
 
-                        <Button
-                            text={(wallet ? 'Dis' : 'C') + 'onnect'}
-                            icon={wallet ? TbWalletOff : TbWallet}
-                            variant="transparent"
-                            className="!w-full"
-                        />
-                        <WalletMultiButton className="btn mr-4 text-gray-300" />
+                        <WalletMultiButton />
                     </div>
                 </Card>
             </div>

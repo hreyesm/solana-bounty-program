@@ -3,7 +3,7 @@ import '../styles/globals.css';
 import { AppProps } from 'next/app';
 import Layout from 'components/common/layout';
 import { SessionProvider } from 'next-auth/react';
-import { ContextProvider } from 'components/common/context/ContextProvider';
+import { ContextProvider } from 'providers/ContextProvider';
 import CommandPalette from 'components/common/command-palette';
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
