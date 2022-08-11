@@ -1,8 +1,8 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { MdChevronLeft, MdLink } from 'react-icons/md';
 
+import { Bounty } from 'types/bounty';
 import BountyCard from 'components/explorer-page/bounty-card';
-import { BountyWithDetails } from 'types/bounty';
 import Button from 'components/common/button';
 import FundTab from 'components/detail-page/fund-tab';
 import Link from 'next/link';
@@ -16,7 +16,7 @@ import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 
 type BountyDetailsPageProps = {
-    bounty: BountyWithDetails;
+    bounty: Bounty;
 };
 
 const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {

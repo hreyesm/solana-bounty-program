@@ -36,7 +36,18 @@ const getDrillResponsesFromIssues = async (
  * @param drillResponse DrillResponse object
  */
 const toBounty = (issue: Issue, drillResponse: DrillResponse): Bounty => {
-    const { created_at, body, html_url, labels, number, state, title } = issue;
+    const {
+        assignee,
+        created_at,
+        body,
+        html_url,
+        labels,
+        number,
+        state,
+        title,
+        user: creator,
+    } = issue;
+
     const { amount } = drillResponse;
 
     const reward = Number(amount) / 1_000_000;
@@ -45,8 +56,10 @@ const toBounty = (issue: Issue, drillResponse: DrillResponse): Bounty => {
         createdAt: formatDate(created_at),
         description: body,
         githubUrl: html_url,
+        ...(assignee && { hunter: assignee.login }),
         id: number,
         name: title,
+        owner: creator.login,
         reward,
         state,
         tags: labels.map(label => ({ value: label.name })),

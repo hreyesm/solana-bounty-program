@@ -1,18 +1,12 @@
-import { User } from './user';
-
-type Bounty = {
+export type Bounty = {
     createdAt: string;
     description: string;
     githubUrl: string;
-    hunter: User;
+    hunter?: string;
     id: number;
     name: string;
-    owner: User;
+    owner: string;
     reward: number;
     state: 'open' | 'closed';
     tags: { value: string }[];
 };
-
-type BountyWithDetails = Bounty & { details: string };
-
-export type { Bounty, BountyWithDetails };
