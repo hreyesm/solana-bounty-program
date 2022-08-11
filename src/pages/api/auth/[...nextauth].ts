@@ -1,7 +1,8 @@
-import GithubProvider from 'next-auth/providers/github';
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 
-export default NextAuth({
+import GithubProvider from 'next-auth/providers/github';
+
+export const authOptions: NextAuthOptions = {
     callbacks: {
         jwt: ({ account, profile, token }) => {
             if (profile) {
@@ -28,4 +29,6 @@ export default NextAuth({
         }),
     ],
     secret: process.env.SECRET,
-});
+};
+
+export default NextAuth(authOptions);

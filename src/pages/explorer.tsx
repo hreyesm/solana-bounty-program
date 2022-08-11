@@ -6,15 +6,24 @@ import FeaturedSection from 'components/explorer-page/featured-section';
 import FilterBar from 'components/common/bounty-list/filter-bar';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
-import { getBounties } from 'lib/github';
+import { authOptions } from './api/auth/[...nextauth]';
+import { getBounties } from 'lib/bounties';
+import { unstable_getServerSession } from 'next-auth';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 
 type ExplorerPageProps = { bounties: Bounty[] };
 
 const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
-    const closedBounties = bounties.filter(({ state }) => state === 'closed');
-    const openBounties = bounties.filter(({ state }) => state === 'open');
+    const closedBounties = useMemo(
+        () => bounties.filter(({ state }) => state === 'closed'),
+        [bounties],
+    );
+
+    const openBounties = useMemo(
+        () => bounties.filter(({ state }) => state === 'open'),
+        [bounties],
+    );
 
     const tabs = useMemo(
         () => [
@@ -84,7 +93,15 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
 export default ExplorerPage;
 
 export const getServerSideProps: GetServerSideProps = async context => {
-    const bounties = await getBounties(context);
+    const session = await unstable_getServerSession(
+        context.req,
+        context.res,
+        authOptions,
+    );
+
+    const accessToken = session?.accessToken as string;
+
+    const bounties = await getBounties(accessToken);
 
     return { props: { bounties } };
 };
