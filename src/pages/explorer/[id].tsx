@@ -29,12 +29,12 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                 label: 'About',
             },
             state === 'open' && {
-                content: <FundTab />,
+                content: <FundTab {...bounty} />,
                 id: 'fund',
                 label: 'Fund',
             },
         ],
-        [description, state],
+        [bounty, description, state],
     );
 
     const router = useRouter();
