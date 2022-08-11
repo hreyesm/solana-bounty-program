@@ -1,7 +1,7 @@
 import type { MouseEvent } from 'react';
 import React, { useCallback } from 'react';
 import  Button from '../button';
-import { useWalletModal } from './useWalletModal';
+import { useWalletModal } from './use-wallet-modal';
 import { TbWallet } from 'react-icons/tb';
 
 export const WalletModalButton= () => {

@@ -6,9 +6,9 @@ import type { FC, MouseEvent } from 'react';
 import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Collapse } from './Collapse';
-import { useWalletModal } from './useWalletModal';
-import { WalletListItem } from './WalletListItem';
-import { WalletSVG } from './WalletSVG';
+import { useWalletModal } from './use-wallet-modal';
+import { WalletListItem } from './wallet-list-item';
+import { WalletSVG } from './wallet-svg';
 
 export interface WalletModalProps {
     className?: string;
