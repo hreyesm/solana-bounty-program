@@ -1,7 +1,7 @@
-import type { CSSProperties, MouseEvent, ReactElement } from 'react';
+import type { CSSProperties, FC, MouseEvent, PropsWithChildren, ReactElement } from 'react';
 import React from 'react';
 
-export type ButtonProps = {
+export type ButtonProps = PropsWithChildren<{
     className?: string;
     disabled?: boolean;
     endIcon?: ReactElement;
@@ -9,26 +9,20 @@ export type ButtonProps = {
     startIcon?: ReactElement;
     style?: CSSProperties;
     tabIndex?: number;
-    children;
-};
+}>;
 
-export const Button = (props: ButtonProps) => (
+export const Button: FC<ButtonProps> = (props) => {
+    return (
         <button
             className={`wallet-adapter-button ${props.className || ''}`}
             disabled={props.disabled}
             onClick={props.onClick}
             tabIndex={props.tabIndex || 0}
+            type="button"
         >
-            {props.startIcon && (
-                <i className="wallet-adapter-button-start-icon">
-                    {props.startIcon}
-                </i>
-            )}
+            {props.startIcon && <i className="wallet-adapter-button-start-icon">{props.startIcon}</i>}
             {props.children}
-            {props.endIcon && (
-                <i className="wallet-adapter-button-end-icon">
-                    {props.endIcon}
-                </i>
-            )}
+            {props.endIcon && <i className="wallet-adapter-button-end-icon">{props.endIcon}</i>}
         </button>
     );
+};
