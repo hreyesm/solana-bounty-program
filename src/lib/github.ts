@@ -1,6 +1,4 @@
-import { User as GithubUser, Issue } from 'types/github';
-
-import { User } from 'types/user';
+import { User as GithubUser, Issue, User } from 'types/github';
 
 type SearchApiResponse = {
     items: [];
@@ -88,20 +86,13 @@ const getUser = async (
 ): Promise<User | null> => {
     const url = `${process.env.GITHUB_API}/users/${username}`;
 
-    const githubUser = await getGithubData<GithubUser>(url, accessToken);
+    const user = await getGithubData<GithubUser>(url, accessToken);
 
-    if (!githubUser) {
+    if (!user) {
         return null;
     }
 
-    const { avatar_url: avatarUrl, name: fullName, login } = githubUser;
-
-    return {
-        avatarUrl,
-        fullName,
-        isCurrentUser: username === login,
-        username,
-    };
+    return user;
 };
 
 export { getIssue, getIssues, getIssuesByAssignee, getUser };

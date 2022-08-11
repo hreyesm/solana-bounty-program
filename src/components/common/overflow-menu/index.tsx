@@ -1,7 +1,7 @@
 import { MdLink, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
 import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import Button from '../button';
 import Card from '../card';
@@ -10,31 +10,17 @@ import Image from '../image';
 import Link from 'next/link';
 import Text from '../text';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { bountiesToLevel } from 'utils';
-import { useBountiesByAssignee } from 'hooks/use-bounties-by-assignee';
+import { useUser } from 'hooks/use-user';
 
 const OverflowMenu = () => {
     const buttonRef = useRef();
     const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
 
-    const { bounties, isLoading, isError } = useBountiesByAssignee(
-        session?.login as string,
-    );
+    const { user } = useUser(session?.login as string);
 
-    const closedBountiesCount = useMemo(() => {
-        if (!session) return null;
-
-        const closedBounties = bounties?.filter(
-            ({ state }) => state === 'closed',
-        );
-
-        if (isLoading || isError) return '-';
-
-        return closedBounties.length;
-    }, [bounties, isError, isLoading, session]);
-
-    const levelValue = `Lv. ${bountiesToLevel(closedBountiesCount)}`;
+    const closedBountiesCount = user?.closedBountiesCount.toString() ?? '-';
+    const level = `Lv. ${user?.level ?? '-'}`;
 
     // test variables for wallet will be removed later
     const walletAddress = 'FNfUy8Qp6C9NCD6cz9xHLYSL7n3eFX8LfY1zDx6RcE8G';
@@ -105,15 +91,14 @@ const OverflowMenu = () => {
                                             highlightValue={closedBountiesCount}
                                             value="Bounties"
                                         />
-                                        <Chip value={levelValue} />
+                                        <Chip value={level} />
                                     </div>
                                 )}
                             </div>
                             {session && (
-                                // eslint-disable-next-line jsx-a11y/alt-text
                                 <Image
+                                    alt="Avatar"
                                     src={session.user.image}
-                                    // alt={session.login}
                                     height={40}
                                     className="aspect-square"
                                     style={{ borderRadius: '50%' }}

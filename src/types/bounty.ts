@@ -1,10 +1,13 @@
+import { User } from './user';
+
 type Bounty = {
-    // TODO: Add owner and hunter props
     createdAt: string;
     description: string;
     githubUrl: string;
+    hunter: User;
     id: number;
     name: string;
+    owner: User;
     reward: number;
     state: 'open' | 'closed';
     tags: { value: string }[];
