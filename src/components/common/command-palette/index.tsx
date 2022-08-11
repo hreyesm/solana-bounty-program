@@ -10,78 +10,11 @@ import {
     ActionId,
     ActionImpl,
 } from 'kbar';
-import Card from '../card';
 import Text from '../text';
 import { MdOutlineSearch } from 'react-icons/md';
 import React from 'react';
-
-const actions = [
-    {
-        id: 'home',
-        name: 'Home',
-        subtitle: "Subtitles can help add more context.",
-        keywords: 'home homepage landing',
-        shortcut: ["h"],
-        section: "Navigation",
-        perform: () => (window.location.pathname = '/'),
-    },
-    {
-        id: 'explorer',
-        name: 'Explorer',
-        keywords: 'explorer bounties',
-        shortcut: ["e"],
-        section: "Navigation",
-        perform: () => (window.location.pathname = '/explorer'),
-    },
-    {
-        id: 'profile',
-        name: 'Your profile',
-        keywords: 'profile me account',
-        shortcut: ["p"],
-        section: "Navigation",
-        perform: () => (window.location.pathname = '/HaresMahmood'),
-    },
-    {
-        id: 'search-bounty',
-        name: 'Search bounties...',
-        keywords: 'search bounty bounties',
-        shortcut: ["s", "b"],
-        section: "Actions",
-        perform: () => (window.location.pathname = 'blog'),
-    },
-    {
-        id: 'search-profile',
-        name: 'Search profiles...',
-        keywords: 'search profile user profiles users',
-        shortcut: ["s", "p"],
-        section: "Actions",
-        perform: () => (window.location.pathname = 'blog'),
-    },
-    {
-        id: 'create-bounty',
-        name: 'Create bounty',
-        keywords: 'bounty create new plus add',
-        shortcut: ["c", "b"],
-        section: "Actions",
-        perform: () => (window.location.pathname = 'blog'),
-    },
-    {
-        id: 'integrate-github',
-        name: 'Sign in...',
-        keywords: 'sign in sign out login logout',
-        shortcut: ["g"],
-        section: "Integrations",
-        perform: () => (window.location.pathname = 'contact'),
-    },
-    {
-        id: 'integrate-wallet',
-        name: 'Connect wallet...',
-        keywords: 'connect wallet solana solana-wallet phantom solflare torus sollet ',
-        shortcut: ["w"],
-        section: "Integrations",
-        perform: () => (window.location.pathname = 'contact'),
-    },
-];
+import useIntegrationsActions from './hooks/useSignInActions';
+import useProfileAction from './hooks/useYourProfileActions';
 
 // eslint-disable-next-line react/display-name
 const ResultItem = React.forwardRef(
@@ -180,8 +113,11 @@ function RenderResults() {
     );
 }
 
-const CommandPalette = props => (
-    <KBarProvider actions={actions}>
+function CommandBar() {
+    useProfileAction();
+    useIntegrationsActions();
+
+    return (
         <KBarPortal>
             <KBarPositioner className="z-[200] bg-base bg-opacity-50 backdrop-blur-md">
                 <KBarAnimator className="w-[600px] overflow-hidden bg-base bg-opacity-90 backdrop-blur-lg firefox:bg-opacity-90 rounded-3xl text-white border border-white"> {/* TODO: Don't copy styling from `Card`-component - reuse it!  bg-base bg-opacity-70 backdrop-blur-lg firefox:bg-opacity-90 rounded-3xl text-white border border-white*/} 
@@ -194,7 +130,72 @@ const CommandPalette = props => (
                 </KBarAnimator>
             </KBarPositioner>
         </KBarPortal>
-        {props.children}
-    </KBarProvider>
-);
+    );
+}
+
+const CommandPalette = props => {
+    const initialActions = [
+        {
+            id: 'home',
+            name: 'Home',
+            subtitle: "Subtitles can help add more context.",
+            keywords: 'home homepage landing',
+            shortcut: ["h"],
+            section: "Navigation",
+            perform: () => (window.location.pathname = '/'),
+        },
+        {
+            id: 'explorer',
+            name: 'Explorer',
+            keywords: 'explorer bounties',
+            shortcut: ["e"],
+            section: "Navigation",
+            perform: () => (window.location.pathname = '/explorer'),
+        },
+        {
+            id: 'search-bounty',
+            name: 'Search bounties...',
+            keywords: 'search bounty bounties',
+            shortcut: ["s", "b"],
+            section: "Actions",
+            perform: () => (window.location.pathname = 'blog'),
+        },
+        {
+            id: 'search-profile',
+            name: 'Search profiles...',
+            keywords: 'search profile user profiles users',
+            shortcut: ["s", "p"],
+            section: "Actions",
+            perform: () => (window.location.pathname = 'blog'),
+        },
+        {
+            id: 'create-bounty',
+            name: 'Create bounty',
+            keywords: 'bounty create new plus add',
+            shortcut: ["c", "b"],
+            section: "Actions",
+            perform: () => (window.location.pathname = 'blog'),
+        },
+        {
+            id: 'integrate-wallet',
+            name: 'Connect wallet...',
+            keywords: 'connect wallet solana solana-wallet phantom solflare torus sollet ',
+            shortcut: ["w"],
+            section: "Integrations",
+            perform: () => (window.location.pathname = 'contact'),
+        },
+    ];
+
+    return (
+        <KBarProvider
+            actions={initialActions}
+        >
+            <CommandBar />
+        
+            {props.children}
+        </KBarProvider>
+    )
+};
+
+
 export default CommandPalette;
