@@ -15,8 +15,15 @@ import { useRouter } from 'next/router';
 type ExplorerPageProps = { bounties: Bounty[] };
 
 const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
-    const closedBounties = bounties.filter(({ state }) => state === 'closed');
-    const openBounties = bounties.filter(({ state }) => state === 'open');
+    const closedBounties = useMemo(
+        () => bounties.filter(({ state }) => state === 'closed'),
+        [bounties],
+    );
+
+    const openBounties = useMemo(
+        () => bounties.filter(({ state }) => state === 'open'),
+        [bounties],
+    );
 
     const tabs = useMemo(
         () => [

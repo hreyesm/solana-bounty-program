@@ -61,7 +61,7 @@ const getIssuesByAssignee = async (
         accessToken,
     );
 
-    if (!issuesByAssignee.length) {
+    if (!issuesByAssignee) {
         return null;
     }
 
