@@ -24,19 +24,21 @@ type BountyCardProps = Omit<Bounty, 'githubUrl' | 'tags'> & {
 // TODO: Add owner and hunter props.
 const BountyCard = ({
     createdAt,
+    hunter,
     id,
     name,
     reward,
     tags,
     responsive = true,
     maxTags = 5,
+    owner,
     showDetails = false,
 }: BountyCardProps) => (
     <Link href={`/explorer/${id}`} passHref>
         <a>
             <Card
                 className={cn(
-                    'flex h-fit w-98 flex-shrink-0 flex-col items-start justify-between gap-5 p-6 hover:bg-base snap-start',
+                    'flex h-fit w-98 flex-shrink-0 snap-start flex-col items-start justify-between gap-5 p-6 hover:bg-base',
                     responsive && '!w-full 2lg:flex-row 2lg:items-center',
                 )}
             >
@@ -81,7 +83,7 @@ const BountyCard = ({
                                             variant="user"
                                             className="hidden sm:inline"
                                         >
-                                            JohnDoe
+                                            {owner}
                                         </Text>
                                         <Text
                                             variant="label"
@@ -99,19 +101,30 @@ const BountyCard = ({
                                         Hunter
                                     </Text>
                                     <div className="flex flex-row items-center gap-3">
-                                        <div className="aspect-square h-10 rounded-full bg-white" />
-                                        <Text
-                                            variant="user"
-                                            className="hidden sm:inline"
-                                        >
-                                            JohnDoe
-                                        </Text>
-                                        <Text
-                                            variant="label"
-                                            className="text-primary"
-                                        >
-                                            Lv. 1
-                                        </Text>
+                                        {hunter ? (
+                                            <>
+                                                <div className="aspect-square h-10 rounded-full bg-white" />
+                                                <Text
+                                                    variant="user"
+                                                    className="hidden sm:inline"
+                                                >
+                                                    {hunter}
+                                                </Text>
+                                                <Text
+                                                    variant="label"
+                                                    className="text-primary"
+                                                >
+                                                    Lv. 1
+                                                </Text>
+                                            </>
+                                        ) : (
+                                            <Text
+                                                variant="user"
+                                                className="hidden sm:inline"
+                                            >
+                                                None
+                                            </Text>
+                                        )}
                                     </div>
                                 </div>
                             </div>

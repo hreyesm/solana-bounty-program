@@ -1,15 +1,12 @@
-type Bounty = {
-    // TODO: Add owner and hunter props
+export type Bounty = {
     createdAt: string;
+    description: string;
     githubUrl: string;
+    hunter?: string;
     id: number;
-    mdDescription: string;
     name: string;
+    owner: string;
     reward: number;
     state: 'open' | 'closed';
     tags: { value: string }[];
 };
-
-type BountyWithDrillInfo = Bounty & { mdDrillInfo: string };
-
-export type { Bounty, BountyWithDrillInfo };

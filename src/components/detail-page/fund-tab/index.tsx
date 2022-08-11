@@ -1,33 +1,35 @@
-import Button from "components/common/button";
-import Card from "components/common/card";
-import Chip from "components/common/chip";
-import Text from "components/common/text";
-import { MdInfoOutline, MdOutlinePayments } from "react-icons/md";
-import { TbWallet } from "react-icons/tb";
-import TransactionCard from "./transaction-card";
+import { MdInfoOutline, MdOutlinePayments } from 'react-icons/md';
+
+import { Bounty } from 'types/bounty';
+import Button from 'components/common/button';
+import Card from 'components/common/card';
+import Chip from 'components/common/chip';
+import { TbWallet } from 'react-icons/tb';
+import Text from 'components/common/text';
+import TransactionCard from './transaction-card';
 import { useWallet } from '@solana/wallet-adapter-react';
 import * as Web3 from '@solana/web3.js';
 import { useEffect, useState } from 'react';
 
-const FundTab = () => {
-        const [balance, setBalance] = useState(0);
-        const { publicKey, wallet } = useWallet();
+const FundTab = ({ reward }: Bounty) => {
+    const [balance, setBalance] = useState(0);
+    const { publicKey, wallet } = useWallet();
 
-        useEffect(() => {
-            try {
-                const connection = new Web3.Connection(
-                    Web3.clusterApiUrl('devnet'),
-                );
-                publicKey
-                    ? connection.getBalance(publicKey).then(balance => {
-                          setBalance(balance / Web3.LAMPORTS_PER_SOL);
-                      })
-                    : setBalance(0);
-            } catch (error) {
-                setBalance(0);
-                alert(error);
-            }
-        }, [publicKey]);
+    useEffect(() => {
+        try {
+            const connection = new Web3.Connection(
+                Web3.clusterApiUrl('devnet'),
+            );
+            publicKey
+                ? connection.getBalance(publicKey).then(balance => {
+                      setBalance(balance / Web3.LAMPORTS_PER_SOL);
+                  })
+                : setBalance(0);
+        } catch (error) {
+            setBalance(0);
+            alert(error);
+        }
+    }, [publicKey]);
 
     return (
         <section title="actions" className="flex flex-col gap-10 md:flex-row">
@@ -37,17 +39,12 @@ const FundTab = () => {
                         variant="heading"
                         className="flex-shrink-0 whitespace-nowrap"
                     >
-                        {' '}
-                        Current reward{' '}
+                        Current reward
                     </Text>
                     <Card className="flex w-full flex-col gap-3 border-none !bg-gradient-to-tr from-primary/75 to-secondary/75 p-5">
                         <Text variant="sub-heading">
-                            {' '}
-                            300{' '}
-                            <span className="text-lg font-light">
-                                {' '}
-                                SOL{' '}
-                            </span>{' '}
+                            {reward}{' '}
+                            <span className="text-lg font-light">SOL</span>
                         </Text>
                         <div className="flex w-full flex-row justify-end">
                             <Chip highlightValue="3" value="donors" />
@@ -56,12 +53,11 @@ const FundTab = () => {
                 </div>
                 <div className="flex flex-col gap-5">
                     <div className="flex flex-col gap-2">
-                        <Text variant="heading"> Send payment </Text>
+                        <Text variant="heading">Send payment</Text>
                         <Text
                             variant="label"
                             className="!normal-case text-secondary"
                         >
-                            {' '}
                             Choose between...{' '}
                         </Text>
                     </div>
@@ -88,7 +84,7 @@ const FundTab = () => {
                         </div>
                         <div className="h-48 w-px bg-line" />
                         <div className="flex h-full w-full max-w-full flex-col gap-5">
-                            <Text variant="label"> Using your wallet </Text>
+                            <Text variant="label">Using your wallet</Text>
                             <div className="flex flex-col gap-2">
                                 <Card className="flex flex-row items-center justify-between p-5">
                                     <div className="flex flex-col gap-2">
@@ -122,7 +118,7 @@ const FundTab = () => {
                                                 type="text"
                                             />
                                         </div>
-                                        <Text variant="label"> SOL </Text>
+                                        <Text variant="label">SOL</Text>
                                     </div>
                                     <Button
                                         variant="orange"
@@ -143,22 +139,18 @@ const FundTab = () => {
                     <div className="flex flex-row justify-between gap-3 px-3 text-base-content">
                         <div className="flex w-2/3 flex-row items-center gap-3">
                             <Text variant="label" className="w-2/3">
-                                {' '}
-                                Signature{' '}
+                                Signature
                             </Text>
                             <Text variant="label" className="w-1/3">
-                                {' '}
-                                Amt · SOL{' '}
+                                Amt · SOL
                             </Text>
                         </div>
                         <div className="flex w-1/3 flex-row items-center gap-3">
                             <Text variant="label" className="w-1/2">
-                                {' '}
-                                Date{' '}
+                                Date
                             </Text>
                             <Text variant="label" className="w-1/2 text-right">
-                                {' '}
-                                Status{' '}
+                                Status
                             </Text>
                         </div>
                     </div>
