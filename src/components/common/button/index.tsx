@@ -1,4 +1,5 @@
 import { IconType } from 'react-icons';
+import type { MouseEvent} from 'react';
 import React from 'react';
 import Text from '../text';
 import { cn } from 'utils';
@@ -10,13 +11,14 @@ type ButtonProps = {
     className?: string;
     disabled?: boolean;
     reversed?: boolean;
-    onClick?;
-    variant: 'black' | 'orange' | 'transparent' | 'danger' | 'label';
+    onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
+    variant: 'black' | 'orange' | 'transparent' | 'danger' | 'label' | 'none';
     text?: string;
     icon?: IconType;
     children?: React.ReactNode;
     buttonRef?: React.Ref<HTMLButtonElement>;
     type?: 'button' | 'submit' | 'reset';
+    tabIndex?: number;
 };
 
 /**
@@ -28,6 +30,7 @@ const variants = {
     transparent: 'text-white', // TODO: Change name of variant to `outlined`.
     danger: 'border-secondary text-danger hover:text-white hover:bg-secondary',
     label: 'text-secondary hover:text-white !p-0 border-none',
+    none: ''
 };
 
 /**
@@ -47,6 +50,7 @@ const Button = ({
     variant = 'black',
     text: value,
     children,
+    tabIndex,
     icon,
 }: ButtonProps) => (
     <button
@@ -68,6 +72,7 @@ const Button = ({
         onClick={!disabled ? onClick : undefined}
         ref={buttonRef}
         type={type}
+        tabIndex={tabIndex}
     >
         {icon && React.createElement(icon, { size: 20 })}
         {value && (
