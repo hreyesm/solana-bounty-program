@@ -1,7 +1,7 @@
 import { MdLink, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
 import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 import Button from '../button';
 import Card from '../card';
@@ -10,11 +10,31 @@ import Image from '../image';
 import Link from 'next/link';
 import Text from '../text';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { bountiesToLevel } from 'utils';
+import { useBountiesByAssignee } from 'hooks/use-bounties-by-assignee';
 
 const OverflowMenu = () => {
     const buttonRef = useRef();
     const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const { bounties, isLoading, isError } = useBountiesByAssignee(
+        session?.login as string,
+    );
+
+    const closedBountiesCount = useMemo(() => {
+        if (!session) return null;
+
+        const closedBounties = bounties?.filter(
+            ({ state }) => state === 'closed',
+        );
+
+        if (isLoading || isError) return '-';
+
+        return closedBounties.length;
+    }, [bounties, isError, isLoading, session]);
+
+    const levelValue = `Lv. ${bountiesToLevel(closedBountiesCount)}`;
 
     // test variables for wallet will be removed later
     const walletAddress = 'FNfUy8Qp6C9NCD6cz9xHLYSL7n3eFX8LfY1zDx6RcE8G';
@@ -52,8 +72,7 @@ const OverflowMenu = () => {
                                     variant="label"
                                     className="text-secondary"
                                 >
-                                    {' '}
-                                    Profile{' '}
+                                    Profile
                                 </Text>
                                 <Text
                                     variant="nav-heading"
@@ -83,10 +102,10 @@ const OverflowMenu = () => {
                                 ) : (
                                     <div className="flex flex-row items-center gap-1">
                                         <Chip
-                                            highlightValue="0"
+                                            highlightValue={closedBountiesCount}
                                             value="Bounties"
                                         />
-                                        <Chip value="Lv. 1" />
+                                        <Chip value={levelValue} />
                                     </div>
                                 )}
                             </div>
@@ -117,8 +136,7 @@ const OverflowMenu = () => {
                                     variant="label"
                                     className="text-secondary"
                                 >
-                                    {' '}
-                                    Wallet{' '}
+                                    Wallet
                                 </Text>
                                 <Text variant="nav-heading">
                                     {wallet
