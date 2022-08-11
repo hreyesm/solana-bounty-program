@@ -42,6 +42,9 @@ const Chip = ({ className, highlightValue, value, copyValue, icon, children, rev
                     setShowTooltip(true);
                     setTimeout(() => setShowTooltip(false), 2000);
                 }
+                if (href) {
+                    window.open(href, '_blank');
+                }
             }}
         >
             { copyValue ? (
@@ -61,7 +64,6 @@ const Chip = ({ className, highlightValue, value, copyValue, icon, children, rev
                             'flex flex-row items-center gap-1',
                             reversed && 'flex-row-reverse',
                         )}
-                        href={href}
                     > 
                         {highlightValue && (
                             <span className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap font-medium text-primary">
