@@ -8,5 +8,5 @@ export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTM
 }
 
 export const WalletIcon: FC<WalletIconProps> = ({ wallet, ...props }) => {
-    return wallet && <Image src={wallet.adapter.icon} alt={`${wallet.adapter.name} icon`} />;
+    return wallet && <img src={wallet.adapter.icon} alt={`${wallet.adapter.name} icon`} {...props} />;
 };

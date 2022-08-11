@@ -1,6 +1,5 @@
 import type { CSSProperties, MouseEvent, ReactElement } from 'react';
 import React from 'react';
-import Btn from '../button'
 
 export type ButtonProps = {
     className?: string;
@@ -14,12 +13,11 @@ export type ButtonProps = {
 };
 
 export const Button = (props: ButtonProps) => (
-        <Btn
+        <button
             className={`wallet-adapter-button ${props.className || ''}`}
             disabled={props.disabled}
             onClick={props.onClick}
             tabIndex={props.tabIndex || 0}
-            variant='none'
         >
             {props.startIcon && (
                 <i className="wallet-adapter-button-start-icon">
@@ -32,5 +30,5 @@ export const Button = (props: ButtonProps) => (
                     {props.endIcon}
                 </i>
             )}
-        </Btn>
+        </button>
     );
