@@ -20,8 +20,15 @@ type ProfilePageProps = {
 };
 
 const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
-    const closedBounties = bounties.filter(({ state }) => state === 'closed');
-    const openBounties = bounties.filter(({ state }) => state === 'open');
+    const closedBounties = useMemo(
+        () => bounties.filter(({ state }) => state === 'closed'),
+        [bounties],
+    );
+
+    const openBounties = useMemo(
+        () => bounties.filter(({ state }) => state === 'open'),
+        [bounties],
+    );
 
     const tabs = useMemo(
         () => [
@@ -61,7 +68,7 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
     return (
         <div>
             <div className="flex flex-col gap-16 ">
-                <Hero {...user} />
+                <Hero closedBounties={closedBounties.length} {...user} />
                 <div className="flex flex-col gap-7 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">
                     <Text variant="big-heading"> Bounties </Text>
 
