@@ -6,7 +6,8 @@ import FeaturedSection from 'components/explorer-page/featured-section';
 import FilterBar from 'components/common/bounty-list/filter-bar';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
-import { getBounties } from 'lib';
+import { getBounties } from 'lib/bounties';
+import { getSession } from 'next-auth/react';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 
@@ -84,7 +85,10 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
 export default ExplorerPage;
 
 export const getServerSideProps: GetServerSideProps = async context => {
-    const bounties = await getBounties(context);
+    const session = await getSession(context);
+    const accessToken = session?.accessToken as string;
+
+    const bounties = await getBounties(accessToken);
 
     return { props: { bounties } };
 };

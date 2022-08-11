@@ -2,13 +2,14 @@ import { Bounty } from 'types/bounty';
 import { DrillResponse } from 'types/drill';
 import { Issue } from 'types/github';
 import { formatDate } from 'utils';
+import { getDrillResponse } from 'lib/drill';
 
 /**
  * Returns `true` if the `name` attribute of the provided Bounty matches the
  * search query.
  *
- * @param bounty Bounty to filter.
- * @param rawQuery Query before unformatting.
+ * @param bounty Bounty to filter
+ * @param rawQuery Query before unformatting
  */
 const filterBounties = ({ name }: Bounty, rawQuery: string) => {
     const unformat = (str: string) => str.toLowerCase();
@@ -18,13 +19,25 @@ const filterBounties = ({ name }: Bounty, rawQuery: string) => {
 };
 
 /**
- * Converts a GitHub issue (fetched from the GitHub API) into a Bounty object.
+ * Returns a list of DrillResponse objects corresponding to a given list of
+ * Issue objects.
  *
- * @param issue GitHub issue.
+ * @param issues List of Issue objects
  */
-const toBounty = (issueWithDrillResponse: Issue & DrillResponse): Bounty => {
-    const { amount, created_at, body, html_url, labels, number, state, title } =
-        issueWithDrillResponse;
+const getDrillResponsesFromIssues = async (
+    issues: Issue[],
+): Promise<DrillResponse[]> =>
+    Promise.all(issues.map(async ({ number }) => getDrillResponse(number)));
+
+/**
+ * Merges an Issue object and a DrillResponse object into a Bounty object.
+ *
+ * @param issue Issue object
+ * @param drillResponse DrillResponse object
+ */
+const toBounty = (issue: Issue, drillResponse: DrillResponse): Bounty => {
+    const { created_at, body, html_url, labels, number, state, title } = issue;
+    const { amount } = drillResponse;
 
     const reward = Number(amount) / 1_000_000;
 
@@ -41,13 +54,15 @@ const toBounty = (issueWithDrillResponse: Issue & DrillResponse): Bounty => {
 };
 
 /**
- * Returns a list of GitHub issues (fetched from the GitHub API) converted to
- * Bounty objects.
+ * Merges a list of Issue objects and a list of DrillResponse objects into a
+ * list of Bounty objects.
  *
- * @param issues GitHub issues.
+ * @param issues List of Issue objects.
+ * @param drillResponses List of DrillResponse objects.
  */
 const toBountyList = (
-    issuesWithDrillResponse: (Issue & DrillResponse)[],
-): Bounty[] => issuesWithDrillResponse.map(issue => toBounty(issue));
+    issues: Issue[],
+    drillResponses: DrillResponse[],
+): Bounty[] => issues.map((issue, i) => toBounty(issue, drillResponses[i]));
 
-export { filterBounties, toBounty, toBountyList };
+export { filterBounties, getDrillResponsesFromIssues, toBounty, toBountyList };

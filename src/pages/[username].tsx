@@ -1,6 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
 import React, { useMemo } from 'react';
-import { getBountiesByAsignee, getUser } from 'lib/github';
 
 import { Bounty } from 'types/bounty';
 import BountyList from 'components/common/bounty-list';
@@ -9,6 +8,9 @@ import Hero from 'components/profile-page/hero';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
 import { User } from 'types/user';
+import { getBountiesByAssignee } from 'lib/bounties';
+import { getSession } from 'next-auth/react';
+import { getUser } from 'lib/github';
 import { useRouter } from 'next/router';
 
 type ProfilePageProps = {
@@ -89,14 +91,17 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
 export default ProfilePage;
 
 export const getServerSideProps: GetServerSideProps = async context => {
-    const user = await getUser(context);
-    const bounties = await getBountiesByAsignee(context);
+    const username = context.query.username as string;
+    const session = await getSession(context);
+    const accessToken = session?.accessToken as string;
 
-    if (!user) {
+    const bounties = await getBountiesByAssignee(username, accessToken);
+
+    if (!bounties) {
         return { notFound: true };
     }
 
-    return {
-        props: { bounties, user },
-    };
+    const user = await getUser(username, accessToken);
+
+    return { props: { bounties, user } };
 };

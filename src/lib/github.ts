@@ -1,15 +1,20 @@
-import { User as GithubUser, Issue, IssueWithDetails } from 'types/github';
+import { User as GithubUser, Issue } from 'types/github';
 
-import { GetServerSidePropsContext } from 'next';
 import { User } from 'types/user';
-import { getSession } from 'next-auth/react';
-
-const DRILL_BOUNTY_LABEL_ENABLED = 'drill:bounty:enabled';
-const DRILL_BOUNTY_LABEL_CLOSED = 'drill:bounty:closed';
 
 type SearchApiResponse = {
     items: [];
 };
+
+const DRILL_BOUNTY_ENABLED_LABEL = 'drill:bounty:enabled';
+const DRILL_BOUNTY_CLOSED_LABEL = 'drill:bounty:closed';
+
+const getDrillBountyUrlQuery = (params: string[] = []) =>
+    `q=${encodeURIComponent(
+        `is:issue label:"${DRILL_BOUNTY_ENABLED_LABEL}","${DRILL_BOUNTY_CLOSED_LABEL}" repo:${
+            process.env.GITHUB_REPOSITORY
+        } ${params.length ? params.join(' ') : ''}`,
+    )}`;
 
 const getGithubData = async <T>(url: string, token: string): Promise<T> => {
     try {
@@ -28,99 +33,75 @@ const getGithubData = async <T>(url: string, token: string): Promise<T> => {
     }
 };
 
-const getIssues = async (
-    context: GetServerSidePropsContext,
-): Promise<Issue[]> => {
-    const queryString = `q=${encodeURIComponent(
-        `is:issue label:"${DRILL_BOUNTY_LABEL_ENABLED}","${DRILL_BOUNTY_LABEL_CLOSED}" repo:${process.env.GITHUB_REPOSITORY}`,
-    )}`;
-
-    const url = `${process.env.GITHUB_API}/search/issues?${queryString}`;
-
-    const session = await getSession(context);
-    const token = session?.accessToken as string;
+const getIssues = async (accessToken: string): Promise<Issue[] | null> => {
+    const query = getDrillBountyUrlQuery();
+    const url = `${process.env.GITHUB_API}/search/issues?${query}`;
 
     const { items: issues } = await getGithubData<SearchApiResponse>(
         url,
-        token,
+        accessToken,
     );
 
-    return issues;
-};
-
-const getIssuesByAsignee = async (
-    context: GetServerSidePropsContext,
-): Promise<Issue[]> => {
-    const queryString = `q=${encodeURIComponent(
-        `assignee:${context.query.username} is:issue label:"${DRILL_BOUNTY_LABEL_ENABLED}","${DRILL_BOUNTY_LABEL_CLOSED}" repo:${process.env.GITHUB_REPOSITORY}`,
-    )}`;
-
-    const url = `${process.env.GITHUB_API}/search/issues?${queryString}`;
-
-    const session = await getSession(context);
-    const token = session?.accessToken as string;
-
-    const { items: issues } = await getGithubData<SearchApiResponse>(
-        url,
-        token,
-    );
-
-    if (!issues) {
+    if (!issues.length) {
         return null;
     }
 
     return issues;
 };
 
-const getIssueWithDetails = async (
-    issueNumber: number,
-    context: GetServerSidePropsContext,
-): Promise<IssueWithDetails | null> => {
-    const session = await getSession(context);
-    const token = session?.accessToken as string;
+const getIssuesByAssignee = async (
+    username: string,
+    accessToken: string,
+): Promise<Issue[] | null> => {
+    const query = getDrillBountyUrlQuery([`assignee:${username}`]);
+    const url = `${process.env.GITHUB_API}/search/issues?${query}`;
 
-    // Get GitHub issue (/issues/[number])
-    const issueUrl = `${process.env.GITHUB_API}/repos/${process.env.GITHUB_REPOSITORY}/issues/${issueNumber}`;
-    const issue = await getGithubData<Issue>(issueUrl, token);
+    const { items: issuesByAssignee } = await getGithubData<SearchApiResponse>(
+        url,
+        accessToken,
+    );
+
+    if (!issuesByAssignee.length) {
+        return null;
+    }
+
+    return issuesByAssignee;
+};
+
+const getIssue = async (
+    id: number,
+    accessToken: string,
+): Promise<Issue | null> => {
+    const url = `${process.env.GITHUB_API}/repos/${process.env.GITHUB_REPOSITORY}/issues/${id}`;
+    const issue = await getGithubData<Issue>(url, accessToken);
 
     if (!issue) {
         return null;
     }
 
-    // Get Markdown of first comment on GitHub issue, i.e., Drill info
-    // (/issues/[number]/comments)
-    const issueCommentsUrl = `${issueUrl}/comments`;
-    const issueComments = await getGithubData<Issue[]>(issueCommentsUrl, token);
-    const details = issueComments[0].body;
-
-    return { ...issue, details };
+    return issue;
 };
 
-const getUser = async (context: GetServerSidePropsContext): Promise<User> => {
-    const url = `${process.env.GITHUB_API}/users/${context.query.username}`;
+const getUser = async (
+    username: string,
+    accessToken: string,
+): Promise<User | null> => {
+    const url = `${process.env.GITHUB_API}/users/${username}`;
 
-    const session = await getSession(context);
-    const token = session?.accessToken as string;
-    const login = session?.login as string;
-
-    const githubUser = await getGithubData<GithubUser>(url, token);
+    const githubUser = await getGithubData<GithubUser>(url, accessToken);
 
     if (!githubUser) {
         return null;
     }
 
-    const {
-        avatar_url: avatarUrl,
-        name: fullName,
-        login: username,
-    } = githubUser;
+    const { avatar_url: avatarUrl, name: fullName, login } = githubUser;
 
     return {
         avatarUrl,
         fullName,
-        isCurrentUser: login === context.query.username,
+        isCurrentUser: username === login,
         username,
     };
 };
 
-export { getIssues, getIssuesByAsignee, getIssueWithDetails, getUser };
+export { getIssue, getIssues, getIssuesByAssignee, getUser };
