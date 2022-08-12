@@ -6,7 +6,7 @@ import NavElement from "components/common/layout/header/nav-element";
 import { useRouter } from "next/router";
 import Card from "components/common/card";
 
-const CreatePage = () => {
+const NewPage = () => {
     const router = useRouter();
     const currentTabId = (router.query.tab as string) || "write";
 
@@ -87,4 +87,4 @@ const CreatePage = () => {
     );
 };
 
-export default CreatePage;
+export default NewPage;

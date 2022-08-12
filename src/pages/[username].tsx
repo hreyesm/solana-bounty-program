@@ -15,6 +15,7 @@ import { unstable_getServerSession } from 'next-auth';
 import { useRouter } from 'next/router';
 import Button from 'components/common/button';
 import { MdAdd } from 'react-icons/md';
+import Link from 'next/link';
 
 type ProfilePageProps = {
     bounties: Bounty[];
@@ -74,7 +75,12 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                 <div className="flex flex-col gap-7 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">
                     <div className="flex flex-row flex-wrap items-center justify-between gap-2">
                         <Text variant="big-heading"> Bounties </Text>
-                        {user.isCurrentUser && <Button variant="orange" text="Create new" icon={MdAdd} reversed={true} /> }
+                        {/* TODO: Verify if user has perms to create issues in this repo, otherwise disable button and show tooltip. */}
+                        {user.isCurrentUser && (<>
+                            <Link href="/explorer/new">
+                                <Button variant="orange" text="Create new" icon={MdAdd} reversed={true} /> 
+                            </Link>
+                        </>)}
                     </div>
 
                     <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black pt-4">

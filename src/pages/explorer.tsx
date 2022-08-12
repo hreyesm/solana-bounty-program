@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import Button from 'components/common/button';
 import { MdAdd } from 'react-icons/md';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 type ExplorerPageProps = { bounties: Bounty[] };
 
@@ -75,7 +76,10 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                             className={!session && "tooltip"}
                             data-tip="Log in to create bounties"
                         >
-                            <Button variant="orange" text="Create new" icon={MdAdd} reversed={true} disabled={!session} /> 
+                             {/* TODO: Verify if user has perms to create issues in this repo, otherwise disable button and show tooltip. */}
+                            <Link href="/explorer/new">
+                                <Button variant="orange" text="Create new" icon={MdAdd} reversed={true} disabled={!session} /> 
+                            </Link>
                         </div>
                     </div>
 
