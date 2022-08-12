@@ -58,7 +58,7 @@ const NewPage = () => {
 
                     <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-black bg-opacity-40 pt-4 backdrop-blur-xl">
                         <NavElement
-                            as={`/explorer/create`}
+                            as={`/explorer/new`}
                             href={`/explorer/new?tab=write`}
                             key={"write"}
                             label={"Write"}
