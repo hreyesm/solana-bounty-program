@@ -59,14 +59,14 @@ const NewPage = () => {
                     <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-black bg-opacity-40 pt-4 backdrop-blur-xl">
                         <NavElement
                             as={`/explorer/create`}
-                            href={`/explorer/create?tab=write`}
+                            href={`/explorer/new?tab=write`}
                             key={"write"}
                             label={"Write"}
                             scroll={false} // TODO: Scroll to navbar position.
                         />
                         <div className="tooltip" data-tip="This feature is still in development">
                             <NavElement
-                                href={`/explorer/create?tab=preview`}
+                                href={`/explorer/new?tab=preview`}
                                 key={"preview"}
                                 label={"Preview"}
                                 scroll={false} // TODO: Scroll to navbar position.
