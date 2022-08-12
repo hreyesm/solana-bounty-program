@@ -13,6 +13,7 @@ import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Button from 'components/common/button';
 import { MdAdd } from 'react-icons/md';
+import { useSession } from 'next-auth/react';
 
 type ExplorerPageProps = { bounties: Bounty[] };
 
@@ -60,6 +61,8 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
         [currentTabId, tabs],
     );
 
+    const { data: session } = useSession();
+
     return (
         <div className="flex flex-col gap-12">
             <FeaturedSection />
@@ -68,7 +71,12 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                     <Text variant="label"> Browse </Text>
                     <div className="flex flex-row flex-wrap items-center justify-between gap-2">
                         <Text variant="big-heading"> Bounties </Text>
-                        <Button variant="orange" text="Create new" icon={MdAdd} reversed={true} /> 
+                        <div
+                            className={!session && "tooltip"}
+                            data-tip="Log in to create bounties"
+                        >
+                            <Button variant="orange" text="Create new" icon={MdAdd} reversed={true} disabled={!session} /> 
+                        </div>
                     </div>
 
                     <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black pt-4">
