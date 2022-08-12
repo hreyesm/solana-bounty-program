@@ -5,6 +5,7 @@ import { BsMarkdown } from "react-icons/bs";
 import NavElement from "components/common/layout/header/nav-element";
 import { useRouter } from "next/router";
 import Card from "components/common/card";
+import Button from "components/common/button";
 
 const NewPage = () => {
     const router = useRouter();
@@ -39,7 +40,7 @@ const NewPage = () => {
                     <div className="background-transparent group flex h-11 w-96 min-w-fit flex-row items-center gap-3 rounded-full border border-white px-5 py-3 text-white">
                         <MdPersonOutline size={20} />
                         <input
-                            className="w-28 bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
+                            className="w-28 max-w-full bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
                             placeholder="Enter user..."
                             type="text"
                         />
@@ -81,6 +82,10 @@ const NewPage = () => {
                             placeholder="Enter description..."
                         />
                     </Card>
+
+                    <div className="flex flex-row justify-end width-full">
+                        <Button type="submit" variant="orange" text="Create" />
+                    </div>
                 </div>
             </section>
         </div>
