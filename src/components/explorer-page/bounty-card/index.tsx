@@ -24,14 +24,15 @@ type BountyCardProps = Omit<Bounty, 'githubUrl' | 'tags'> & {
 // TODO: Add owner and hunter props.
 const BountyCard = ({
     createdAt,
+    owner,
     hunter,
     id,
     name,
     reward,
     tags,
+    state,
     responsive = true,
     maxTags = 5,
-    owner,
     showDetails = false,
 }: BountyCardProps) => (
     <Link href={`/explorer/${id}`} passHref>
@@ -48,15 +49,26 @@ const BountyCard = ({
                         !showDetails && 'items-center',
                     )}
                 >
-                    <div className="aspect-square h-[4.625rem] rounded-lg bg-white" />
                     <div className="flex h-full flex-col gap-1 overflow-hidden">
                         {!showDetails && (
                             <>
-                                <Chip
-                                    value="placed"
-                                    highlightValue={createdAt}
-                                    reversed={true}
-                                />
+                                <div className="flex flex-row gap-2">
+                                    <Chip
+                                        value="Placed"
+                                        highlightValue={createdAt}
+                                        reversed={true}
+                                    />
+                                    <Chip
+                                        value="Owner"
+                                        highlightValue={owner}
+                                        reversed={true}
+                                    />
+                                    {hunter && <Chip
+                                        value="Hunter"
+                                        highlightValue={hunter}
+                                        reversed={true}
+                                    />}
+                                </div>
                                 <Text
                                     variant="heading"
                                     className={cn(
@@ -77,19 +89,10 @@ const BountyCard = ({
                                     >
                                         Owner
                                     </Text>
-                                    <div className="flex flex-row items-center gap-3">
-                                        <div className="aspect-square h-10 rounded-full bg-white" />
-                                        <Text
-                                            variant="user"
-                                            className="hidden sm:inline"
-                                        >
+                                    <div className="flex flex-row items-center gap-2">
+                                        <div className="aspect-square h-7 rounded-full bg-white" />
+                                        <Text variant="paragraph">
                                             {owner}
-                                        </Text>
-                                        <Text
-                                            variant="label"
-                                            className="text-primary"
-                                        >
-                                            Lv. 1
                                         </Text>
                                     </div>
                                 </div>
@@ -103,23 +106,14 @@ const BountyCard = ({
                                     <div className="flex flex-row items-center gap-3">
                                         {hunter ? (
                                             <>
-                                                <div className="aspect-square h-10 rounded-full bg-white" />
-                                                <Text
-                                                    variant="user"
-                                                    className="hidden sm:inline"
-                                                >
+                                                <div className="aspect-square h-7 rounded-full bg-white" />
+                                                <Text variant="paragraph">
                                                     {hunter}
-                                                </Text>
-                                                <Text
-                                                    variant="label"
-                                                    className="text-primary"
-                                                >
-                                                    Lv. 1
                                                 </Text>
                                             </>
                                         ) : (
                                             <Text
-                                                variant="user"
+                                                variant="paragraph"
                                                 className="hidden sm:inline"
                                             >
                                                 None
