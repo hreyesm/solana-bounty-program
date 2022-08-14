@@ -1,5 +1,6 @@
 import Button from 'components/common/button';
 import Card from 'components/common/card';
+import Text from 'components/common/text';
 const AboutSection = () => (
     <section
         title="about"
@@ -13,15 +14,15 @@ const AboutSection = () => (
             <Card className="px-10 py-11">
                 <div className="flex flex-col justify-between gap-10">
                     <div className="flex max-w-xl flex-col gap-5">
-                        <h2 className="text-4xl font-medium  md:text-6xl">
+                        <Text variant="big-heading">
                             What are Bounties?
-                        </h2>
-                        <p className="text-lg text-white">
+                        </Text>
+                        <Text variant="paragraph">
                             {' '}
                             Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit. Ad sed adipiscing volutpat tincidunt amet
                             vulputate porta est.{' '}
-                        </p>
+                        </Text>
                     </div>
                     <Button text="Learn More" variant="transparent" />
                 </div>
