@@ -14,13 +14,19 @@ import { getBounty } from 'lib/bounties';
 import { unstable_getServerSession } from 'next-auth';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import Chip from 'components/common/chip';
 
 type BountyDetailsPageProps = {
     bounty: Bounty;
 };
 
 const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
-    const { githubUrl, description, id, name, state } = bounty;
+    const { githubUrl, description, id, name, state, createdAt } = bounty;
+
+    const { data: session } = useSession();
+    const { wallet } = useWallet();
 
     const tabs = useMemo(
         () => [
@@ -58,11 +64,24 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                 </Link>
 
                 <div className="flex flex-row gap-3">
-                    <Button
-                        disabled={state === 'closed'}
-                        text="Claim"
-                        variant="orange"
-                    />
+                    {(session && bounty.owner === session.login) && (
+                        <Button variant="danger" text="Close" />
+                    )}
+                    {(session && bounty.hunter === session.login) && (
+                        <div
+                            className={`${(state !== 'closed' || !wallet) && "tooltip"} tooltip-bottom`}
+                            data-tip={
+                                state !== 'closed' ? "Complete this bounty to claim it" : (
+                                !wallet && "Connect a wallet to claim this bounty" 
+                            )}
+                        >
+                        <Button
+                            disabled={state !== 'closed' || !wallet}
+                            text="Claim"
+                            variant="orange"
+                        />  
+                        </div>
+                    )}
                     <a href={githubUrl}>
                         <Button text="View on GitHub" variant="transparent">
                             <MdLink className="aspect-square h-4" />
@@ -71,7 +90,13 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                 </div>
             </div>
 
-            <Text variant="big-heading">{name}</Text>
+            <div className="flex flex-col gap-2">
+                <div className="flex flex-row gap-2">
+                    <Chip value="placed" highlightValue={createdAt} reversed={true} />
+                    <Chip value={state} className={state === 'closed' ? "text-danger" : "text-green-500"} />
+                </div>
+                <Text variant="big-heading">{name}</Text>
+            </div>
 
             <Text variant="nav-heading">Basics</Text>
 
