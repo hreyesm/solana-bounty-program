@@ -1,5 +1,5 @@
 import NextImage from 'next/image';
-import cn from 'utils';
+import { cn } from 'utils';
 
 /**
  * Properties for an interactable button component.
