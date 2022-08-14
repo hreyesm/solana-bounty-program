@@ -30,12 +30,9 @@ const ParticipantSection = ({ owner, hunter }) => (
             >
                 Owner
             </Text>
-            <div className="flex flex-row items-center gap-2 overflow-hidden">
-                <div className="aspect-square h-7 rounded-full bg-white" />
-                <Text variant="paragraph" className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
-                    {owner}
-                </Text>
-            </div>
+            <Text variant="paragraph" className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                {owner}
+            </Text>
         </div>
         <div className="flex flex-col gap-3 justify-between h-full w-full ">
             <Text
@@ -46,12 +43,9 @@ const ParticipantSection = ({ owner, hunter }) => (
             </Text>
             <div className="flex flex-row items-center gap-3 w-full overflow-hidden">
                 {hunter ? (
-                    <>
-                        <div className="aspect-square h-7 rounded-full bg-white" />
-                        <Text variant="paragraph" className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
-                            {hunter}
-                        </Text>
-                    </>
+                    <Text variant="paragraph" className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                        {hunter}
+                    </Text>
                 ) : (
                     <Text
                         variant="paragraph"
