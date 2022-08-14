@@ -144,26 +144,27 @@ const NewPage = () => {
                     </div>
                 </div>
                 <div className="flex flex-col gap-5">
-                    <div className="flex flex-row items-center justify-between">
-                        <Text variant="heading">Description</Text>
+                    <Text variant="heading">Description</Text>
+
+                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-neutral bg-opacity-40 backdrop-blur-xl pt-4">
+                        <div className="flex h-full flex-row gap-8">
+                            {tabs.map((tab, index) => (
+                                <NavElement
+                                    as={index === 0 && '/explorer/new'}
+                                    href={`/explorer/new?tab=${tab.id}`}
+                                    key={tab.id}
+                                    label={tab.label}
+                                    scroll={false} // TODO: Scroll to navbar position.
+                                />
+                            ))}
+                        </div>
+
                         <div
                             className="tooltip"
                             data-tip="The textbox below supports Markdown"
                         >
                             <BsMarkdown size={20} />
                         </div>
-                    </div>
-
-                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
-                        {tabs.map((tab, index) => (
-                            <NavElement
-                                as={index === 0 && '/explorer/new'}
-                                href={`/explorer/new?tab=${tab.id}`}
-                                key={tab.id}
-                                label={tab.label}
-                                scroll={false} // TODO: Scroll to navbar position.
-                            />
-                        ))}
                     </div>
 
                     {currentTab.content}

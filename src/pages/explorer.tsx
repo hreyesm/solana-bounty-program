@@ -89,8 +89,8 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                         </div>
                     </div>
 
-                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-neutral bg-opacity-40 backdrop-blur-xl pt-4">
-                        <div className="flex h-full flex-row gap-8">
+                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
+                        
                             {tabs.map((tab, index) => (
                                 <NavElement
                                     as={index === 0 && `/explorer`}
@@ -101,7 +101,6 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                                     scroll={false} // TODO: Scroll to navbar position.
                                 />
                             ))}
-                        </div>
                     </div>
 
                     {currentTab.content}
