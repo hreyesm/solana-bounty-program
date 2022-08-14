@@ -3,8 +3,11 @@ import React, { useMemo } from 'react';
 
 import { Bounty } from 'types/bounty';
 import BountyList from 'components/common/bounty-list';
+import Button from 'components/common/button';
 import FilterBar from 'components/common/bounty-list/filter-bar';
 import Hero from 'components/profile-page/hero';
+import Link from 'next/link';
+import { MdAdd } from 'react-icons/md';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
 import { User } from 'types/user';
@@ -13,13 +16,10 @@ import { getBountiesByAssignee } from 'lib/bounties';
 import { getUser } from 'lib/user';
 import { unstable_getServerSession } from 'next-auth';
 import { useRouter } from 'next/router';
-import Button from 'components/common/button';
-import { MdAdd } from 'react-icons/md';
-import Link from 'next/link';
 
 type ProfilePageProps = {
     bounties: Bounty[];
-    user: User;
+    user: User & { isCurrentUser: boolean };
 };
 
 const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
@@ -76,11 +76,18 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                     <div className="flex flex-row flex-wrap items-center justify-between gap-2">
                         <Text variant="big-heading"> Bounties </Text>
                         {/* TODO: Verify if user has perms to create issues in this repo, otherwise disable button and show tooltip. */}
-                        {user.isCurrentUser && (<>
-                            <Link href="/explorer/new">
-                                <Button variant="orange" text="Create new" icon={MdAdd} reversed={true} /> 
+                        {user.isCurrentUser && (
+                            <Link href="/explorer/new" passHref>
+                                <a>
+                                    <Button
+                                        variant="orange"
+                                        text="Create new"
+                                        icon={MdAdd}
+                                        reversed
+                                    />
+                                </a>
                             </Link>
-                        </>)}
+                        )}
                     </div>
 
                     <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black pt-4">
@@ -128,5 +135,10 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
     const user = await getUser(username, accessToken);
 
-    return { props: { bounties, user } };
+    return {
+        props: {
+            bounties,
+            user: { ...user, isCurrentUser: username === session?.login },
+        },
+    };
 };
