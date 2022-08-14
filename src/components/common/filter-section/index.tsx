@@ -12,7 +12,7 @@ type FilterMenuProps = {
 };
 
 const FilterMenu = ({ onSearchInputChange }: FilterMenuProps) => (
-    <>
+    <div className="flex justify-end w-full">
         <div className="group flex flex-row items-center gap-3 h-11 px-5 py-3 rounded-full border border-white background-transparent w-full md:w-fit">
             <MdOutlineSearch size={20} />
             <input
@@ -22,7 +22,7 @@ const FilterMenu = ({ onSearchInputChange }: FilterMenuProps) => (
                 type="text"
             />
         </div>
-    </>
+    </div>
 );
 
 export default FilterMenu;
