@@ -100,21 +100,13 @@ const RewardSection = ({ reward, showDetails, responsive }) => (
             variant="label"
             className='inline text-secondary'
         >
-            { (!responsive || showDetails) && 'Reward' } { !responsive && '·' } SOL
+            { (!responsive || showDetails) && 'Reward ·' } SOL
         </Text>
         <Text
             variant="heading"
             className="flex max-w-full flex-row items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap text-primary"
         >
-            {numberToCurrencyString(reward)}{' '}
-            {showDetails && (
-                <Text
-                    variant="paragraph"
-                    className="font-extralight uppercase text-white"
-                >
-                    SOL
-                </Text>
-            )}
+            {numberToCurrencyString(reward)}
         </Text>
     </div>
 );
@@ -152,8 +144,9 @@ const BountyCard = ({
         <a>
             <Card
                 className={cn(
-                    'flex h-fit w-98 flex-shrink-0 snap-start flex-col items-start justify-between gap-5 p-6 hover:bg-opacity-[97%] transition-all duration-300',
+                    'flex h-fit w-98 flex-shrink-0 snap-start flex-col items-start justify-between gap-5 p-6',
                     responsive && '!w-full 2lg:flex-row 2lg:items-center',
+                    !showDetails && "hover:bg-opacity-[97%] transition-all duration-300",
                 )}
             >
                 <div className="w-full overflow-hidden">

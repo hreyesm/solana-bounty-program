@@ -16,13 +16,14 @@ import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useWallet } from '@solana/wallet-adapter-react';
+import Chip from 'components/common/chip';
 
 type BountyDetailsPageProps = {
     bounty: Bounty;
 };
 
 const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
-    const { githubUrl, description, id, name, state } = bounty;
+    const { githubUrl, description, id, name, state, createdAt } = bounty;
 
     const { data: session } = useSession();
     const { wallet } = useWallet();
@@ -89,7 +90,10 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                 </div>
             </div>
 
-            <Text variant="big-heading">{name}</Text>
+            <div className="flex flex-col gap-2">
+                <Chip value="placed" highlightValue={createdAt} reversed={true} />
+                <Text variant="big-heading">{name}</Text>
+            </div>
 
             <Text variant="nav-heading">Basics</Text>
 
