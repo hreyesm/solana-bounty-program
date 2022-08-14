@@ -53,15 +53,27 @@ const NewPage = () => {
     const onSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        await fetch('/api/bounties', {
-            body: JSON.stringify({
-                assignee: hunter,
-                body: description,
-                title: title,
-            }),
-            headers: { 'Content-Type': 'application/json' },
-            method: 'POST',
-        });
+        try {
+            const response = await fetch('/api/bounties', {
+                body: JSON.stringify({
+                    assignee: hunter,
+                    body: description,
+                    title: title,
+                }),
+                headers: { 'Content-Type': 'application/json' },
+                method: 'POST',
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                router.push('/explorer');
+            } else {
+                alert(JSON.stringify(data));
+            }
+        } catch (error) {
+            throw new Error(error);
+        }
     };
 
     if (!session) {
@@ -136,7 +148,12 @@ const NewPage = () => {
                     {currentTab.content}
 
                     <div className="width-full flex flex-row justify-end">
-                        <Button type="submit" variant="orange" text="Create" />
+                        <Button
+                            disabled={!title || !hunter}
+                            type="submit"
+                            variant="orange"
+                            text="Create"
+                        />
                     </div>
                 </div>
             </section>

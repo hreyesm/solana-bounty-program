@@ -46,10 +46,6 @@ const createIssue = async (issue: IssueToCreate, token: string) => {
             method: 'POST',
         });
 
-        if (response.status > 400) {
-            return null;
-        }
-
         return response.json();
     } catch (error) {
         throw new Error(error);

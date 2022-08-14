@@ -19,6 +19,15 @@ const handler: NextApiHandler = async (req, res) => {
         // POST /api/bounties
         case 'POST': {
             const response = await createIssue(req.body, accessToken);
+
+            if (response.message === 'Validation Failed') {
+                const {
+                    errors: [error],
+                } = response;
+
+                return res.status(500).json(error);
+            }
+
             res.status(200).json(response);
             break;
         }
