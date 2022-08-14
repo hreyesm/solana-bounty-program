@@ -24,6 +24,9 @@ export const authOptions: NextAuthOptions = {
     },
     providers: [
         GithubProvider({
+            authorization: {
+                params: { scope: 'repo' },
+            },
             clientId: process.env.GITHUB_ID,
             clientSecret: process.env.GITHUB_SECRET,
         }),
