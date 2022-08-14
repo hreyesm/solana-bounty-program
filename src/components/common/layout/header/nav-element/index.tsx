@@ -1,38 +1,49 @@
+import Link from 'next/link';
 /* eslint-disable @typescript-eslint/ban-types */
 import Text from 'components/common/text';
-import Link from 'next/link';
 import { cn } from 'utils';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
+import Chip from 'components/common/chip';
 
 /**
  * Properties for an interactable navigation element.
  */
- type NavElementProps = {
+type NavElementProps = {
     label: string;
     href: string;
+    as?: string;
+    scroll?: boolean;
+    chipLabel?: string;
+    disabled?: boolean;
 };
 
-const NavElement = ({ label, href }:NavElementProps) => { 
+const NavElement = ({ label, href, as, scroll, chipLabel, disabled }: NavElementProps) => {
     const router = useRouter();
-    const isActive = href === router.asPath;
+    const isActive = href === router.asPath || (as && as === router.asPath);
 
     return (
-        <Link href={href} passHref> 
-            <a 
+        <Link href={href} as={as} scroll={scroll} passHref>
+            <a
                 className={cn(
-                    "h-20 flex flex-col justify-center",
-                    isActive && "border-b-3 border-b-primary"
+                    'group flex h-full flex-col items-center justify-between',
+                    disabled && 'cursor-not-allowed pointer-events-none opacity-50',
                 )}
             >
-                <Text 
-                    variant="nav-heading" 
-                    className={cn(
-                        "capitalize",
-                        isActive && "mt-1"
+                <div className="flex flex-row items-center gap-3">
+                    <Text variant="nav-heading"> {label} </Text>
+                    {chipLabel && (
+                        <Chip highlightValue={chipLabel} />
                     )}
-                > 
-                    {label} 
-                </Text>
+                </div>
+
+                <div
+                    className={cn(
+                        'h-1 w-1/4 transition-all duration-300 ease-out',
+                        isActive
+                            ? '!w-full bg-primary'
+                            : 'group-hover:w-1/2 group-hover:bg-primary-focus',
+                    )}
+                />
             </a>
         </Link>
     );

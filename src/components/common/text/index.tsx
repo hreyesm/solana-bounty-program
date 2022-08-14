@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { cn } from 'utils';
 
 /**
@@ -11,10 +12,13 @@ type TextProps = {
         | 'heading'
         | 'sub-heading'
         | 'nav-heading'
+        | 'nav'
         | 'paragraph'
+        | 'sub-paragraph'
         | 'input'
         | 'label';
     className?: string;
+    href?: string;
     children?: React.ReactNode;
 };
 
@@ -22,14 +26,16 @@ type TextProps = {
  * Pre-defined styling, according to agreed-upon design-system.
  */
 const variants = {
-    hero: 'text-4xl font-medium leading-snug sm:leading-normal sm:text-6xl',
+    hero: 'text-4xl font-medium sm:text-6xl',
     'big-heading': 'text-4xl font-medium md:text-6xl',
     heading: 'text-3xl font-medium',
     'sub-heading': 'text-2xl font-medium',
-    'nav-heading': 'text-xl font-medium',
+    'nav-heading': 'text-lg font-medium sm:text-xl',
+    nav: 'font-medium',
     paragraph: 'text-lg',
+    "sub-paragraph": 'text-base font-medium text-inherit',
     input: 'text-sm uppercase tracking-wide',
-    label: 'text-xs uppercase',
+    label: 'text-xs uppercase tracking-wide',
 };
 
 /**
@@ -41,8 +47,18 @@ const variants = {
  * @param className Custom classes to be applied to the element.
  * @param children Child elements to be rendered within the component.
  */
-const Text = ({ variant, className, children }: TextProps) => (
-    <text className={cn(className, variants[variant])}>{children}</text>
+const Text = ({ variant, className, href, children}: TextProps) => (
+    <text className={cn(className, variants[variant])}> 
+        {href ? (
+            <Link href={href}>
+                <a className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
+                    {children}
+                </a>
+            </Link>
+        ) : (
+            children
+        )}                    
+    </text>
 );
 
 export default Text;

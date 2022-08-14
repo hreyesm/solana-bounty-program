@@ -1,50 +1,63 @@
 import Button from 'components/common/button';
-// import Image from 'components/common/image';
-import Image from 'next/image';
-import Text from 'components/common/text';
+import Chip from 'components/common/chip';
+import Image from 'components/common/image';
 import Link from 'next/link';
-import SearchBar from 'components/common/search-bar';
-import SideNavigation from './side-navigation';
-import { useState } from 'react';
-import { cn } from 'utils';
-
-import { MdMenu } from 'react-icons/md';
+import { MdOutlineSearch } from 'react-icons/md';
 import NavElement from './nav-element';
+import OverflowMenu from 'components/common/overflow-menu';
+import Text from 'components/common/text';
+import { useKBar } from 'kbar';
 
-const Header = () => (
-    <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between bg-black/25 px-6 backdrop-blur-xl backdrop-filter border-b-1.5 border-b-line">
-        <Image
-            src="/logo.svg"
-            alt="logo"
-            width={175}
-            height={27}
-            // priority
-        />
+const Header = () => {
+    const { query } = useKBar();
 
-        <div className="hidden h-fit flex-row items-center gap-5 text-white md:flex">
-            <div className="flex flex-row gap-7">
-                {/* TODO Add `TabbedLayout? */}
-                <NavElement label="home" href="/" />
-                <NavElement label="explorer" href="/explorer" />
+    return (
+        <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between border-b-1.5 border-b-line bg-black bg-opacity-40 px-6 backdrop-blur-xl">
+            <Link href="/" passHref>
+                <div className="flex w-fit flex-row items-center gap-3 md:gap-6">
+                    <Image
+                        src="/logo-icon.svg"
+                        alt="solana icon"
+                        width={29.16}
+                        height={26.08}
+                    />
+                    <div className="flex flex-row items-center gap-3">
+                        <Image
+                            src="/logo-text.svg"
+                            alt="solana text"
+                            className="hidden md:inline"
+                            width={134.46}
+                            height={20.1}
+                        />
+                        <Text variant="label" className="text-white font-thin !tracking-widest"> Bounty </Text>
+                    </div>
+                </div>
+            </Link>
+            <div className="flex h-full flex-row items-center gap-5 text-white">
+                <div className="flex h-2/3 flex-row gap-5 self-end sm:gap-7">
+                    <NavElement label="Home" href="/" />
+                    <NavElement label="Explorer" href="/explorer" />
+                </div>
+
+                <div className="h-1/2 w-px bg-line" />
+
+                <div className="flex h-full flex-row items-center gap-3 md:gap-5">
+                    <Button variant="transparent" icon={MdOutlineSearch} className="hidden md:flex group" onClick={query.toggle}>
+                        <div className="flex gap-0.5">
+                            <kbd className="kbd kbd-xs bg-black/50 group-hover:text-white group-hover:bg-black/80"> ctrl </kbd>
+                            <kbd className="kbd kbd-xs bg-black/50 group-hover:text-white group-hover:bg-black/80"> k </kbd>
+                        </div>
+                    </Button>
+
+                    <Button variant="transparent" icon={MdOutlineSearch} className="flex md:hidden" onClick={query.toggle} />
+
+                    <div className="h-1/2 w-px bg-line hidden md:inline" />
+
+                    <OverflowMenu />
+                </div>
             </div>
-
-            <div className="w-px h-8 bg-line" />
-
-            <SearchBar />
-
-            <div className="w-px h-8 bg-line" />
-
-            <div className="flex flex-row gap-3">
-                <Button text="Log in / Sign up" variant="orange" />
-            </div>
-        </div>
-
-        <div className="inline md:hidden">
-            <Button  variant="transparent">
-                <MdMenu className="h-4 aspect-square" />
-            </Button>
-        </div>
-    </header>
-);
+        </header>
+    );
+};
 
 export default Header;
