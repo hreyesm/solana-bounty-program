@@ -102,7 +102,7 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
 
             <BountyCard {...bounty} maxTags={7} name="" showDetails />
 
-            <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-black bg-opacity-40 pt-4 backdrop-blur-xl">
+            <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
                 {tabs.map((tab, index) => (
                     <NavElement
                         as={index === 0 && `/explorer/${id}`}
