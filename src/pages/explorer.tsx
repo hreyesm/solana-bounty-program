@@ -79,8 +79,6 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                                 />
                             ))}
                         </div>
-
-                        <FilterBar />
                     </div>
 
                     {currentTab.content}

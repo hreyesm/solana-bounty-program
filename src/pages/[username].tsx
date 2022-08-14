@@ -85,8 +85,6 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                                 />
                             ))}
                         </div>
-
-                        <FilterBar />
                     </div>
 
                     {currentTab.content}
