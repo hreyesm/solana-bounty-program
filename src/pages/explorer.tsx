@@ -11,6 +11,10 @@ import { getBounties } from 'lib/bounties';
 import { unstable_getServerSession } from 'next-auth';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
+import Button from 'components/common/button';
+import { MdAdd } from 'react-icons/md';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 type ExplorerPageProps = { bounties: Bounty[] };
 
@@ -58,13 +62,26 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
         [currentTabId, tabs],
     );
 
+    const { data: session } = useSession();
+
     return (
         <div className="flex flex-col gap-12">
             <FeaturedSection />
             <div className="flex flex-col gap-0">
                 <div className="flex w-full flex-col gap-7 px-5 sm:px-8 md:px-16 lg:px-32 xl:px-48">
                     <Text variant="label"> Browse </Text>
-                    <Text variant="big-heading"> Open Bounties </Text>
+                    <div className="flex flex-row flex-wrap items-center justify-between gap-2">
+                        <Text variant="big-heading"> Bounties </Text>
+                        <div
+                            className={!session && "tooltip"}
+                            data-tip="Log in to create bounties"
+                        >
+                             {/* TODO: Verify if user has perms to create issues in this repo, otherwise disable button and show tooltip. */}
+                            <Link href="/explorer/new">
+                                <Button variant="orange" text="Create new" icon={MdAdd} reversed={true} disabled={!session} /> 
+                            </Link>
+                        </div>
+                    </div>
 
                     <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black pt-4">
                         <div className="flex h-full flex-row gap-8">
