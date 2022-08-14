@@ -19,7 +19,7 @@ const ActionsSection = () => (
                             vulputate porta est.{' '}
                         </Text>
                     </div>
-                    <Button text="Get Started" variant="outlined" />
+                    <Button text="Get Started" variant="transparent" />
                 </div>
             </Card>
             <Card className="h-full w-full p-12">
@@ -33,7 +33,7 @@ const ActionsSection = () => (
                             vulputate porta est.{' '}
                         </Text>
                     </div>
-                    <Button text="Start Exploring" variant="outlined" />
+                    <Button text="Start Exploring" variant="transparent" />
                 </div>
             </Card>
         </div>
