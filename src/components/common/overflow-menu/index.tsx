@@ -49,7 +49,7 @@ const OverflowMenu = () => {
                 </label>
                 <Card
                     tabIndex={0}
-                    className="bg-opacity-85 dropdown-content mt-3 block w-[calc(100vw-3rem)] !bg-[#222227] sm:w-80" // TODO: Background is temporarily solid color due to blur issue.
+                    className="bg-opacity-85 dropdown-content mt-3 block w-[calc(100vw-3rem)] !bg-[#232225] sm:w-80" // TODO: Background is temporarily solid color due to blur issue.
                 >
                     <div className="flex flex-col gap-3 p-5">
                         <div className="flex items-center justify-between">
