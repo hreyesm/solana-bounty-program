@@ -6,8 +6,12 @@ import NavElement from "components/common/layout/header/nav-element";
 import { useRouter } from "next/router";
 import Card from "components/common/card";
 import Button from "components/common/button";
+import { cn } from "utils";
 
 const NewPage = () => {
+    const validBountyName = false;
+    const validHunter = false;
+
     const router = useRouter();
     const currentTabId = (router.query.tab as string) || "write";
 
@@ -24,9 +28,17 @@ const NewPage = () => {
                 className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 text-white sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
             >
                 <Text variant="label">New bounty</Text>
-                <div className="flex flex-col justify-between h-20">
-                    <input className="peer placeholder-line/50 bg-transparent outline-none border-none text-4xl font-medium md:text-6xl" placeholder="Bounty name..." />
-                    <div className="w-full h-px bg-line peer-focus:h-1 peer-focus:bg-white transition-all duration-300" />
+                <div 
+                    className={cn(
+                        "tooltip-error tooltip-bottom",
+                        !validBountyName && "tooltip tooltip-open"
+                    )}
+                    data-tip="Enter a bounty name"
+                >
+                    <div className="flex flex-col justify-between h-12 md:h-20">
+                        <input className="peer placeholder-black/20 bg-transparent outline-none border-none text-4xl font-medium md:text-6xl" placeholder="Bounty name..." />
+                        <div className="w-full h-px bg-line peer-focus:h-1 peer-focus:bg-white transition-all duration-300" />
+                    </div>
                 </div>
             </section>
             <section 
@@ -37,13 +49,21 @@ const NewPage = () => {
                 <div className="flex flex-col gap-3">
                     <Text variant="heading">Hunter</Text>
                     <Text variant="label" className="text-secondary !normal-case"> Enter a valid username for the GitHub user you wish to assign this bounty to... </Text>
-                    <div className="background-transparent group flex h-11 w-96 min-w-fit flex-row items-center gap-3 rounded-full border border-white px-5 py-3 text-white">
-                        <MdPersonOutline size={20} />
-                        <input
-                            className="w-28 max-w-full bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
-                            placeholder="Enter user..."
-                            type="text"
-                        />
+                    <div 
+                        className={cn(
+                            "tooltip-error w-fit",
+                            !validHunter && "tooltip tooltip-open"
+                        )}
+                        data-tip="Enter a valid GitHub username"
+                    >
+                        <div className="background-transparent group flex h-11 w-96 min-w-fit flex-row items-center gap-3 rounded-full border border-white px-5 py-3 text-white">
+                            <MdPersonOutline size={20} />
+                            <input
+                                className="w-28 max-w-full bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
+                                placeholder="Enter user..."
+                                type="text"
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className="flex flex-col gap-5">
