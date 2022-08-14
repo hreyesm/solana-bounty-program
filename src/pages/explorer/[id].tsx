@@ -32,8 +32,8 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
         () => [
             {
                 content: <Markdown>{description}</Markdown>,
-                id: 'about',
-                label: 'About',
+                id: 'description',
+                label: 'Description',
             },
             state === 'open' && {
                 content: <FundTab {...bounty} />,
