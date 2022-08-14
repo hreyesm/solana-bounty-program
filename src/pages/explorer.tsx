@@ -66,7 +66,7 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                     <Text variant="label"> Browse </Text>
                     <Text variant="big-heading"> Open Bounties </Text>
 
-                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black pt-4">
+                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black bg-opacity-40 backdrop-blur-xl pt-4">
                         <div className="flex h-full flex-row gap-8">
                             {tabs.map((tab, index) => (
                                 <NavElement
