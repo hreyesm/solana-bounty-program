@@ -100,7 +100,7 @@ const RewardSection = ({ reward, showDetails, responsive }) => (
             variant="label"
             className='inline text-secondary'
         >
-            Reward {!showDetails && '· SOL'}
+            { (!responsive || showDetails) && 'Reward' } { !responsive && '·' } SOL
         </Text>
         <Text
             variant="heading"
@@ -119,12 +119,10 @@ const RewardSection = ({ reward, showDetails, responsive }) => (
     </div>
 );
 
-const NameSection = ({ name, createdAt }) => (
+const BasicsSection = ({ name, createdAt }) => (
     <div className="h-16 flex flex-col justify-between">
         <Chip
-            value="Placed"
             highlightValue={createdAt}
-            reversed={true}
         />
         <Text
             variant="heading"
@@ -162,7 +160,7 @@ const BountyCard = ({
                     {showDetails ? (
                         <ParticipantSection owner={owner} hunter={hunter} />
                     ) : (
-                        <NameSection name={name} createdAt={createdAt} />
+                        <BasicsSection name={name} createdAt={createdAt} />
                     )}
                 </div>
 
