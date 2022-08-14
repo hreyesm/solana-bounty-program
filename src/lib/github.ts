@@ -1,9 +1,17 @@
 import { User as GithubUser, Issue, User } from 'types/github';
 
+type IssueToCreate = {
+    assignee: string;
+    body: string;
+    labels?: string[];
+    title: string;
+};
+
 type SearchApiResponse = {
     items: [];
 };
 
+const DRILL_BOUNTY_LABEL = 'drill:bounty';
 const DRILL_BOUNTY_ENABLED_LABEL = 'drill:bounty:enabled';
 const DRILL_BOUNTY_CLOSED_LABEL = 'drill:bounty:closed';
 
@@ -13,6 +21,40 @@ const getDrillBountyUrlQuery = (params: string[] = []) =>
             process.env.GITHUB_REPOSITORY
         } ${params.length ? params.join(' ') : ''}`,
     )}`;
+
+const createIssue = async (issue: IssueToCreate, token: string) => {
+    const url = `${process.env.GITHUB_API}/repos/${process.env.GITHUB_REPOSITORY}/issues`;
+    const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+
+    const { assignee, body, labels = [], title } = issue;
+
+    try {
+        const response = await fetch(url, {
+            body: JSON.stringify({
+                assignees: [assignee],
+                body,
+                labels: [DRILL_BOUNTY_LABEL, ...labels],
+                owner,
+                repo,
+                title,
+            }),
+            headers: {
+                Accept: 'application/vnd.github+json',
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+        });
+
+        if (response.status > 400) {
+            return null;
+        }
+
+        return response.json();
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
 const getGithubData = async <T>(url: string, token: string): Promise<T> => {
     try {
@@ -95,4 +137,4 @@ const getUser = async (
     return user;
 };
 
-export { getIssue, getIssues, getIssuesByAssignee, getUser };
+export { createIssue, getIssue, getIssues, getIssuesByAssignee, getUser };
