@@ -71,7 +71,7 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                 <div className="flex w-full flex-col gap-7 px-5 sm:px-8 md:px-16 lg:px-32 xl:px-48">
                     <Text variant="label"> Browse </Text>
                     <div className="flex flex-row flex-wrap items-center justify-between gap-2">
-                        <Text variant="big-heading"> Bounties </Text>
+                        <Text variant="big-heading"> All Bounties </Text>
                         <div
                             className={!session && 'tooltip'}
                             data-tip="Log in to create bounties"
