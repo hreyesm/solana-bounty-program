@@ -7,10 +7,14 @@ import Markdown from 'components/common/markdown';
 import { MdPersonOutline } from 'react-icons/md';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
+import { cn } from 'utils';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
 const NewPage = () => {
+    const validBountyName = false;
+    const validHunter = false;
+
     const { data: session } = useSession();
 
     const [title, setTitle] = useState('');
@@ -87,14 +91,22 @@ const NewPage = () => {
                 className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 text-white sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
             >
                 <Text variant="label">New bounty</Text>
-                <div className="flex h-20 flex-col justify-between">
-                    <input
-                        className="peer border-none bg-transparent text-4xl font-medium placeholder-line/50 outline-none md:text-6xl"
-                        onChange={e => setTitle(e.target.value)}
-                        placeholder="Bounty name..."
-                        value={title}
-                    />
-                    <div className="h-px w-full bg-line transition-all duration-300 peer-focus:h-1 peer-focus:bg-white" />
+                <div
+                    className={cn(
+                        'tooltip-bottom tooltip-error',
+                        !validBountyName && 'tooltip-open tooltip',
+                    )}
+                    data-tip="Enter a bounty name"
+                >
+                    <div className="flex h-12 flex-col justify-between md:h-20">
+                        <input
+                            className="peer border-none bg-transparent text-4xl font-medium placeholder-black/20 outline-none md:text-6xl"
+                            onChange={e => setTitle(e.target.value)}
+                            placeholder="Bounty name..."
+                            value={title}
+                        />
+                        <div className="h-px w-full bg-line transition-all duration-300 peer-focus:h-1 peer-focus:bg-white" />
+                    </div>
                 </div>
             </section>
             <section
@@ -108,18 +120,27 @@ const NewPage = () => {
                         variant="label"
                         className="!normal-case text-secondary"
                     >
+                        {' '}
                         Enter a valid username for the GitHub user you wish to
-                        assign this bounty to...
+                        assign this bounty to...{' '}
                     </Text>
-                    <div className="background-transparent group flex h-11 w-96 min-w-fit flex-row items-center gap-3 rounded-full border border-white px-5 py-3 text-white">
-                        <MdPersonOutline size={20} />
-                        <input
-                            className="w-28 max-w-full bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
-                            onChange={e => setHunter(e.target.value)}
-                            placeholder="Enter user..."
-                            type="text"
-                            value={hunter}
-                        />
+                    <div
+                        className={cn(
+                            'tooltip-error w-fit',
+                            !validHunter && 'tooltip-open tooltip',
+                        )}
+                        data-tip="Enter a valid GitHub username"
+                    >
+                        <div className="background-transparent group flex h-11 w-96 min-w-fit flex-row items-center gap-3 rounded-full border border-white px-5 py-3 text-white">
+                            <MdPersonOutline size={20} />
+                            <input
+                                className="w-28 max-w-full bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
+                                onChange={e => setHunter(e.target.value)}
+                                placeholder="Enter user..."
+                                type="text"
+                                value={hunter}
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className="flex flex-col gap-5">
