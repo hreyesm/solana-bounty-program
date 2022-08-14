@@ -13,7 +13,7 @@ type FilterMenuProps = {
 
 const FilterMenu = ({ onSearchInputChange }: FilterMenuProps) => (
     <>
-        <div className="group flex flex-row items-center gap-3 h-11 px-5 py-3 rounded-full border border-white text-white background-transparent w-full md:w-fit">
+        <div className="group flex flex-row items-center gap-3 h-11 px-5 py-3 rounded-full border border-white background-transparent w-full md:w-fit">
             <MdOutlineSearch size={20} />
             <input
                 className="outline-none bg-transparent text-sm tracking-wide text-secondary"

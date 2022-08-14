@@ -88,7 +88,7 @@ const NewPage = () => {
         <form className="flex flex-col" onSubmit={onSubmit}>
             <section
                 title="bounty-name"
-                className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 text-white sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
+                className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
             >
                 <Text variant="label">New bounty</Text>
                 <div
@@ -111,7 +111,7 @@ const NewPage = () => {
             </section>
             <section
                 title="bounty-details"
-                className="flex w-full flex-col gap-7 p-5 !pb-0 text-white sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
+                className="flex w-full flex-col gap-7 p-5 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
             >
                 <Text variant="label">Details</Text>
                 <div className="flex flex-col gap-3">
@@ -131,7 +131,7 @@ const NewPage = () => {
                         )}
                         data-tip="Enter a valid GitHub username"
                     >
-                        <div className="background-transparent group flex h-11 w-96 min-w-fit flex-row items-center gap-3 rounded-full border border-white px-5 py-3 text-white">
+                        <div className="background-transparent group flex h-11 w-96 min-w-fit flex-row items-center gap-3 rounded-full border border-white px-5 py-3">
                             <MdPersonOutline size={20} />
                             <input
                                 className="w-28 max-w-full bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"

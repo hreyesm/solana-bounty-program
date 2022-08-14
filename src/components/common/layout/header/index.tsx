@@ -31,7 +31,7 @@ const Header = () => {
                         />
                         <Text
                             variant="label"
-                            className="text-white font-thin !tracking-widest"
+                            className="font-thin !tracking-widest"
                         >
                             {' '}
                             Bounty{' '}
@@ -39,7 +39,7 @@ const Header = () => {
                     </div>
                 </div>
             </Link>
-            <div className="flex h-full flex-row items-center gap-5 text-white">
+            <div className="flex h-full flex-row items-center gap-5">
                 <div className="flex h-2/3 flex-row gap-5 self-end sm:gap-7">
                     <NavElement label="Home" href="/" />
                     <NavElement label="Explorer" href="/explorer" />
