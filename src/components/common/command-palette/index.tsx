@@ -19,66 +19,67 @@ const actions = [
     {
         id: 'home',
         name: 'Home',
-        subtitle: "Subtitles can help add more context.",
+        subtitle: 'Subtitles can help add more context.',
         keywords: 'home homepage landing',
-        shortcut: ["h"],
-        section: "Navigation",
+        shortcut: ['h'],
+        section: 'Navigation',
         perform: () => (window.location.pathname = '/'),
     },
     {
         id: 'explorer',
         name: 'Explorer',
         keywords: 'explorer bounties',
-        shortcut: ["e"],
-        section: "Navigation",
+        shortcut: ['e'],
+        section: 'Navigation',
         perform: () => (window.location.pathname = '/explorer'),
     },
     {
         id: 'profile',
         name: 'Your profile',
         keywords: 'profile me account',
-        shortcut: ["p"],
-        section: "Navigation",
+        shortcut: ['p'],
+        section: 'Navigation',
         perform: () => (window.location.pathname = '/HaresMahmood'),
     },
     {
         id: 'search-bounty',
         name: 'Search bounties...',
         keywords: 'search bounty bounties',
-        shortcut: ["s", "b"],
-        section: "Actions",
+        shortcut: ['s', 'b'],
+        section: 'Actions',
         perform: () => (window.location.pathname = 'blog'),
     },
     {
         id: 'search-profile',
         name: 'Search profiles...',
         keywords: 'search profile user profiles users',
-        shortcut: ["s", "p"],
-        section: "Actions",
+        shortcut: ['s', 'p'],
+        section: 'Actions',
         perform: () => (window.location.pathname = 'blog'),
     },
     {
         id: 'create-bounty',
         name: 'Create bounty',
         keywords: 'bounty create new plus add',
-        shortcut: ["c", "b"],
-        section: "Actions",
+        shortcut: ['c', 'b'],
+        section: 'Actions',
         perform: () => (window.location.pathname = 'blog'),
     },
     {
         id: 'integrate-github',
         name: 'Sign in...',
         keywords: 'sign in sign out login logout',
-        shortcut: ["g"],
-        section: "Integrations",
+        shortcut: ['g'],
+        section: 'Integrations',
         perform: () => (window.location.pathname = 'contact'),
     },
     {
         id: 'integrate-wallet',
         name: 'Connect wallet...',
-        keywords: 'connect wallet solana solana-wallet phantom solflare torus sollet ',
-        shortcut: ["w"],
-        section: "Integrations",
+        keywords:
+            'connect wallet solana solana-wallet phantom solflare torus sollet ',
+        shortcut: ['w'],
+        section: 'Integrations',
         perform: () => (window.location.pathname = 'contact'),
     },
 ];
@@ -91,16 +92,16 @@ const ResultItem = React.forwardRef(
             active,
             currentRootActionId,
         }: {
-        action: ActionImpl;
-        active: boolean;
-        currentRootActionId: ActionId;
-      },
-        ref: React.Ref<HTMLDivElement>
+            action: ActionImpl;
+            active: boolean;
+            currentRootActionId: ActionId;
+        },
+        ref: React.Ref<HTMLDivElement>,
     ) => {
         const ancestors = React.useMemo(() => {
             if (!currentRootActionId) return action.ancestors;
             const index = action.ancestors.findIndex(
-                ancestor => ancestor.id === currentRootActionId
+                ancestor => ancestor.id === currentRootActionId,
             );
             // +1 removes the currentRootAction; e.g.
             // if we are on the "Set theme" parent action,
@@ -108,25 +109,29 @@ const ResultItem = React.forwardRef(
             // but rather just "Dark"
             return action.ancestors.slice(index + 1);
         }, [action.ancestors, currentRootActionId]);
-  
+
         return (
-            <div ref={ref} className={cn(
-                "h-16 pr-5 flex flex-row items-center justify-between cursor-pointer transition-colors duration-300 ease-out",
-                active && 'bg-primary-focus bg-opacity-5'
-            )}>
+            <div
+                ref={ref}
+                className={cn(
+                    'h-16 pr-5 flex flex-row items-center justify-between cursor-pointer transition-colors duration-300 ease-out',
+                    active && 'bg-primary-focus bg-opacity-5',
+                )}
+            >
                 <div className="h-full flex flex-row items-center gap-5">
                     <div
                         className={cn(
                             'h-1/2 w-1 bg-transparent transition-all duration-300 ease-out',
-                            active && '!h-full !bg-primary'
+                            active && '!h-full !bg-primary',
                         )}
                     />
-        
+
                     <div className="flex flex-col">
-                        <Text variant="paragraph">
-                            {action.name}
-                        </Text>
-                        <Text variant="label" className="text-secondary !normal-case">
+                        <Text variant="paragraph">{action.name}</Text>
+                        <Text
+                            variant="label"
+                            className="text-secondary !normal-case"
+                        >
                             {action.subtitle}
                         </Text>
                     </div>
@@ -137,10 +142,7 @@ const ResultItem = React.forwardRef(
                         className="flex flex-row gap-1.5 items-center"
                     >
                         {action.shortcut.map(sc => (
-                            <kbd
-                                key={sc}
-                                className="kbd kbd-sm bg-black/50"
-                            >
+                            <kbd key={sc} className="kbd kbd-sm bg-black/50">
                                 {sc}
                             </kbd>
                         ))}
@@ -148,7 +150,7 @@ const ResultItem = React.forwardRef(
                 )}
             </div>
         );
-    }
+    },
 );
 
 function RenderResults() {
@@ -166,7 +168,10 @@ function RenderResults() {
             onRender={({ item, active }) =>
                 typeof item === 'string' ? (
                     <div className="w-full p-2 pl-6 pb-3">
-                        <Text variant="label" className="text-primary"> {item} </Text> 
+                        <Text variant="label" className="text-primary">
+                            {' '}
+                            {item}{' '}
+                        </Text>
                     </div>
                 ) : (
                     <ResultItem
@@ -184,10 +189,15 @@ const CommandPalette = props => (
     <KBarProvider actions={actions}>
         <KBarPortal>
             <KBarPositioner className="z-[200] bg-base bg-opacity-50 backdrop-blur-md">
-                <KBarAnimator className="w-[600px] overflow-hidden bg-base bg-opacity-90 backdrop-blur-lg firefox:bg-opacity-90 rounded-3xl text-white border border-white"> {/* TODO: Don't copy styling from `Card`-component - reuse it!  bg-base bg-opacity-70 backdrop-blur-lg firefox:bg-opacity-90 rounded-3xl text-white border border-white*/} 
-                    <div className="p-5 flex flex-row justify-between gap-3"> 
-                        <KBarSearch defaultPlaceholder="Search bounties, profiles, pages, and more..." className="w-full block bg-transparent text-white placeholder:overflow-visible placeholder:text-base-content placeholder:opacity-50 focus:outline-none" /> 
-                        <MdOutlineSearch size={22} className="w-fit" /> 
+                <KBarAnimator className="w-[600px] overflow-hidden bg-base bg-opacity-90 backdrop-blur-lg firefox:bg-opacity-90 rounded-3xl text-white border border-white">
+                    {' '}
+                    {/* TODO: Don't copy styling from `Card`-component - reuse it!  bg-base bg-opacity-70 backdrop-blur-lg firefox:bg-opacity-90 rounded-3xl text-white border border-white*/}
+                    <div className="p-5 flex flex-row justify-between gap-3">
+                        <KBarSearch
+                            defaultPlaceholder="Search bounties, profiles, pages, and more..."
+                            className="w-full block bg-transparent text-white placeholder:overflow-visible placeholder:text-base-content placeholder:opacity-50 focus:outline-none"
+                        />
+                        <MdOutlineSearch size={22} className="w-fit" />
                     </div>
                     <div className="h-px w-full bg-line" />
                     <RenderResults />

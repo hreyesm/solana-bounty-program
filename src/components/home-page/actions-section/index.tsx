@@ -11,9 +11,7 @@ const ActionsSection = () => (
             <Card className="w-full p-12">
                 <div className="flex h-full flex-col justify-between gap-10">
                     <div className="flex max-w-xl flex-col gap-4">
-                        <Text variant="big-heading">
-                            Fund a Bounty
-                        </Text>
+                        <Text variant="big-heading">Fund a Bounty</Text>
                         <Text variant="paragraph">
                             {' '}
                             Lorem ipsum dolor sit amet, consectetur adipiscing
@@ -27,9 +25,7 @@ const ActionsSection = () => (
             <Card className="h-full w-full p-12">
                 <div className="flex flex-col justify-between gap-10">
                     <div className="flex max-w-xl flex-col gap-4">
-                        <Text variant="big-heading">
-                            Explore Open Bounties
-                        </Text>
+                        <Text variant="big-heading">Explore Open Bounties</Text>
                         <Text variant="paragraph">
                             {' '}
                             Lorem ipsum dolor sit amet, consectetur adipiscing

@@ -1,5 +1,5 @@
-import { MdOutlineSearch } from "react-icons/md";
-import { cn } from "utils";
+import { MdOutlineSearch } from 'react-icons/md';
+import { cn } from 'utils';
 
 /**
  * Definition of an interactable button component.

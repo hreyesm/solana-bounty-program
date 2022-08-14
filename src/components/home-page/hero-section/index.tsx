@@ -6,7 +6,7 @@ import React from 'react';
 import { cn } from 'utils';
 import Text from 'components/common/text';
 
-const pageHeight = "calc(100vh_-_5rem)"; // TODO: Create variable for header height (`var(--header-height)`)
+const pageHeight = 'calc(100vh_-_5rem)'; // TODO: Create variable for header height (`var(--header-height)`)
 
 const HeroSection = () => {
     const [MousePosition, setMousePosition] = React.useState({
@@ -39,15 +39,23 @@ const HeroSection = () => {
                 }}
             ></div>
             <div className="relative flex h-full w-full flex-col items-center justify-evenly px-4 pt-20 text-left sm:px-8 sm:pt-10 md:items-start md:px-16 lg:px-32 xl:px-64">
-                <Text variant="hero" className="text-white"> 
+                <Text variant="hero" className="text-white">
                     <span style={{ color: '#F07546' }}>Bounties</span> are here.
                     <br />
                     Do you have what it takes?
                 </Text>
                 <Headlines />
                 <div className="flex justify-center gap-4 w-full md:justify-start">
-                    <Button text="Fund Bounty" variant="orange" className="!w-full sm:!w-fit" />
-                    <Button text="Start Exploring" variant="transparent" className="!w-full sm:!w-fit" />
+                    <Button
+                        text="Fund Bounty"
+                        variant="orange"
+                        className="!w-full sm:!w-fit"
+                    />
+                    <Button
+                        text="Start Exploring"
+                        variant="transparent"
+                        className="!w-full sm:!w-fit"
+                    />
                 </div>
             </div>
         </section>

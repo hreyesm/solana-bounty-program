@@ -73,12 +73,18 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                     <div className="flex flex-row flex-wrap items-center justify-between gap-2">
                         <Text variant="big-heading"> Bounties </Text>
                         <div
-                            className={!session && "tooltip"}
+                            className={!session && 'tooltip'}
                             data-tip="Log in to create bounties"
                         >
-                             {/* TODO: Verify if user has perms to create issues in this repo, otherwise disable button and show tooltip. */}
+                            {/* TODO: Verify if user has perms to create issues in this repo, otherwise disable button and show tooltip. */}
                             <Link href="/explorer/new">
-                                <Button variant="orange" text="Create new" icon={MdAdd} reversed={true} disabled={!session} /> 
+                                <Button
+                                    variant="orange"
+                                    text="Create new"
+                                    icon={MdAdd}
+                                    reversed={true}
+                                    disabled={!session}
+                                />
                             </Link>
                         </div>
                     </div>

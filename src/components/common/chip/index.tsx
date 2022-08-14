@@ -27,14 +27,24 @@ type ChipProps = {
  * @param children Child elements to be rendered within the component.
  * @param blur Whether or not to apply a blur-effect.
  */
-const Chip = ({ className, highlightValue, value, copyValue, icon, children, reversed, href}: ChipProps) => {
-    const [showTooltip, setShowTooltip] = React.useState(false)
-    
+const Chip = ({
+    className,
+    highlightValue,
+    value,
+    copyValue,
+    icon,
+    children,
+    reversed,
+    href,
+}: ChipProps) => {
+    const [showTooltip, setShowTooltip] = React.useState(false);
+
     return (
-        <div 
+        <div
             className={cn(
-                (href || copyValue) && "cursor-pointer hover:bg-black/30 transition-colors",
-                "flex flex-row items-center gap-2.5 w-fit text-secondary rounded-full bg-black/50 px-2 py-1",
+                (href || copyValue) &&
+                    'cursor-pointer hover:bg-black/30 transition-colors',
+                'flex flex-row items-center gap-2.5 w-fit text-secondary rounded-full bg-black/50 px-2 py-1',
             )}
             onClick={() => {
                 if (copyValue) {
@@ -47,12 +57,20 @@ const Chip = ({ className, highlightValue, value, copyValue, icon, children, rev
                 }
             }}
         >
-            { copyValue ? (
-                <> 
+            {copyValue ? (
+                <>
                     <Text variant="label"> Copy </Text>
-                    <label className={cn("swap swap-rotate", showTooltip && "swap-active")}>
-                        <MdContentCopy size={13} className="swap-off text-secondary" /> 
-                        <MdDone size={13} className="swap-on text-success" /> 
+                    <label
+                        className={cn(
+                            'swap swap-rotate',
+                            showTooltip && 'swap-active',
+                        )}
+                    >
+                        <MdContentCopy
+                            size={13}
+                            className="swap-off text-secondary"
+                        />
+                        <MdDone size={13} className="swap-on text-success" />
                     </label>
                 </>
             ) : (
@@ -64,20 +82,20 @@ const Chip = ({ className, highlightValue, value, copyValue, icon, children, rev
                             'flex flex-row items-center gap-1',
                             reversed && 'flex-row-reverse',
                         )}
-                    > 
+                    >
                         {highlightValue && (
                             <span className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap font-medium text-primary">
                                 {highlightValue}
                             </span>
                         )}
-                        {(value) && (
+                        {value && (
                             <span className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
                                 {value}
                             </span>
-                        )}  
+                        )}
                     </Text>
-                    { icon && React.createElement(icon, { size: 13 }) }
-                    { children}
+                    {icon && React.createElement(icon, { size: 13 })}
+                    {children}
                 </>
             )}
         </div>

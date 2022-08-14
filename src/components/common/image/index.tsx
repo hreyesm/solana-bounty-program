@@ -4,7 +4,7 @@ import { cn } from 'utils';
 /**
  * Properties for an interactable button component.
  */
- type ImageProps = {
+type ImageProps = {
     className?: string;
     height?: number;
     width?: number;
@@ -14,7 +14,15 @@ import { cn } from 'utils';
     rest?: any;
 };
 
-const Image = ({ className, height, width, src, alt, style, ...rest }: ImageProps) => (
+const Image = ({
+    className,
+    height,
+    width,
+    src,
+    alt,
+    style,
+    ...rest
+}: ImageProps) => (
     <div
         className={cn('_image-container', className)}
         style={{
@@ -22,7 +30,14 @@ const Image = ({ className, height, width, src, alt, style, ...rest }: ImageProp
             width: width ? `${width}px` : null,
         }}
     >
-        <NextImage className="_image" layout="fill" src={src} alt={alt} style={style} {...rest} />
+        <NextImage
+            className="_image"
+            layout="fill"
+            src={src}
+            alt={alt}
+            style={style}
+            {...rest}
+        />
     </div>
 );
 

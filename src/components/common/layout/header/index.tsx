@@ -29,7 +29,13 @@ const Header = () => {
                             width={134.46}
                             height={20.1}
                         />
-                        <Text variant="label" className="text-white font-thin !tracking-widest"> Bounty </Text>
+                        <Text
+                            variant="label"
+                            className="text-white font-thin !tracking-widest"
+                        >
+                            {' '}
+                            Bounty{' '}
+                        </Text>
                     </div>
                 </div>
             </Link>
@@ -42,14 +48,30 @@ const Header = () => {
                 <div className="h-1/2 w-px bg-line" />
 
                 <div className="flex h-full flex-row items-center gap-3 md:gap-5">
-                    <Button variant="transparent" icon={MdOutlineSearch} className="hidden md:flex group" onClick={query.toggle}>
+                    <Button
+                        variant="transparent"
+                        icon={MdOutlineSearch}
+                        className="hidden md:flex group"
+                        onClick={query.toggle}
+                    >
                         <div className="flex gap-0.5">
-                            <kbd className="kbd kbd-xs bg-black/50 group-hover:text-white group-hover:bg-black/80"> ctrl </kbd>
-                            <kbd className="kbd kbd-xs bg-black/50 group-hover:text-white group-hover:bg-black/80"> k </kbd>
+                            <kbd className="kbd kbd-xs bg-black/50 group-hover:text-white group-hover:bg-black/80">
+                                {' '}
+                                ctrl{' '}
+                            </kbd>
+                            <kbd className="kbd kbd-xs bg-black/50 group-hover:text-white group-hover:bg-black/80">
+                                {' '}
+                                k{' '}
+                            </kbd>
                         </div>
                     </Button>
 
-                    <Button variant="transparent" icon={MdOutlineSearch} className="flex md:hidden" onClick={query.toggle} />
+                    <Button
+                        variant="transparent"
+                        icon={MdOutlineSearch}
+                        className="flex md:hidden"
+                        onClick={query.toggle}
+                    />
 
                     <div className="h-1/2 w-px bg-line hidden md:inline" />
 

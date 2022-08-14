@@ -1,5 +1,5 @@
 import { IconType } from 'react-icons';
-import type { MouseEvent} from 'react';
+import type { MouseEvent } from 'react';
 import React from 'react';
 import Text from '../text';
 import { cn } from 'utils';
@@ -30,7 +30,7 @@ const variants = {
     transparent: 'text-white', // TODO: Change name of variant to `outlined`.
     danger: 'border-secondary text-danger hover:text-white hover:bg-secondary',
     label: 'text-secondary hover:text-white !p-0 border-none',
-    none: ''
+    none: '',
 };
 
 /**

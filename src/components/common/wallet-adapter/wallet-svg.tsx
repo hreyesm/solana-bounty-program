@@ -3,8 +3,20 @@ import React from 'react';
 
 export const WalletSVG: FC = () => {
     return (
-        <svg width="97" height="96" viewBox="0 0 97 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="48.5" cy="48" r="48" fill="url(#paint0_linear_880_5115)" fillOpacity="0.1" />
+        <svg
+            width="97"
+            height="96"
+            viewBox="0 0 97 96"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <circle
+                cx="48.5"
+                cy="48"
+                r="48"
+                fill="url(#paint0_linear_880_5115)"
+                fillOpacity="0.1"
+            />
             <circle
                 cx="48.5"
                 cy="48"
@@ -85,7 +97,12 @@ export const WalletSVG: FC = () => {
                     <stop offset="1" stopColor="#00D18C" />
                 </linearGradient>
                 <clipPath id="clip0_880_5115">
-                    <rect width="48" height="48" fill="white" transform="translate(24.5 24)" />
+                    <rect
+                        width="48"
+                        height="48"
+                        fill="white"
+                        transform="translate(24.5 24)"
+                    />
                 </clipPath>
             </defs>
         </svg>

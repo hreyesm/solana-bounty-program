@@ -7,7 +7,9 @@ export interface WalletModalContextState {
 
 const DEFAULT_CONTEXT = {
     setVisible(_open: boolean) {
-        console.error(constructMissingProviderErrorMessage('call', 'setVisible'));
+        console.error(
+            constructMissingProviderErrorMessage('call', 'setVisible'),
+        );
     },
     visible: false,
 };
@@ -18,7 +20,10 @@ Object.defineProperty(DEFAULT_CONTEXT, 'visible', {
     },
 });
 
-function constructMissingProviderErrorMessage(action: string, valueName: string) {
+function constructMissingProviderErrorMessage(
+    action: string,
+    valueName: string,
+) {
     return (
         'You have tried to ' +
         ` ${action} "${valueName}"` +
@@ -29,7 +34,9 @@ function constructMissingProviderErrorMessage(action: string, valueName: string)
     );
 }
 
-export const WalletModalContext = createContext<WalletModalContextState>(DEFAULT_CONTEXT as WalletModalContextState);
+export const WalletModalContext = createContext<WalletModalContextState>(
+    DEFAULT_CONTEXT as WalletModalContextState,
+);
 
 export function useWalletModal(): WalletModalContextState {
     return useContext(WalletModalContext);
