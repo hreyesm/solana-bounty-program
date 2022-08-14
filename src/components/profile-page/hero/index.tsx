@@ -27,7 +27,7 @@ const Hero = ({
                     style={{ borderRadius: '50%' }}
                 />
                 <div className="flex flex-row flex-wrap items-center gap-5">
-                    <div className="flex flex-col gap-1 text-white">
+                    <div className="flex flex-col gap-1">
                         <Text variant="heading" className="whitespace-nowrap">
                             {fullName}
                         </Text>
