@@ -65,7 +65,7 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
 
     return (
         <div className="flex flex-col gap-12">
-            <FeaturedSection />
+            <FeaturedSection bounties={openBounties.slice(0, 5)} />
             <div className="flex flex-col gap-0">
                 <div className="flex w-full flex-col gap-7 px-5 sm:px-8 md:px-16 lg:px-32 xl:px-48">
                     <Text variant="label"> Browse </Text>
