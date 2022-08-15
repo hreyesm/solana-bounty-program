@@ -2,6 +2,10 @@ import * as Web3 from '@solana/web3.js';
 
 import { ChangeEvent, useCallback, useState } from 'react';
 import { MdInfoOutline, MdOutlinePayments } from 'react-icons/md';
+import {
+    createTransferInstruction,
+    getAssociatedTokenAddress,
+} from '@solana/spl-token';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 
 import { Bounty } from 'types/bounty';
@@ -14,7 +18,7 @@ import TransactionCard from './transaction-card';
 import { useBalance } from 'hooks/use-balance';
 import { useSWRConfig } from 'swr';
 
-const FundTab = ({ address, reward }: Bounty) => {
+const FundTab = ({ address, mint, reward }: Bounty) => {
     const { balance } = useBalance();
     const { connection } = useConnection();
     const [amount, setAmount] = useState<number>();
@@ -33,14 +37,20 @@ const FundTab = ({ address, reward }: Bounty) => {
             return;
         }
 
+        const associatedToken = await getAssociatedTokenAddress(
+            new Web3.PublicKey(mint),
+            publicKey,
+        );
+
         let signature: Web3.TransactionSignature = '';
         try {
             const transaction = new Web3.Transaction().add(
-                Web3.SystemProgram.transfer({
-                    fromPubkey: publicKey,
-                    toPubkey: new Web3.PublicKey(address),
-                    lamports: Web3.LAMPORTS_PER_SOL * amount,
-                }),
+                createTransferInstruction(
+                    associatedToken,
+                    new Web3.PublicKey(address),
+                    publicKey,
+                    amount,
+                ),
             );
 
             signature = await sendTransaction(transaction, connection);
@@ -57,7 +67,7 @@ const FundTab = ({ address, reward }: Bounty) => {
 
             return;
         }
-    }, [publicKey, address, amount, sendTransaction, connection, mutate]);
+    }, [publicKey, mint, address, amount, sendTransaction, connection, mutate]);
 
     return (
         <section title="actions" className="flex flex-col gap-10 md:flex-row">

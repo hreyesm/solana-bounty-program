@@ -5,6 +5,7 @@ export type Bounty = {
     githubUrl: string;
     hunter?: string;
     id: number;
+    mint?: string;
     name: string;
     owner: string;
     reward: number;

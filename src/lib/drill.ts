@@ -15,10 +15,12 @@ const claimBounty = async (bountyId: number, userVault: PublicKey) => {
     const url = `${baseUrl}/claim-bounty/${boardId}/${bountyId}`;
 
     try {
-        await fetch(url, {
+        const response = await fetch(url, {
             body: JSON.stringify({ userVault: userVault.toBase58() }),
             method: 'POST',
         });
+
+        console.log(response);
     } catch (error) {
         throw new Error(error);
     }
@@ -90,6 +92,10 @@ const getDrillBounty = async (
         bountyPublicKey,
     );
 
+    const boardAccount = await program.account.board.fetchNullable(
+        boardPublicKey,
+    );
+
     if (!bountyAccount) {
         return null;
     }
@@ -104,6 +110,7 @@ const getDrillBounty = async (
             : null,
         id: bountyAccount.bountyId,
         isClosed: bountyAccount.isClosed,
+        mint: boardAccount.acceptedMint,
         publicKey: bountyPublicKey,
     };
 };
