@@ -1,72 +1,132 @@
-import Button from "components/common/button";
-import Card from "components/common/card";
-import Chip from "components/common/chip";
-import Text from "components/common/text";
-import { MdInfoOutline, MdOutlinePayments } from "react-icons/md";
-import { TbWallet } from "react-icons/tb";
-import TransactionCard from "./transaction-card";
+/* eslint-disable indent */
+import * as Web3 from '@solana/web3.js';
 
-const FundTab = () => {
-    const walletAddress = 'FNfUy8Qp6C9NCD6cz9xHLYSL7n3eFX8LfY1zDx6RcE8G';
+import { MdInfoOutline, MdOutlinePayments } from 'react-icons/md';
+import { useEffect, useState } from 'react';
+
+import { Bounty } from 'types/bounty';
+import Button from 'components/common/button';
+import Card from 'components/common/card';
+import Chip from 'components/common/chip';
+import { TbWallet } from 'react-icons/tb';
+import Text from 'components/common/text';
+import TransactionCard from './transaction-card';
+import { useWallet } from '@solana/wallet-adapter-react';
+
+const FundTab = ({ reward }: Bounty) => {
+    const [balance, setBalance] = useState(0);
+    const { publicKey } = useWallet();
+
+    useEffect(() => {
+        try {
+            const connection = new Web3.Connection(
+                Web3.clusterApiUrl('devnet'),
+            );
+            publicKey
+                ? connection.getBalance(publicKey).then(b => {
+                      setBalance(b / Web3.LAMPORTS_PER_SOL);
+                  })
+                : setBalance(0);
+        } catch (error) {
+            setBalance(0);
+            alert(error);
+        }
+    }, [publicKey]);
 
     return (
-        <section
-            title="actions"
-            className="flex flex-col md:flex-row gap-10"
-        >
-            <div className="flex flex-col gap-7 w-full">
-                <div className="flex flex-col gap-5 w-full">
-                    <Text variant="heading" className="flex-shrink-0 whitespace-nowrap"> Current reward </Text>
-                    <Card className="flex flex-col gap-3 p-5 w-full !bg-gradient-to-tr from-primary/75 to-secondary/75 border-none">
-                        <Text variant="sub-heading"> 300 <span className="font-light text-lg"> SOL </span> </Text>
-                        <div className="flex flex-row justify-end w-full">
+        <section title="actions" className="flex flex-col gap-10 md:flex-row">
+            <div className="flex w-full flex-col gap-7">
+                <div className="flex w-full flex-col gap-5">
+                    <Text
+                        variant="heading"
+                        className="flex-shrink-0 whitespace-nowrap"
+                    >
+                        Current reward
+                    </Text>
+                    <Card className="flex w-full flex-col gap-3 border-none !bg-gradient-to-tr from-primary/75 to-secondary/75 p-5">
+                        <Text variant="sub-heading">
+                            {reward}{' '}
+                            <span className="text-lg font-light">SOL</span>
+                        </Text>
+                        <div className="flex w-full flex-row justify-end">
                             <Chip highlightValue="3" value="donors" />
                         </div>
                     </Card>
                 </div>
                 <div className="flex flex-col gap-5">
                     <div className="flex flex-col gap-2">
-                        <Text variant="heading"> Send payment </Text>
-                        <Text variant="label" className="text-secondary !normal-case"> Choose between... </Text>
+                        <Text variant="heading">Send payment</Text>
+                        <Text
+                            variant="label"
+                            className="!normal-case text-secondary"
+                        >
+                            Choose between...{' '}
+                        </Text>
                     </div>
                     <div className="flex flex-row gap-7">
-                        <div className="w-fit flex flex-col gap-5">
-                            <Text variant="label" className="w-full flex flex-row items-center justify-between">
+                        <div className="flex w-fit flex-col gap-5">
+                            <Text
+                                variant="label"
+                                className="flex w-full flex-row items-center justify-between"
+                            >
                                 Solana Pay
-                                <a href="https://solanapay.com/" target="_blank" rel="noopener noreferrer">
-                                    <MdInfoOutline size={15} className="aspect-square" />
+                                <a
+                                    href="https://solanapay.com/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <MdInfoOutline
+                                        size={15}
+                                        className="aspect-square"
+                                    />
                                 </a>
                             </Text>
                             {/* TODO: Placeholder for Sol Pay QR code. */}
-                            <div className="h-40 aspect-square rounded-lg bg-white" />
+                            <div className="aspect-square h-40 rounded-lg bg-white" />
                         </div>
-                        <div className="w-px h-48 bg-line" />
-                        <div className="flex flex-col gap-5 h-full w-full max-w-full">
-                            <Text variant="label"> Using your wallet </Text>
+                        <div className="h-48 w-px bg-line" />
+                        <div className="flex h-full w-full max-w-full flex-col gap-5">
+                            <Text variant="label">Using your wallet</Text>
                             <div className="flex flex-col gap-2">
                                 <Card className="flex flex-row items-center justify-between p-5">
                                     <div className="flex flex-col gap-2">
-                                        <Text variant="label" className="text-secondary"> Current balance </Text>
-                                        <Text variant="paragraph"> 300 <span className="font-light text-sm"> SOL </span> </Text>
+                                        {publicKey ? (
+                                            <Text variant="paragraph">
+                                                {' '}
+                                                {balance}
+                                                <span className="text-sm font-light">
+                                                    {' '}
+                                                    SOL{' '}
+                                                </span>{' '}
+                                            </Text>
+                                        ) : (
+                                            <Text variant="paragraph">
+                                                Wallet Not Connected
+                                            </Text>
+                                        )}
                                     </div>
                                     {/* Placehold for user's wallet provider logo */}
-                                    <div className="h-9 flex items-center justify-center aspect-square bg-white text-black rounded-full">
+                                    <div className="flex aspect-square h-9 items-center justify-center rounded-full bg-white text-black">
                                         <TbWallet size={25} />
                                     </div>
                                 </Card>
                                 <div className="flex flex-row flex-wrap gap-2">
-                                    <div className="group flex flex-row gap-3 items-center justify-between flex-[1_1_fit-content] h-11 min-w-fit px-5 py-3 rounded-full border border-white text-white background-transparent w-full">
+                                    <div className="background-transparent group flex h-11 w-full min-w-fit flex-[1_1_fit-content] flex-row items-center justify-between gap-3 rounded-full border border-white px-5 py-3 text-white">
                                         <div className="flex flex-row items-center gap-3">
                                             <MdOutlinePayments size={20} />
                                             <input
-                                                className="w-28 outline-none bg-transparent text-sm tracking-wide text-secondary valid:text-primary"
+                                                className="w-28 bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
                                                 placeholder="Enter amount..."
                                                 type="text"
                                             />
                                         </div>
-                                        <Text variant="label"> SOL </Text>
+                                        <Text variant="label">SOL</Text>
                                     </div>
-                                    <Button variant="orange" text="Send" className="flex-[2_2_fit-content]" />
+                                    <Button
+                                        variant="orange"
+                                        text="Send"
+                                        className="flex-[2_2_fit-content]"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -77,15 +137,23 @@ const FundTab = () => {
             <div className="flex flex-col gap-5">
                 <Text variant="heading"> Recent donations </Text>
 
-                <div className="flex flex-col gap-3 w-full md:w-98">
+                <div className="flex w-full flex-col gap-3 md:w-98">
                     <div className="flex flex-row justify-between gap-3 px-3 text-base-content">
-                        <div className="flex flex-row items-center w-2/3 gap-3">
-                            <Text variant="label" className="w-2/3"> Signature </Text>
-                            <Text variant="label" className="w-1/3"> Amt · SOL </Text>
+                        <div className="flex w-2/3 flex-row items-center gap-3">
+                            <Text variant="label" className="w-2/3">
+                                Signature
+                            </Text>
+                            <Text variant="label" className="w-1/3">
+                                Amt · SOL
+                            </Text>
                         </div>
-                        <div className="flex flex-row items-center w-1/3 gap-3">
-                            <Text variant="label" className="w-1/2"> Date </Text>
-                            <Text variant="label" className="w-1/2 text-right"> Status </Text>
+                        <div className="flex w-1/3 flex-row items-center gap-3">
+                            <Text variant="label" className="w-1/2">
+                                Date
+                            </Text>
+                            <Text variant="label" className="w-1/2 text-right">
+                                Status
+                            </Text>
                         </div>
                     </div>
 

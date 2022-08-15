@@ -1,24 +1,36 @@
 import { GetServerSideProps, NextPage } from 'next';
 import React, { useMemo } from 'react';
-import { getBountiesByAsignee, getUser } from 'lib/github';
 
 import { Bounty } from 'types/bounty';
 import BountyList from 'components/common/bounty-list';
-import FilterBar from 'components/common/bounty-list/filter-bar';
+import Button from 'components/common/button';
 import Hero from 'components/profile-page/hero';
+import Link from 'next/link';
+import { MdAdd } from 'react-icons/md';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
 import { User } from 'types/user';
+import { authOptions } from './api/auth/[...nextauth]';
+import { getBountiesByAssignee } from 'lib/bounties';
+import { getUser } from 'lib/user';
+import { unstable_getServerSession } from 'next-auth';
 import { useRouter } from 'next/router';
 
 type ProfilePageProps = {
     bounties: Bounty[];
-    user: User;
+    user: User & { isCurrentUser: boolean };
 };
 
 const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
-    const closedBounties = bounties.filter(({ state }) => state === 'closed');
-    const openBounties = bounties.filter(({ state }) => state === 'open');
+    const closedBounties = useMemo(
+        () => bounties.filter(({ state }) => state === 'closed'),
+        [bounties],
+    );
+
+    const openBounties = useMemo(
+        () => bounties.filter(({ state }) => state === 'open'),
+        [bounties],
+    );
 
     const tabs = useMemo(
         () => [
@@ -60,9 +72,24 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
             <div className="flex flex-col gap-16 ">
                 <Hero {...user} />
                 <div className="flex flex-col gap-7 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">
-                    <Text variant="big-heading"> Bounties </Text>
+                    <div className="flex flex-row flex-wrap items-center justify-between gap-2">
+                        <Text variant="big-heading"> Bounties </Text>
+                        {/* TODO: Verify if user has perms to create issues in this repo, otherwise disable button and show tooltip. */}
+                        {user.isCurrentUser && (
+                            <Link href="/explorer/new" passHref>
+                                <a>
+                                    <Button
+                                        variant="orange"
+                                        text="Create new"
+                                        icon={MdAdd}
+                                        reversed
+                                    />
+                                </a>
+                            </Link>
+                        )}
+                    </div>
 
-                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black pt-4">
+                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black bg-opacity-40 pt-4 backdrop-blur-xl">
                         <div className="flex h-full flex-row gap-8">
                             {tabs.map((tab, index) => (
                                 <NavElement
@@ -75,8 +102,6 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                                 />
                             ))}
                         </div>
-
-                        <FilterBar />
                     </div>
 
                     {currentTab.content}
@@ -89,14 +114,28 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
 export default ProfilePage;
 
 export const getServerSideProps: GetServerSideProps = async context => {
-    const user = await getUser(context);
-    const bounties = await getBountiesByAsignee(context);
+    const username = context.query.username as string;
 
-    if (!user) {
+    const session = await unstable_getServerSession(
+        context.req,
+        context.res,
+        authOptions,
+    );
+
+    const accessToken = session?.accessToken as string;
+
+    const bounties = await getBountiesByAssignee(username, accessToken);
+
+    if (!bounties) {
         return { notFound: true };
     }
 
+    const user = await getUser(username, accessToken);
+
     return {
-        props: { bounties, user },
+        props: {
+            bounties,
+            user: { ...user, isCurrentUser: username === session?.login },
+        },
     };
 };

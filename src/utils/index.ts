@@ -5,7 +5,8 @@ const cn = (...args: string[]) => args.join(' ');
 
 const formatDate = (date: string) => format(new Date(date), 'dd MMM');
 
-const bountiesToLevel = (bounties: number) => clamp(Math.round(1.57345 * Math.pow(bounties, (100 / 143))), 1, 100);
+const bountiesToLevel = (bounties: number) =>
+    clamp(Math.round(1.57345 * Math.pow(bounties, 100 / 143)), 1, 100);
 
 const levelToBounties = (level: number) => 0.523 * Math.pow(level, 1.43);
 
@@ -30,4 +31,11 @@ const numberToCurrencyString = (number: number) =>
  */
 const clamp = (current, min, max) => Math.min(Math.max(current, min), max);
 
-export { cn, formatDate, numberToCurrencyString, bountiesToLevel, levelToBounties,clamp };
+export {
+    cn,
+    formatDate,
+    numberToCurrencyString,
+    bountiesToLevel,
+    levelToBounties,
+    clamp,
+};

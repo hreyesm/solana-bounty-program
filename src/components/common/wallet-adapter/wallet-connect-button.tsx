@@ -1,7 +1,7 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import type { MouseEvent } from 'react';
 import React, { useCallback } from 'react';
-import  Button from '../button';
+import Button from '../button';
 import { TbWallet } from 'react-icons/tb';
 
 export const WalletConnectButton = () => {
@@ -22,7 +22,6 @@ export const WalletConnectButton = () => {
             variant="transparent"
             className="!w-full"
             text="Connect"
-        >
-        </Button>
+        ></Button>
     );
 };

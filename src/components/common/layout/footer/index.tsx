@@ -14,11 +14,17 @@ const Footer = () => (
                     height={17.89}
                     className="saturate-0"
                 />
-                <Text variant="label" className="text-white font-thin !tracking-widest"> Bounty </Text>
+                <Text
+                    variant="label"
+                    className="font-thin !tracking-widest text-white"
+                >
+                    {' '}
+                    Bounty{' '}
+                </Text>
             </div>
             <Text variant="label" className="font-light">
                 Powered by{' '}
-                <a 
+                <a
                     href="https://solana.com"
                     target="_blank"
                     rel="noopener noreferrer"

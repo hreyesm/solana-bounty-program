@@ -1,9 +1,7 @@
 import { MdLink, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
-import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
-import { useRef, useState, useMemo } from 'react';
-import { WalletMultiButton } from '../wallet-adapter';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { TbBrandGithub, TbWallet } from 'react-icons/tb';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { useMemo, useRef, useState } from 'react';
 
 import Button from '../button';
 import Card from '../card';
@@ -11,12 +9,20 @@ import Chip from '../chip';
 import Image from '../image';
 import Link from 'next/link';
 import Text from '../text';
+import { WalletMultiButton } from '../wallet-adapter';
+import { useUser } from 'hooks/use-user';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 const OverflowMenu = () => {
     const buttonRef = useRef();
     const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
-    const { publicKey, wallet, disconnect } = useWallet();
+    const { user } = useUser(session?.login as string);
+
+    const closedBountiesCount = user?.closedBountiesCount.toString() ?? '-';
+    const level = `Lv. ${user?.level ?? '-'}`;
+
+    const { publicKey, wallet } = useWallet();
     const walletAddress = useMemo(() => publicKey?.toBase58(), [publicKey]);
     const walletName = useMemo(() => wallet?.adapter.name, [wallet]);
 
@@ -52,8 +58,7 @@ const OverflowMenu = () => {
                                     variant="label"
                                     className="text-secondary"
                                 >
-                                    {' '}
-                                    Profile{' '}
+                                    Profile
                                 </Text>
                                 <Text
                                     variant="nav-heading"
@@ -83,18 +88,17 @@ const OverflowMenu = () => {
                                 ) : (
                                     <div className="flex flex-row items-center gap-1">
                                         <Chip
-                                            highlightValue="0"
+                                            highlightValue={closedBountiesCount}
                                             value="Bounties"
                                         />
-                                        <Chip value="Lv. 1" />
+                                        <Chip value={level} />
                                     </div>
                                 )}
                             </div>
                             {session && (
-                                // eslint-disable-next-line jsx-a11y/alt-text
                                 <Image
+                                    alt="Avatar"
                                     src={session.user.image}
-                                    // alt={session.login}
                                     height={40}
                                     className="aspect-square"
                                     style={{ borderRadius: '50%' }}
@@ -117,8 +121,7 @@ const OverflowMenu = () => {
                                     variant="label"
                                     className="text-secondary"
                                 >
-                                    {' '}
-                                    Wallet{' '}
+                                    Wallet
                                 </Text>
                                 <Text variant="nav-heading">
                                     {wallet
@@ -139,19 +142,12 @@ const OverflowMenu = () => {
                                 ) : (
                                     <div className="flex flex-row items-center gap-1">
                                         <Chip
-                                            highlightValue={
-                                            walletAddress}
+                                            highlightValue={walletAddress}
                                             icon={MdLink}
                                             className="w-60 !normal-case sm:w-28"
-                                            href={`https://explorer.solana.com/address/${
-                                                walletAddress
-                                            }`}
+                                            href={`https://explorer.solana.com/address/${walletAddress}`}
                                         />
-                                        <Chip
-                                            copyValue={
-                                                walletAddress
-                                            }
-                                        />
+                                        <Chip copyValue={walletAddress} />
                                     </div>
                                 )}
                             </div>

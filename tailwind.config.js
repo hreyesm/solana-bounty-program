@@ -11,16 +11,15 @@ module.exports = {
         themes: [
             {
                 mytheme: {
-            
-                    "primary": "#e37542",
-                    "secondary": "#D926A9",
-                    "accent": "#1FB2A6",
-                    "neutral": "#191D24",
-                    "base-100": "#2A303C",
-                    "info": "#3ABFF8",
-                    "success": "#36D399",
-                    "warning": "#FBBD23",
-                    "error": "#F64B62",
+                    primary: '#e37542',
+                    secondary: '#D926A9',
+                    accent: '#1FB2A6',
+                    neutral: '#191D24',
+                    'base-100': '#2A303C',
+                    info: '#3ABFF8',
+                    success: '#36D399',
+                    warning: '#FBBD23',
+                    error: '#F64B62',
                 },
             },
         ],
@@ -43,7 +42,7 @@ module.exports = {
             },
             textColor: {
                 secondary: '#999999',
-                danger: '#F64B62'
+                danger: '#F64B62',
             },
             width: {
                 98: '28rem',
@@ -62,7 +61,8 @@ module.exports = {
         screens: { ...defaultTheme.screens },
     },
     plugins: [
-        typography, require('daisyui'),
+        typography,
+        require('daisyui'),
         plugin(function ({ addVariant, e, postcss }) {
             addVariant('firefox', ({ container, separator }) => {
                 const isFirefoxRule = postcss.atRule({
@@ -73,15 +73,23 @@ module.exports = {
                 container.append(isFirefoxRule);
                 isFirefoxRule.walkRules(rule => {
                     rule.selector = `.${e(
-                        `firefox${separator}${rule.selector.slice(1)}`
+                        `firefox${separator}${rule.selector.slice(1)}`,
                     )}`;
                 });
             });
         }),
-        plugin(function({ addVariant, e }) {
-            addVariant('group-focus-within', ({ modifySelectors, separator }) => {
-                modifySelectors(({ className }) => `.group:focus-within .${e(`group-focus-within${separator}${className}`)}`)
-            })
+        plugin(function ({ addVariant, e }) {
+            addVariant(
+                'group-focus-within',
+                ({ modifySelectors, separator }) => {
+                    modifySelectors(
+                        ({ className }) =>
+                            `.group:focus-within .${e(
+                                `group-focus-within${separator}${className}`,
+                            )}`,
+                    );
+                },
+            );
         }),
     ],
 };

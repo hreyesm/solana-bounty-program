@@ -14,9 +14,17 @@ type NavElementProps = {
     as?: string;
     scroll?: boolean;
     chipLabel?: string;
+    disabled?: boolean;
 };
 
-const NavElement = ({ label, href, as, scroll, chipLabel }: NavElementProps) => {
+const NavElement = ({
+    label,
+    href,
+    as,
+    scroll,
+    chipLabel,
+    disabled,
+}: NavElementProps) => {
     const router = useRouter();
     const isActive = href === router.asPath || (as && as === router.asPath);
 
@@ -25,13 +33,13 @@ const NavElement = ({ label, href, as, scroll, chipLabel }: NavElementProps) => 
             <a
                 className={cn(
                     'group flex h-full flex-col items-center justify-between',
+                    disabled &&
+                        'pointer-events-none cursor-not-allowed opacity-50',
                 )}
             >
                 <div className="flex flex-row items-center gap-3">
                     <Text variant="nav-heading"> {label} </Text>
-                    {chipLabel && (
-                        <Chip highlightValue={chipLabel} />
-                    )}
+                    {chipLabel && <Chip highlightValue={chipLabel} />}
                 </div>
 
                 <div
