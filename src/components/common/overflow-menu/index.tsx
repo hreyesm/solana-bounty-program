@@ -52,7 +52,7 @@ const OverflowMenu = () => {
 
     return (
         <>
-            <div className="dropdown-end dropdown dropdown-open">
+            <div className="dropdown-end dropdown">
                 <label tabIndex={0}>
                     <div className="flex flex-row items-center gap-3">
                         <Button
