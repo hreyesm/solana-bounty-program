@@ -22,7 +22,7 @@ const OverflowMenu = () => {
     const closedBountiesCount = user?.closedBountiesCount.toString() ?? '-';
     const level = `Lv. ${user?.level ?? '-'}`;
 
-    const { publicKey, wallet, disconnect } = useWallet();
+    const { publicKey, wallet } = useWallet();
     const walletAddress = useMemo(() => publicKey?.toBase58(), [publicKey]);
     const walletName = useMemo(() => wallet?.adapter.name, [wallet]);
 

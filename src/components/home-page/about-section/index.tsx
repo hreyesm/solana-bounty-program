@@ -1,5 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import Button from 'components/common/button';
 import Card from 'components/common/card';
+
 const AboutSection = () => (
     <section
         title="about"
@@ -17,10 +19,9 @@ const AboutSection = () => (
                             What are Bounties?
                         </h2>
                         <p className="text-lg text-white">
-                            {' '}
                             Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit. Ad sed adipiscing volutpat tincidunt amet
-                            vulputate porta est.{' '}
+                            vulputate porta est.
                         </p>
                     </div>
                     <Button text="Learn More" variant="transparent" />

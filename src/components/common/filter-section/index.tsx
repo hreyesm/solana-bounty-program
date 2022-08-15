@@ -1,11 +1,5 @@
-import {
-    MdExpandMore,
-    MdOutlineCategory,
-    MdOutlineSearch,
-    MdSort,
-} from 'react-icons/md';
-
 import { ChangeEvent } from 'react';
+import { MdOutlineSearch } from 'react-icons/md';
 
 type FilterMenuProps = {
     onSearchInputChange: (e: ChangeEvent<HTMLInputElement>) => void;

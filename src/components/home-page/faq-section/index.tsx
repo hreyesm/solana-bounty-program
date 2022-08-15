@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Accordion from './accordion';
 import Card from 'components/common/card';
 

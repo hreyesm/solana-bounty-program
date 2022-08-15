@@ -3,10 +3,8 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Button from 'components/common/button';
 import Headlines from './headlines';
 import React from 'react';
-import { cn } from 'utils';
 import Text from 'components/common/text';
-
-const pageHeight = 'calc(100vh_-_5rem)'; // TODO: Create variable for header height (`var(--header-height)`)
+import { cn } from 'utils';
 
 const HeroSection = () => {
     const [MousePosition, setMousePosition] = React.useState({

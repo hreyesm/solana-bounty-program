@@ -2,8 +2,10 @@ import { GetServerSideProps, NextPage } from 'next';
 
 import { Bounty } from 'types/bounty';
 import BountyList from 'components/common/bounty-list';
+import Button from 'components/common/button';
 import FeaturedSection from 'components/explorer-page/featured-section';
-import FilterBar from 'components/common/bounty-list/filter-bar';
+import Link from 'next/link';
+import { MdAdd } from 'react-icons/md';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
 import { authOptions } from './api/auth/[...nextauth]';
@@ -11,10 +13,7 @@ import { getBounties } from 'lib/bounties';
 import { unstable_getServerSession } from 'next-auth';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
-import Button from 'components/common/button';
-import { MdAdd } from 'react-icons/md';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 
 type ExplorerPageProps = { bounties: Bounty[] };
 
@@ -76,15 +75,16 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                             className={!session && 'tooltip'}
                             data-tip="Log in to create bounties"
                         >
-                            {/* TODO: Verify if user has perms to create issues in this repo, otherwise disable button and show tooltip. */}
-                            <Link href="/explorer/new">
-                                <Button
-                                    variant="orange"
-                                    text="Create new"
-                                    icon={MdAdd}
-                                    reversed={true}
-                                    disabled={!session}
-                                />
+                            <Link href="/explorer/new" passHref>
+                                <a>
+                                    <Button
+                                        variant="orange"
+                                        text="Create new"
+                                        icon={MdAdd}
+                                        reversed={true}
+                                        disabled={!session}
+                                    />
+                                </a>
                             </Link>
                         </div>
                     </div>
@@ -97,8 +97,8 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                                     href={`/explorer?tab=${tab.id}`}
                                     key={tab.id}
                                     label={tab.label}
-                                    chipLabel={tab.amount.toString()} // Amount of bounties in each category.
-                                    scroll={false} // TODO: Scroll to navbar position.
+                                    chipLabel={tab.amount.toString()}
+                                    scroll={false}
                                 />
                             ))}
                         </div>

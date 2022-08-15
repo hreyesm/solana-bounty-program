@@ -11,7 +11,6 @@ type ImageProps = {
     src: string;
     alt?: string;
     style?: React.CSSProperties;
-    rest?: any;
 };
 
 const Image = ({

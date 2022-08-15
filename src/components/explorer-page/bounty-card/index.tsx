@@ -117,7 +117,6 @@ const BountyCard = ({
     name,
     reward,
     tags,
-    state,
     responsive = true,
     maxTags = 5,
     showDetails = false,
