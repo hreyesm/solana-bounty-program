@@ -9,8 +9,10 @@ import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
 import { cn } from 'utils';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
-const NewPage = () => {
+import { signIn, useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { TbBrandGithub } from 'react-icons/tb';
+const NewPage = async () => {
     const [validBountyName, setValidBountyName] = useState(true);
     const [validHunter, setValidHunter] = useState(true);
     const titleRef = useRef(null);
@@ -119,7 +121,28 @@ const NewPage = () => {
     };
 
     if (!session) {
-        return <Text variant="paragraph"></Text>;
+        return (
+            /* TODO: Render full height properly */ 
+            <div className="h-full w-full flex flex-col justify-center items-center gap-3">
+                <TbBrandGithub size={35} />
+                <Text variant="sub-heading">
+                    Sign in with GitHub to create a bounty.
+                </Text>
+
+                <div className="flex flex-row gap-2">
+                    <Link href="/" passHref>
+                        <a>
+                            <Button variant="transparent" text="Go back" />
+                        </a>
+                    </Link>
+                    <Button 
+                        variant="orange" 
+                        text="Sign in" 
+                        onClick={async () => await signIn('github')}
+                    />
+                </div>
+            </div>
+        );
     }
 
     return (

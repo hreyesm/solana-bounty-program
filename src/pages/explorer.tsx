@@ -73,7 +73,7 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                         <Text variant="big-heading"> All Bounties </Text>
                         <div
                             className={!session && 'tooltip'}
-                            data-tip="Log in to create bounties"
+                            data-tip="Sign in to create bounties"
                         >
                             <Link href="/explorer/new" passHref>
                                 <a>
