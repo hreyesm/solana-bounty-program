@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Text from 'components/common/text';

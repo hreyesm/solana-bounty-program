@@ -1,5 +1,4 @@
 import Button from 'components/common/button';
-import Chip from 'components/common/chip';
 import Image from 'components/common/image';
 import Link from 'next/link';
 import { MdOutlineSearch } from 'react-icons/md';

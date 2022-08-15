@@ -1,4 +1,8 @@
+/* eslint-disable indent */
+import * as Web3 from '@solana/web3.js';
+
 import { MdInfoOutline, MdOutlinePayments } from 'react-icons/md';
+import { useEffect, useState } from 'react';
 
 import { Bounty } from 'types/bounty';
 import Button from 'components/common/button';
@@ -8,12 +12,10 @@ import { TbWallet } from 'react-icons/tb';
 import Text from 'components/common/text';
 import TransactionCard from './transaction-card';
 import { useWallet } from '@solana/wallet-adapter-react';
-import * as Web3 from '@solana/web3.js';
-import { useEffect, useState } from 'react';
 
 const FundTab = ({ reward }: Bounty) => {
     const [balance, setBalance] = useState(0);
-    const { publicKey, wallet } = useWallet();
+    const { publicKey } = useWallet();
 
     useEffect(() => {
         try {
@@ -21,8 +23,8 @@ const FundTab = ({ reward }: Bounty) => {
                 Web3.clusterApiUrl('devnet'),
             );
             publicKey
-                ? connection.getBalance(publicKey).then(balance => {
-                      setBalance(balance / Web3.LAMPORTS_PER_SOL);
+                ? connection.getBalance(publicKey).then(b => {
+                      setBalance(b / Web3.LAMPORTS_PER_SOL);
                   })
                 : setBalance(0);
         } catch (error) {

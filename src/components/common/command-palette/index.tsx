@@ -1,19 +1,19 @@
-import { cn } from 'utils';
 import {
-    KBarProvider,
-    KBarPortal,
-    KBarPositioner,
-    KBarAnimator,
-    useMatches,
-    KBarResults,
-    KBarSearch,
     ActionId,
     ActionImpl,
+    KBarAnimator,
+    KBarPortal,
+    KBarPositioner,
+    KBarProvider,
+    KBarResults,
+    KBarSearch,
+    useMatches,
 } from 'kbar';
-import Card from '../card';
-import Text from '../text';
+
 import { MdOutlineSearch } from 'react-icons/md';
 import React from 'react';
+import Text from '../text';
+import { cn } from 'utils';
 
 const actions = [
     {
@@ -90,77 +90,53 @@ const ResultItem = React.forwardRef(
         {
             action,
             active,
-            currentRootActionId,
         }: {
             action: ActionImpl;
             active: boolean;
             currentRootActionId: ActionId;
         },
         ref: React.Ref<HTMLDivElement>,
-    ) => {
-        const ancestors = React.useMemo(() => {
-            if (!currentRootActionId) return action.ancestors;
-            const index = action.ancestors.findIndex(
-                ancestor => ancestor.id === currentRootActionId,
-            );
-            // +1 removes the currentRootAction; e.g.
-            // if we are on the "Set theme" parent action,
-            // the UI should not display "Set theme… > Dark"
-            // but rather just "Dark"
-            return action.ancestors.slice(index + 1);
-        }, [action.ancestors, currentRootActionId]);
+    ) => (
+        <div
+            ref={ref}
+            className={cn(
+                'flex h-16 cursor-pointer flex-row items-center justify-between pr-5 transition-colors duration-300 ease-out',
+                active && 'bg-primary-focus bg-opacity-5',
+            )}
+        >
+            <div className="flex h-full flex-row items-center gap-5">
+                <div
+                    className={cn(
+                        'h-1/2 w-1 bg-transparent transition-all duration-300 ease-out',
+                        active && '!h-full !bg-primary',
+                    )}
+                />
 
-        return (
-            <div
-                ref={ref}
-                className={cn(
-                    'flex h-16 cursor-pointer flex-row items-center justify-between pr-5 transition-colors duration-300 ease-out',
-                    active && 'bg-primary-focus bg-opacity-5',
-                )}
-            >
-                <div className="flex h-full flex-row items-center gap-5">
-                    <div
-                        className={cn(
-                            'h-1/2 w-1 bg-transparent transition-all duration-300 ease-out',
-                            active && '!h-full !bg-primary',
-                        )}
-                    />
-
-                    <div className="flex flex-col">
-                        <Text variant="paragraph">{action.name}</Text>
-                        <Text
-                            variant="label"
-                            className="!normal-case text-secondary"
-                        >
-                            {action.subtitle}
-                        </Text>
-                    </div>
-                </div>
-                {action.shortcut?.length && (
-                    <div
-                        aria-hidden
-                        className="flex flex-row items-center gap-1.5"
+                <div className="flex flex-col">
+                    <Text variant="paragraph">{action.name}</Text>
+                    <Text
+                        variant="label"
+                        className="!normal-case text-secondary"
                     >
-                        {action.shortcut.map(sc => (
-                            <kbd key={sc} className="kbd kbd-sm bg-black/50">
-                                {sc}
-                            </kbd>
-                        ))}
-                    </div>
-                )}
+                        {action.subtitle}
+                    </Text>
+                </div>
             </div>
-        );
-    },
+            {action.shortcut?.length && (
+                <div aria-hidden className="flex flex-row items-center gap-1.5">
+                    {action.shortcut.map(sc => (
+                        <kbd key={sc} className="kbd kbd-sm bg-black/50">
+                            {sc}
+                        </kbd>
+                    ))}
+                </div>
+            )}
+        </div>
+    ),
 );
 
 function RenderResults() {
     const { results, rootActionId } = useMatches();
-
-    // if (results.length === 0) return (
-    //     <div className="w-full p-2 pl-5 pb-3">
-    //         <Text variant="label" className="text-secondary !normal-case"> No results found </Text>
-    //     </div>
-    // );
 
     return (
         <KBarResults

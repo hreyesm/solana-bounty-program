@@ -5,6 +5,7 @@ import type {
     PropsWithChildren,
     ReactElement,
 } from 'react';
+
 import React from 'react';
 
 export type ButtonProps = PropsWithChildren<{
@@ -17,26 +18,22 @@ export type ButtonProps = PropsWithChildren<{
     tabIndex?: number;
 }>;
 
-export const Button: FC<ButtonProps> = props => {
-    return (
-        <button
-            className={`wallet-adapter-button ${props.className || ''}`}
-            disabled={props.disabled}
-            onClick={props.onClick}
-            tabIndex={props.tabIndex || 0}
-            type="button"
-        >
-            {props.startIcon && (
-                <i className="wallet-adapter-button-start-icon">
-                    {props.startIcon}
-                </i>
-            )}
-            {props.children}
-            {props.endIcon && (
-                <i className="wallet-adapter-button-end-icon">
-                    {props.endIcon}
-                </i>
-            )}
-        </button>
-    );
-};
+export const Button: FC<ButtonProps> = props => (
+    <button
+        className={`wallet-adapter-button ${props.className || ''}`}
+        disabled={props.disabled}
+        onClick={props.onClick}
+        tabIndex={props.tabIndex || 0}
+        type="button"
+    >
+        {props.startIcon && (
+            <i className="wallet-adapter-button-start-icon">
+                {props.startIcon}
+            </i>
+        )}
+        {props.children}
+        {props.endIcon && (
+            <i className="wallet-adapter-button-end-icon">{props.endIcon}</i>
+        )}
+    </button>
+);

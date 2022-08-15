@@ -1,6 +1,5 @@
 import Card from 'components/common/card';
 import Text from 'components/common/text';
-import Link from 'next/link';
 import { cn } from 'utils';
 
 type TransactionCardProps = {
@@ -18,7 +17,6 @@ const statuses = {
 };
 
 const TransactionCard = ({
-    width,
     signature,
     amount,
     date,

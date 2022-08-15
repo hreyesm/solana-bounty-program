@@ -4,7 +4,6 @@ import React, { useMemo } from 'react';
 import { Bounty } from 'types/bounty';
 import BountyList from 'components/common/bounty-list';
 import Button from 'components/common/button';
-import FilterBar from 'components/common/bounty-list/filter-bar';
 import Hero from 'components/profile-page/hero';
 import Link from 'next/link';
 import { MdAdd } from 'react-icons/md';
