@@ -126,7 +126,7 @@ const NewPage = () => {
                     </Text>
                     <div
                         className={cn(
-                            'tooltip-error w-fit',
+                            'tooltip-error w-full sm:w-fit',
                             !validHunter && 'tooltip-open tooltip',
                         )}
                         data-tip="Enter a valid GitHub username"
