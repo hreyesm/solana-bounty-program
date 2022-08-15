@@ -34,7 +34,7 @@ const NavElement = ({
                 className={cn(
                     'group flex h-full flex-col items-center justify-between',
                     disabled &&
-                        'cursor-not-allowed pointer-events-none opacity-50',
+                        'pointer-events-none cursor-not-allowed opacity-50',
                 )}
             >
                 <div className="flex flex-row items-center gap-3">

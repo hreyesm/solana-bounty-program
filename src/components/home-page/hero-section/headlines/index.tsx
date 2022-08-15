@@ -9,7 +9,7 @@ const Headlines = () => (
             showArrows={false}
             showStatus={false}
             infiniteLoop={true}
-            className={'w-full text-center inline md:hidden ' + styles.carousel}
+            className={'inline w-full text-center md:hidden ' + styles.carousel}
         >
             <Headline
                 heading="Headline"

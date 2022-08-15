@@ -33,7 +33,7 @@ const HeroSection = () => {
                 }}
             ></div>
             <div
-                className="absolute block h-[130%] aspect-square sm:hidden"
+                className="absolute block aspect-square h-[130%] sm:hidden"
                 style={{
                     background: `radial-gradient(circle at center 30%, rgba(240, 117, 70, 0.765) 0%, rgba(203, 68, 184, 0) 40%, rgba(219, 65, 75, 0) 40%)`,
                 }}
@@ -45,7 +45,7 @@ const HeroSection = () => {
                     Do you have what it takes?
                 </Text>
                 <Headlines />
-                <div className="flex justify-center gap-4 w-full md:justify-start">
+                <div className="flex w-full justify-center gap-4 md:justify-start">
                     <Button
                         text="Fund Bounty"
                         variant="orange"

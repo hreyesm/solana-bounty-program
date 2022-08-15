@@ -30,7 +30,10 @@ const ParticipantSection = ({ owner, hunter }) => (
             >
                 Owner
             </Text>
-            <Text variant="paragraph" className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+            <Text
+                variant="paragraph"
+                className="w-full overflow-hidden text-ellipsis whitespace-nowrap"
+            >
                 {owner}
             </Text>
         </div>
@@ -41,16 +44,16 @@ const ParticipantSection = ({ owner, hunter }) => (
             >
                 Hunter
             </Text>
-            <div className="flex flex-row items-center gap-3 w-full overflow-hidden">
+            <div className="flex w-full flex-row items-center gap-3 overflow-hidden">
                 {hunter ? (
-                    <Text variant="paragraph" className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                    <Text
+                        variant="paragraph"
+                        className="w-full overflow-hidden text-ellipsis whitespace-nowrap"
+                    >
                         {hunter}
                     </Text>
                 ) : (
-                    <Text
-                        variant="paragraph"
-                        className="hidden sm:inline"
-                    >
+                    <Text variant="paragraph" className="hidden sm:inline">
                         None
                     </Text>
                 )}
@@ -61,10 +64,7 @@ const ParticipantSection = ({ owner, hunter }) => (
 
 const TagsSection = ({ tags, maxTags }) => (
     <div className="flex h-16 w-full flex-col gap-3">
-        <Text
-            variant="label"
-            className='w-fit text-secondary'
-        >
+        <Text variant="label" className="w-fit text-secondary">
             Tags
         </Text>
         <div className="flex w-full flex-row flex-wrap gap-1.5">
@@ -80,9 +80,7 @@ const TagsSection = ({ tags, maxTags }) => (
                     />
                 ))}
             {tags.length > maxTags && (
-                <Chip
-                    highlightValue={`+${tags.length - maxTags}`}
-                />
+                <Chip highlightValue={`+${tags.length - maxTags}`} />
             )}
         </div>
     </div>
@@ -106,16 +104,15 @@ const RewardSection = ({ reward, showDetails, responsive }) => (
 );
 
 const BasicsSection = ({ name, createdAt }) => (
-    <div className="h-16 flex flex-col justify-between">
-        <Chip
-            highlightValue={createdAt}
-        />
+    <div className="flex h-16 flex-col justify-between">
+        <Chip highlightValue={createdAt} />
         <Text
             variant="heading"
             className={cn(
                 'inline w-full overflow-hidden text-ellipsis whitespace-nowrap',
                 // responsive && '2lg:hidden',
-            )}>
+            )}
+        >
             {name}
         </Text>
     </div>
@@ -139,7 +136,8 @@ const BountyCard = ({
                 className={cn(
                     'flex h-fit w-80 sm:w-98 flex-shrink-0 snap-start flex-col items-start justify-between gap-5 p-6',
                     responsive && '!w-full 2lg:flex-row 2lg:items-center',
-                    !showDetails && "hover:bg-opacity-[97%] transition-all duration-300",
+                    !showDetails &&
+                        'transition-all duration-300 hover:bg-opacity-[97%]',
                 )}
             >
                 <div className="w-full overflow-hidden">
@@ -157,7 +155,11 @@ const BountyCard = ({
                         <ParticipantSection owner={owner} hunter={hunter} />
                     )}
 
-                    <RewardSection reward={reward} showDetails={showDetails} responsive={responsive} />
+                    <RewardSection
+                        reward={reward}
+                        showDetails={showDetails}
+                        responsive={responsive}
+                    />
                 </div>
             </Card>
         </a>
