@@ -1,4 +1,4 @@
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useMemo, useState, useRef } from 'react';
 
 import { BsMarkdown } from 'react-icons/bs';
 import Button from 'components/common/button';
@@ -10,17 +10,16 @@ import Text from 'components/common/text';
 import { cn } from 'utils';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-
 const NewPage = () => {
-    const validBountyName = false;
-    const validHunter = false;
-
+    const [validBountyName, setValidBountyName] = useState(true);
+    const [validHunter, setValidHunter] = useState(true);
+    const titleRef = useRef(null);
+    const hunterRef = useRef(null);
     const { data: session } = useSession();
 
     const [title, setTitle] = useState('');
     const [hunter, setHunter] = useState('');
     const [description, setDescription] = useState('');
-
     const tabs = useMemo(
         () => [
             {
@@ -57,6 +56,41 @@ const NewPage = () => {
     const onSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
+        if (title === '' && hunter === '') {
+            setValidHunter(false);
+            setValidBountyName(false);
+            titleRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            });
+            return;
+        } else if (title === '') {
+            titleRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            });
+            setValidBountyName(false);
+            return;
+        } else if (hunter === '') {
+            hunterRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            });
+            setValidHunter(false);
+            return;
+        }
+        const responseUser = await fetch(`/api/${hunter}`);
+        const user = await responseUser.json();
+
+        if (!user) {
+            setValidHunter(false);
+            hunterRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            });
+            return;
+        }
+
         try {
             const response = await fetch('/api/bounties', {
                 body: JSON.stringify({
@@ -71,11 +105,15 @@ const NewPage = () => {
             const data = await response.json();
 
             if (response.ok) {
-                router.push('/explorer');
+                const bountyId = data.url.substring(
+                    data.url.lastIndexOf('/') + 1,
+                );
+                router.push(`/explorer/${bountyId}`);
             } else {
                 alert(JSON.stringify(data));
             }
         } catch (error) {
+            console.log(error);
             throw new Error(error);
         }
     };
@@ -100,8 +138,13 @@ const NewPage = () => {
                 >
                     <div className="flex h-12 flex-col justify-between md:h-20">
                         <input
+                            ref={titleRef}
                             className="peer border-none bg-transparent text-4xl font-medium placeholder-black/20 outline-none md:text-6xl"
-                            onChange={e => setTitle(e.target.value)}
+                            onChange={e => {
+                                setTitle(e.target.value);
+                                if (e.target.value !== '' && !validBountyName)
+                                    setValidBountyName(true);
+                            }}
                             placeholder="Bounty name..."
                             value={title}
                         />
@@ -114,7 +157,7 @@ const NewPage = () => {
                 className="flex w-full flex-col gap-7 p-5 !pb-0 text-white sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
             >
                 <Text variant="label">Details</Text>
-                <div className="flex flex-col gap-3">
+                <div ref={hunterRef} className="flex flex-col gap-3">
                     <Text variant="heading">Hunter</Text>
                     <Text
                         variant="label"
@@ -135,7 +178,11 @@ const NewPage = () => {
                             <MdPersonOutline size={20} />
                             <input
                                 className="w-28 max-w-full bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
-                                onChange={e => setHunter(e.target.value)}
+                                onChange={e => {
+                                    setHunter(e.target.value);
+                                    if (e.target.value !== '' && !validHunter)
+                                        setValidHunter(true);
+                                }}
                                 placeholder="Enter user..."
                                 type="text"
                                 value={hunter}
@@ -169,12 +216,7 @@ const NewPage = () => {
                     {currentTab.content}
 
                     <div className="width-full flex flex-row justify-end">
-                        <Button
-                            disabled={!title || !hunter}
-                            type="submit"
-                            variant="orange"
-                            text="Create"
-                        />
+                        <Button type="submit" variant="orange" text="Create" />
                     </div>
                 </div>
             </section>
