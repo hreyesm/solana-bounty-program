@@ -54,7 +54,7 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
 
     return (
         <div className="flex flex-col gap-8 p-5 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-            <div className="flex flex-row items-center justify-between">
+            <div className="flex flex-row flex-wrap items-center justify-between gap-5">
                 <Link href="/explorer" passHref>
                     <a>
                         <Button reversed text="Back" variant="label">
@@ -63,13 +63,13 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                     </a>
                 </Link>
 
-                <div className="flex flex-row gap-3">
+                <div className="w-fit flex flex-row flex-wrap gap-3">
                     {(session && bounty.owner === session.login) && (
                         <Button variant="danger" text="Close" />
                     )}
                     {(session && bounty.hunter === session.login) && (
                         <div
-                            className={`${(state !== 'closed' || !wallet) && "tooltip"} tooltip-bottom`}
+                            className={`${(state !== 'closed' || !wallet) && "tooltip"} tooltip-left`}
                             data-tip={
                                 state !== 'closed' ? "Complete this bounty to claim it" : (
                                 !wallet && "Connect a wallet to claim this bounty" 
@@ -83,9 +83,8 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                         </div>
                     )}
                     <a href={githubUrl}>
-                        <Button text="View on GitHub" variant="transparent">
-                            <MdLink className="aspect-square h-4" />
-                        </Button>
+                        <Button text="View on GitHub" icon={MdLink} variant="transparent" reversed={true} className="hidden sm:flex" />
+                        <Button text="GitHub" icon={MdLink} variant="transparent" reversed={true} className="flex sm:hidden" />
                     </a>
                 </div>
             </div>
