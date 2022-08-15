@@ -146,7 +146,7 @@ const NewPage = () => {
                 <div className="flex flex-col gap-5">
                     <Text variant="heading">Description</Text>
 
-                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-neutral bg-opacity-40 backdrop-blur-xl pt-4">
+                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-4 border-b-1.5 border-b-line bg-neutral bg-opacity-40 backdrop-blur-xl pt-4">
                         <div className="flex h-full flex-row gap-8">
                             {tabs.map((tab, index) => (
                                 <NavElement
@@ -160,7 +160,7 @@ const NewPage = () => {
                         </div>
 
                         <div
-                            className="tooltip"
+                            className="tooltip mt-1"
                             data-tip="The textbox below supports Markdown"
                         >
                             <BsMarkdown size={20} />
