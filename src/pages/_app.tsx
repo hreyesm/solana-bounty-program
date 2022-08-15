@@ -16,13 +16,13 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
             description="A tool for project maintainers to streamline the process of finding open source contributors. And conversely for open source contributors to find projects to contribute and get reward"
         />
         <ContextProvider>
-            <CommandPalette>
-                <SessionProvider session={session}>
+            <SessionProvider session={session}>
+                <CommandPalette>
                     <Layout>
                         <Component {...pageProps} />
                     </Layout>
-                </SessionProvider>
-            </CommandPalette>
+                </CommandPalette>
+            </SessionProvider>
         </ContextProvider>
     </>
 );
