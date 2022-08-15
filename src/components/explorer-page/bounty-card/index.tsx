@@ -22,7 +22,7 @@ type BountyCardProps = Omit<Bounty, 'githubUrl' | 'tags'> & {
 };
 
 const ParticipantSection = ({ owner, hunter }) => (
-    <div className="flex h-16 w-full flex-row gap-3">
+    <div className="flex h-16 w-full flex-row gap-3 flex-1 min-w-0">
         <div className="flex flex-col gap-3 justify-between h-full w-full overflow-hidden">
             <Text
                 variant="label"
@@ -34,7 +34,7 @@ const ParticipantSection = ({ owner, hunter }) => (
                 {owner}
             </Text>
         </div>
-        <div className="flex flex-col gap-3 justify-between h-full w-full ">
+        <div className="flex flex-col gap-3 justify-between h-full w-full overflow-hidden">
             <Text
                 variant="label"
                 className="text-secondary"
@@ -89,7 +89,7 @@ const TagsSection = ({ tags, maxTags }) => (
 );
 
 const RewardSection = ({ reward, showDetails, responsive }) => (
-    <div className="flex flex-col items-end h-16 w-28 justify-between overflow-hidden">
+    <div className="flex flex-col items-end h-16 basis-18 justify-between overflow-hidden flex-shrink-0">
         <Text
             variant="label"
             className='inline text-secondary'
@@ -129,7 +129,6 @@ const BountyCard = ({
     name,
     reward,
     tags,
-    state,
     responsive = true,
     maxTags = 5,
     showDetails = false,
@@ -138,7 +137,7 @@ const BountyCard = ({
         <a>
             <Card
                 className={cn(
-                    'flex h-fit w-98 flex-shrink-0 snap-start flex-col items-start justify-between gap-5 p-6',
+                    'flex h-fit w-80 sm:w-98 flex-shrink-0 snap-start flex-col items-start justify-between gap-5 p-6',
                     responsive && '!w-full 2lg:flex-row 2lg:items-center',
                     !showDetails && "hover:bg-opacity-[97%] transition-all duration-300",
                 )}
@@ -151,7 +150,7 @@ const BountyCard = ({
                     )}
                 </div>
 
-                <div className="flex flex-row justify-between w-full">
+                <div className="flex flex-row justify-between w-full max-w-full overflow-hidden">
                     {showDetails ? (
                         <TagsSection tags={tags} maxTags={maxTags} />
                     ) : (
