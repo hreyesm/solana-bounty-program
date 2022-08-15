@@ -8,13 +8,13 @@ import CommandPalette from 'components/common/command-palette';
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
     <ContextProvider>
-        <CommandPalette>
-            <SessionProvider session={session}>
+        <SessionProvider session={session}>
+            <CommandPalette>
                 <Layout>
                     <Component {...pageProps} />
                 </Layout>
-            </SessionProvider>
-        </CommandPalette>
+            </CommandPalette>
+        </SessionProvider>
     </ContextProvider>
 );
 export default App;
