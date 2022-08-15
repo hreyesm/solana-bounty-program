@@ -1,5 +1,5 @@
 import { MdLink, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
-import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
+import { TbBrandGithub, TbWallet } from 'react-icons/tb';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useMemo, useRef, useState } from 'react';
 
