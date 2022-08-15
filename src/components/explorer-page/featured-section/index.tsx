@@ -9,7 +9,7 @@ const FeaturedSection = () => (
     >
         <Text variant="label">Featured</Text>
         <Text variant="big-heading">Recent Bounties</Text>
-        <div className="flex w-full flex-row justify-start gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory">
+        <div className="flex w-full flex-row justify-start gap-5 overflow-x-auto scroll-smooth">
             {mockBounties.map(bounty => (
                 <BountyCard key={bounty.id} responsive={false} {...bounty} />
             ))}
