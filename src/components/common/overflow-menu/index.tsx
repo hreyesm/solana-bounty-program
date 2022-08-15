@@ -131,7 +131,7 @@ const OverflowMenu = () => {
                     </div>
                     <div className="h-px w-full bg-line" />
                     <div className="flex flex-col gap-3 p-5 w-full min-w-0">
-                        <div className="flex items-center justify-between w-full flex-shrink flex-grow basis-auto">
+                        <div className="flex items-center justify-between w-full flex-1 min-w-0">
                             <div className="flex w-full flex-col gap-1">
                                 <Text
                                     variant="label"
@@ -167,15 +167,7 @@ const OverflowMenu = () => {
                                     </div>
                                 )}
                             </div>
-                            {/* Wallet logo instead of `MdAccountBalanceWallet`. */}
-                            {wallet && (
-                                // <div className="flex-shrink flex-grow-1 basis-10 flex aspect-square w-10 h-10 items-center justify-center rounded-full bg-white text-black">
-                                //     <TbWallet size={27} />        
-                                // </div>
-
-                                // Render wallet logo from walletImage
-                                <Image src={walletImage} height={40} />
-                            )}
+                            {wallet && <Image src={walletImage} height={40} className="flex-shrink-0 basis-10" /> }
                         </div>
 
                         <WalletMultiButton />
