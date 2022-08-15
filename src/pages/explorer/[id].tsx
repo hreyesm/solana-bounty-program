@@ -4,19 +4,20 @@ import { MdChevronLeft, MdLink } from 'react-icons/md';
 import { Bounty } from 'types/bounty';
 import BountyCard from 'components/explorer-page/bounty-card';
 import Button from 'components/common/button';
+import Chip from 'components/common/chip';
 import FundTab from 'components/detail-page/fund-tab';
 import Link from 'next/link';
 import Markdown from 'components/common/markdown';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
 import { authOptions } from 'pages/api/auth/[...nextauth]';
+import { claimBounty } from 'lib/drill';
 import { getBounty } from 'lib/bounties';
 import { unstable_getServerSession } from 'next-auth';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import Chip from 'components/common/chip';
 
 type BountyDetailsPageProps = {
     bounty: Bounty;
@@ -26,7 +27,7 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
     const { githubUrl, description, id, name, state, createdAt } = bounty;
 
     const { data: session } = useSession();
-    const { wallet } = useWallet();
+    const { publicKey, wallet } = useWallet();
 
     const tabs = useMemo(
         () => [
@@ -52,6 +53,10 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
         [currentTabId, tabs],
     );
 
+    const onClaimButtonClick = async () => {
+        await claimBounty(id, publicKey);
+    };
+
     return (
         <div className="flex flex-col gap-8 p-5 !pb-0 text-white sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
             <div className="flex flex-row items-center justify-between">
@@ -64,22 +69,27 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                 </Link>
 
                 <div className="flex flex-row gap-3">
-                    {(session && bounty.owner === session.login) && (
+                    {session && bounty.owner === session.login && (
                         <Button variant="danger" text="Close" />
                     )}
-                    {(session && bounty.hunter === session.login) && (
+                    {session && bounty.hunter === session.login && (
                         <div
-                            className={`${(state !== 'closed' || !wallet) && "tooltip"} tooltip-bottom`}
+                            className={`${
+                                (state !== 'closed' || !wallet) && 'tooltip'
+                            } tooltip-bottom`}
                             data-tip={
-                                state !== 'closed' ? "Complete this bounty to claim it" : (
-                                !wallet && "Connect a wallet to claim this bounty" 
-                            )}
+                                state !== 'closed'
+                                    ? 'Complete this bounty to claim it'
+                                    : !wallet &&
+                                      'Connect a wallet to claim this bounty'
+                            }
                         >
-                        <Button
-                            disabled={state !== 'closed' || !wallet}
-                            text="Claim"
-                            variant="orange"
-                        />  
+                            <Button
+                                disabled={state !== 'closed' || !wallet}
+                                onClick={onClaimButtonClick}
+                                text="Claim"
+                                variant="orange"
+                            />
                         </div>
                     )}
                     <a href={githubUrl}>
@@ -92,8 +102,19 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
 
             <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-2">
-                    <Chip value="placed" highlightValue={createdAt} reversed={true} />
-                    <Chip value={state} className={state === 'closed' ? "text-danger" : "text-green-500"} />
+                    <Chip
+                        value="placed"
+                        highlightValue={createdAt}
+                        reversed={true}
+                    />
+                    <Chip
+                        value={state}
+                        className={
+                            state === 'closed'
+                                ? 'text-danger'
+                                : 'text-green-500'
+                        }
+                    />
                 </div>
                 <Text variant="big-heading">{name}</Text>
             </div>
