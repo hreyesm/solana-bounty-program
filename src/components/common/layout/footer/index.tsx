@@ -16,7 +16,7 @@ const Footer = () => (
                 />
                 <Text
                     variant="label"
-                    className="text-white font-thin !tracking-widest"
+                    className="font-thin !tracking-widest text-white"
                 >
                     {' '}
                     Bounty{' '}

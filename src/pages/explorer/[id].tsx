@@ -64,22 +64,26 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                 </Link>
 
                 <div className="flex flex-row gap-3">
-                    {(session && bounty.owner === session.login) && (
+                    {session && bounty.owner === session.login && (
                         <Button variant="danger" text="Close" />
                     )}
-                    {(session && bounty.hunter === session.login) && (
+                    {session && bounty.hunter === session.login && (
                         <div
-                            className={`${(state !== 'closed' || !wallet) && "tooltip"} tooltip-bottom`}
+                            className={`${
+                                (state !== 'closed' || !wallet) && 'tooltip'
+                            } tooltip-bottom`}
                             data-tip={
-                                state !== 'closed' ? "Complete this bounty to claim it" : (
-                                !wallet && "Connect a wallet to claim this bounty" 
-                            )}
+                                state !== 'closed'
+                                    ? 'Complete this bounty to claim it'
+                                    : !wallet &&
+                                      'Connect a wallet to claim this bounty'
+                            }
                         >
-                        <Button
-                            disabled={state !== 'closed' || !wallet}
-                            text="Claim"
-                            variant="orange"
-                        />  
+                            <Button
+                                disabled={state !== 'closed' || !wallet}
+                                text="Claim"
+                                variant="orange"
+                            />
                         </div>
                     )}
                     <a href={githubUrl}>
@@ -92,8 +96,19 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
 
             <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-2">
-                    <Chip value="placed" highlightValue={createdAt} reversed={true} />
-                    <Chip value={state} className={state === 'closed' ? "text-danger" : "text-green-500"} />
+                    <Chip
+                        value="placed"
+                        highlightValue={createdAt}
+                        reversed={true}
+                    />
+                    <Chip
+                        value={state}
+                        className={
+                            state === 'closed'
+                                ? 'text-danger'
+                                : 'text-green-500'
+                        }
+                    />
                 </div>
                 <Text variant="big-heading">{name}</Text>
             </div>

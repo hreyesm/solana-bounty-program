@@ -114,11 +114,11 @@ const ResultItem = React.forwardRef(
             <div
                 ref={ref}
                 className={cn(
-                    'h-16 pr-5 flex flex-row items-center justify-between cursor-pointer transition-colors duration-300 ease-out',
+                    'flex h-16 cursor-pointer flex-row items-center justify-between pr-5 transition-colors duration-300 ease-out',
                     active && 'bg-primary-focus bg-opacity-5',
                 )}
             >
-                <div className="h-full flex flex-row items-center gap-5">
+                <div className="flex h-full flex-row items-center gap-5">
                     <div
                         className={cn(
                             'h-1/2 w-1 bg-transparent transition-all duration-300 ease-out',
@@ -130,7 +130,7 @@ const ResultItem = React.forwardRef(
                         <Text variant="paragraph">{action.name}</Text>
                         <Text
                             variant="label"
-                            className="text-secondary !normal-case"
+                            className="!normal-case text-secondary"
                         >
                             {action.subtitle}
                         </Text>
@@ -139,7 +139,7 @@ const ResultItem = React.forwardRef(
                 {action.shortcut?.length && (
                     <div
                         aria-hidden
-                        className="flex flex-row gap-1.5 items-center"
+                        className="flex flex-row items-center gap-1.5"
                     >
                         {action.shortcut.map(sc => (
                             <kbd key={sc} className="kbd kbd-sm bg-black/50">
@@ -189,13 +189,13 @@ const CommandPalette = props => (
     <KBarProvider actions={actions}>
         <KBarPortal>
             <KBarPositioner className="z-[200] bg-base bg-opacity-50 backdrop-blur-md">
-                <KBarAnimator className="w-[600px] overflow-hidden bg-base bg-opacity-90 backdrop-blur-lg firefox:bg-opacity-90 rounded-3xl text-white border border-white">
+                <KBarAnimator className="w-[600px] overflow-hidden rounded-3xl border border-white bg-base bg-opacity-90 text-white backdrop-blur-lg firefox:bg-opacity-90">
                     {' '}
                     {/* TODO: Don't copy styling from `Card`-component - reuse it!  bg-base bg-opacity-70 backdrop-blur-lg firefox:bg-opacity-90 rounded-3xl text-white border border-white*/}
-                    <div className="p-5 flex flex-row justify-between gap-3">
+                    <div className="flex flex-row justify-between gap-3 p-5">
                         <KBarSearch
                             defaultPlaceholder="Search bounties, profiles, pages, and more..."
-                            className="w-full block bg-transparent text-white placeholder:overflow-visible placeholder:text-base-content placeholder:opacity-50 focus:outline-none"
+                            className="block w-full bg-transparent text-white placeholder:overflow-visible placeholder:text-base-content placeholder:opacity-50 focus:outline-none"
                         />
                         <MdOutlineSearch size={22} className="w-fit" />
                     </div>

@@ -31,7 +31,7 @@ const Header = () => {
                         />
                         <Text
                             variant="label"
-                            className="text-white font-thin !tracking-widest"
+                            className="font-thin !tracking-widest text-white"
                         >
                             {' '}
                             Bounty{' '}
@@ -51,15 +51,15 @@ const Header = () => {
                     <Button
                         variant="transparent"
                         icon={MdOutlineSearch}
-                        className="hidden md:flex group"
+                        className="group hidden md:flex"
                         onClick={query.toggle}
                     >
                         <div className="flex gap-0.5">
-                            <kbd className="kbd kbd-xs bg-black/50 group-hover:text-white group-hover:bg-black/80">
+                            <kbd className="kbd kbd-xs bg-black/50 group-hover:bg-black/80 group-hover:text-white">
                                 {' '}
                                 ctrl{' '}
                             </kbd>
-                            <kbd className="kbd kbd-xs bg-black/50 group-hover:text-white group-hover:bg-black/80">
+                            <kbd className="kbd kbd-xs bg-black/50 group-hover:bg-black/80 group-hover:text-white">
                                 {' '}
                                 k{' '}
                             </kbd>
@@ -73,7 +73,7 @@ const Header = () => {
                         onClick={query.toggle}
                     />
 
-                    <div className="h-1/2 w-px bg-line hidden md:inline" />
+                    <div className="hidden h-1/2 w-px bg-line md:inline" />
 
                     <OverflowMenu />
                 </div>
