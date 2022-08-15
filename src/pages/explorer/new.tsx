@@ -131,7 +131,7 @@ const NewPage = () => {
                         )}
                         data-tip="Enter a valid GitHub username"
                     >
-                        <div className="background-transparent group flex h-11 w-96 min-w-fit flex-row items-center gap-3 rounded-full border border-white px-5 py-3">
+                        <div className="background-transparent group flex h-11 w-full sm:w-96 max-w-full flex-row items-center gap-3 rounded-full border border-white px-5 py-3">
                             <MdPersonOutline size={20} />
                             <input
                                 className="w-28 max-w-full bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
