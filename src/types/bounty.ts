@@ -1,4 +1,5 @@
 export type Bounty = {
+    address: string;
     createdAt: string;
     description: string;
     githubUrl: string;

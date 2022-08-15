@@ -48,11 +48,12 @@ const toBounty = (issue: Issue, drillResponse: DrillResponse): Bounty => {
         user: creator,
     } = issue;
 
-    const { amount } = drillResponse;
+    const { amount, address } = drillResponse;
 
     const reward = Number(amount) / 1_000_000;
 
     return {
+        address: address.toString(),
         createdAt: formatDate(created_at),
         description: body,
         githubUrl: html_url,
