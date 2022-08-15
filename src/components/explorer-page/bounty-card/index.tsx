@@ -22,12 +22,9 @@ type BountyCardProps = Omit<Bounty, 'githubUrl' | 'tags'> & {
 };
 
 const ParticipantSection = ({ owner, hunter }) => (
-    <div className="flex h-16 w-full flex-row gap-3 flex-1 min-w-0">
-        <div className="flex flex-col gap-3 justify-between h-full w-full overflow-hidden">
-            <Text
-                variant="label"
-                className="text-secondary"
-            >
+    <div className="flex h-16 w-full flex-row gap-3">
+        <div className="flex h-full w-full flex-col justify-between gap-3 overflow-hidden">
+            <Text variant="label" className="text-secondary">
                 Owner
             </Text>
             <Text
@@ -37,11 +34,8 @@ const ParticipantSection = ({ owner, hunter }) => (
                 {owner}
             </Text>
         </div>
-        <div className="flex flex-col gap-3 justify-between h-full w-full overflow-hidden">
-            <Text
-                variant="label"
-                className="text-secondary"
-            >
+        <div className="flex h-full w-full flex-col justify-between gap-3 ">
+            <Text variant="label" className="text-secondary">
                 Hunter
             </Text>
             <div className="flex w-full flex-row items-center gap-3 overflow-hidden">
@@ -87,12 +81,9 @@ const TagsSection = ({ tags, maxTags }) => (
 );
 
 const RewardSection = ({ reward, showDetails, responsive }) => (
-    <div className="flex flex-col items-end h-16 basis-18 justify-between overflow-hidden flex-shrink-0">
-        <Text
-            variant="label"
-            className='inline text-secondary'
-        >
-            { (!responsive || showDetails) && 'Reward ·' } SOL
+    <div className="flex h-16 w-28 flex-col items-end justify-between overflow-hidden">
+        <Text variant="label" className="inline text-secondary">
+            {(!responsive || showDetails) && 'Reward ·'} SOL
         </Text>
         <Text
             variant="heading"
@@ -148,7 +139,7 @@ const BountyCard = ({
                     )}
                 </div>
 
-                <div className="flex flex-row justify-between w-full max-w-full overflow-hidden">
+                <div className="flex w-full flex-row justify-between">
                     {showDetails ? (
                         <TagsSection tags={tags} maxTags={maxTags} />
                     ) : (

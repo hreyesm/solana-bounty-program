@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import Button from 'components/common/button';
 import Card from 'components/common/card';
-import Text from 'components/common/text';
+
 const AboutSection = () => (
     <section
         title="about"
-        className="justify-center mt-36 flex px-4 sm:px-8 md:mt-0 md:px-16 lg:px-32 xl:px-48"
+        className="mt-36 flex justify-center bg-black px-4 sm:px-8 md:mt-0 md:px-16 lg:px-32 xl:px-48"
     >
         <div className="absolute order-2 -mt-36 ml-7 w-3/4 opacity-75 bg-blend-overlay md:relative md:-ml-52 md:mt-0 md:w-1/2">
             <img src="/back.webp" alt="" />

@@ -30,7 +30,7 @@ const Header = () => {
                         />
                         <Text
                             variant="label"
-                            className="font-thin !tracking-widest hidden sm:inline"
+                            className="font-thin !tracking-widest text-white"
                         >
                             {' '}
                             Bounty{' '}

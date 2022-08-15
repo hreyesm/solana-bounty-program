@@ -63,13 +63,15 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                     </a>
                 </Link>
 
-                <div className="w-fit flex flex-row flex-wrap gap-3">
-                    {(session && bounty.owner === session.login) && (
+                <div className="flex flex-row gap-3">
+                    {session && bounty.owner === session.login && (
                         <Button variant="danger" text="Close" />
                     )}
                     {session && bounty.hunter === session.login && (
                         <div
-                            className={`${(state !== 'closed' || !wallet) && "tooltip"} tooltip-left`}
+                            className={`${
+                                (state !== 'closed' || !wallet) && 'tooltip'
+                            } tooltip-bottom`}
                             data-tip={
                                 state !== 'closed'
                                     ? 'Complete this bounty to claim it'
