@@ -89,8 +89,7 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                         )}
                     </div>
 
-                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black bg-opacity-40 pt-4 backdrop-blur-xl">
-                        <div className="flex h-full flex-row gap-8">
+                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
                             {tabs.map((tab, index) => (
                                 <NavElement
                                     as={index === 0 && `/${username}`}
@@ -101,7 +100,6 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                                     scroll={false} // TODO: Scroll to navbar position.
                                 />
                             ))}
-                        </div>
                     </div>
 
                     {currentTab.content}

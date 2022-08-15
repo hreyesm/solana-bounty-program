@@ -111,7 +111,7 @@ const FundTab = ({ reward }: Bounty) => {
                                     </div>
                                 </Card>
                                 <div className="flex flex-row flex-wrap gap-2">
-                                    <div className="background-transparent group flex h-11 w-full min-w-fit flex-[1_1_fit-content] flex-row items-center justify-between gap-3 rounded-full border border-white px-5 py-3 text-white">
+                                    <div className="background-transparent group flex h-11 w-full min-w-fit flex-[1_1_fit-content] flex-row items-center justify-between gap-3 rounded-full border border-white px-5 py-3">
                                         <div className="flex flex-row items-center gap-3">
                                             <MdOutlinePayments size={20} />
                                             <input

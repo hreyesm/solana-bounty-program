@@ -27,7 +27,7 @@ const Hero = ({
                     style={{ borderRadius: '50%' }}
                 />
                 <div className="flex flex-row flex-wrap items-center gap-5">
-                    <div className="flex flex-col gap-1 text-white">
+                    <div className="flex flex-col gap-1">
                         <Text variant="heading" className="whitespace-nowrap">
                             {fullName}
                         </Text>
@@ -53,45 +53,37 @@ const Hero = ({
             </div>
 
             {isCurrentUser && (
-                <div className="flex h-min grow-[2] basis-80 flex-row items-center gap-5">
-                    <div className="flex h-full w-full flex-col gap-2">
-                        <div className="flex flex-row items-center gap-1">
-                            {/* <Chip value="Level" highlightValue={level.toString()} reversed={true} /> */}
+                <div className="flex h-min grow-[2] basis-80 w-full flex-col gap-2">
+                    <div className="flex flex-row items-center gap-1">
+                        {/* <Chip value="Level" highlightValue={level.toString()} reversed={true} /> */}
 
-                            <Text
-                                variant="label"
-                                className="flex flex-row items-center gap-1 !normal-case text-secondary"
-                            >
-                                Level{' '}
-                                <span className="font-medium text-primary">
-                                    {' '}
-                                    {level}
-                                </span>
-                            </Text>
+                        <Text
+                            variant="label"
+                            className="flex flex-row items-center gap-1 !normal-case text-secondary"
+                        >
+                            Level{' '}
+                            <span className="font-medium text-primary">
+                                {' '}
+                                {level}
+                            </span>
+                        </Text>
 
-                            {/* <Text variant="label" className="flex flex-row items-center gap-1 text-secondary !normal-case">
-                                    To next: <span className="text-danger font-medium"> {remainingExp} </span> 
-                            </Text> */}
-
-                            <div
-                                className="tooltip"
-                                data-tip="Complete bounties to earn levels"
-                            >
-                                <MdInfoOutline
-                                    size={15}
-                                    className="aspect-square"
-                                />
-                            </div>
+                        <div
+                            className="tooltip tooltip-right"
+                            data-tip="Complete bounties to earn levels"
+                        >
+                            <MdInfoOutline
+                                size={15}
+                                className="aspect-square"
+                            />
                         </div>
-                        <progress
-                            className="progress progress-error bg-base/75"
-                            value={level}
-                            max={100}
-                        />
                     </div>
-                    <div className="h-11 w-px bg-line" />
-                    <Button icon={MdOutlineEdit} variant="orange" />
-                </div>
+                    <progress
+                        className="progress progress-error bg-base/75"
+                        value={level}
+                        max={100}
+                    />
+            </div>
             )}
         </div>
     </div>

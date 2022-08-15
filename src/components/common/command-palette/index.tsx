@@ -99,13 +99,12 @@ function CommandBar() {
     return (
         <KBarPortal>
             <KBarPositioner className="z-[200] bg-base bg-opacity-50 backdrop-blur-md">
-                <KBarAnimator className="w-[600px] overflow-hidden rounded-3xl border border-white bg-base bg-opacity-90 text-white backdrop-blur-lg firefox:bg-opacity-90">
+                <KBarAnimator className="w-[600px] overflow-hidden bg-base bg-opacity-90 backdrop-blur-lg firefox:bg-opacity-90 rounded-3xl border border-white">
                     {' '}
-                    {/* TODO: Don't copy styling from `Card`-component - reuse it!  bg-base bg-opacity-70 backdrop-blur-lg firefox:bg-opacity-90 rounded-3xl text-white border border-white*/}
                     <div className="flex flex-row justify-between gap-3 p-5">
                         <KBarSearch
                             defaultPlaceholder="Search bounties, profiles, pages, and more..."
-                            className="block w-full bg-transparent text-white placeholder:overflow-visible placeholder:text-base-content placeholder:opacity-50 focus:outline-none"
+                            className="w-full block bg-transparent placeholder:overflow-visible placeholder:text-base-content placeholder:opacity-50 focus:outline-none"
                         />
                         <MdOutlineSearch size={22} className="w-fit" />
                     </div>
