@@ -1,4 +1,8 @@
+import * as Web3 from '@solana/web3.js';
+
+import { ChangeEvent, useCallback, useState } from 'react';
 import { MdInfoOutline, MdOutlinePayments } from 'react-icons/md';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 
 import { Bounty } from 'types/bounty';
 import Button from 'components/common/button';
@@ -7,29 +11,53 @@ import Chip from 'components/common/chip';
 import { TbWallet } from 'react-icons/tb';
 import Text from 'components/common/text';
 import TransactionCard from './transaction-card';
-import { useWallet } from '@solana/wallet-adapter-react';
-import * as Web3 from '@solana/web3.js';
-import { useEffect, useState } from 'react';
+import { useBalance } from 'hooks/use-balance';
+import { useSWRConfig } from 'swr';
 
-const FundTab = ({ reward }: Bounty) => {
-    const [balance, setBalance] = useState(0);
-    const { publicKey, wallet } = useWallet();
+const FundTab = ({ address, reward }: Bounty) => {
+    const { balance } = useBalance();
+    const { connection } = useConnection();
+    const [amount, setAmount] = useState<number>();
+    const { mutate } = useSWRConfig();
+    const { publicKey, sendTransaction } = useWallet();
 
-    useEffect(() => {
-        try {
-            const connection = new Web3.Connection(
-                Web3.clusterApiUrl('devnet'),
-            );
-            publicKey
-                ? connection.getBalance(publicKey).then(balance => {
-                      setBalance(balance / Web3.LAMPORTS_PER_SOL);
-                  })
-                : setBalance(0);
-        } catch (error) {
-            setBalance(0);
-            alert(error);
+    const onAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const newAmount = Number(e.target.value);
+        if (newAmount <= 0) setAmount(null);
+        setAmount(newAmount);
+    };
+
+    const onSend = useCallback(async () => {
+        if (!publicKey) {
+            alert('Wallet not connected');
+            return;
         }
-    }, [publicKey]);
+
+        let signature: Web3.TransactionSignature = '';
+        try {
+            const transaction = new Web3.Transaction().add(
+                Web3.SystemProgram.transfer({
+                    fromPubkey: publicKey,
+                    toPubkey: new Web3.PublicKey(address),
+                    lamports: Web3.LAMPORTS_PER_SOL * amount,
+                }),
+            );
+
+            signature = await sendTransaction(transaction, connection);
+
+            await connection.confirmTransaction(signature, 'confirmed');
+
+            // Mutate SWR cache to view updated balance
+            mutate('balance');
+
+            alert(`Transaction successful: ${signature}`);
+            console.log(`Transaction successful: ${signature}`);
+        } catch (error) {
+            alert('Transaction failed');
+
+            return;
+        }
+    }, [publicKey, address, amount, sendTransaction, connection, mutate]);
 
     return (
         <section title="actions" className="flex flex-col gap-10 md:flex-row">
@@ -58,7 +86,7 @@ const FundTab = ({ reward }: Bounty) => {
                             variant="label"
                             className="!normal-case text-secondary"
                         >
-                            Choose between...{' '}
+                            Choose between...
                         </Text>
                     </div>
                     <div className="flex flex-row gap-7">
@@ -90,12 +118,11 @@ const FundTab = ({ reward }: Bounty) => {
                                     <div className="flex flex-col gap-2">
                                         {publicKey ? (
                                             <Text variant="paragraph">
-                                                {' '}
-                                                {balance}
+                                                {balance || 0}
                                                 <span className="text-sm font-light">
                                                     {' '}
-                                                    SOL{' '}
-                                                </span>{' '}
+                                                    SOL
+                                                </span>
                                             </Text>
                                         ) : (
                                             <Text variant="paragraph">
@@ -114,13 +141,17 @@ const FundTab = ({ reward }: Bounty) => {
                                             <MdOutlinePayments size={20} />
                                             <input
                                                 className="w-28 bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
+                                                onChange={onAmountChange}
                                                 placeholder="Enter amount..."
-                                                type="text"
+                                                type="number"
+                                                value={amount}
                                             />
                                         </div>
                                         <Text variant="label">SOL</Text>
                                     </div>
                                     <Button
+                                        disabled={!(amount && publicKey)}
+                                        onClick={onSend}
                                         variant="orange"
                                         text="Send"
                                         className="flex-[2_2_fit-content]"
@@ -133,7 +164,7 @@ const FundTab = ({ reward }: Bounty) => {
             </div>
 
             <div className="flex flex-col gap-5">
-                <Text variant="heading"> Recent donations </Text>
+                <Text variant="heading">Recent donations</Text>
 
                 <div className="flex w-full flex-col gap-3 md:w-98">
                     <div className="flex flex-row justify-between gap-3 px-3 text-base-content">
