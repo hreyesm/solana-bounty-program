@@ -25,7 +25,7 @@ type ButtonProps = {
  * Pre-defined styling, according to agreed-upon design-system.
  */
 const variants = {
-    black: 'border-transparent bg-black text-white',
+    black: 'border-transparent bg-black',
     orange: 'border-transparent bg-primary text-black', // TODO: Change name of variant to `highlight`.
     transparent: 'text-white', // TODO: Change name of variant to `outlined`.
     danger: 'border-secondary text-danger hover:text-white hover:bg-secondary',

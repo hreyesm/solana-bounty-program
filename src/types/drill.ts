@@ -9,6 +9,7 @@ type DrillBounty = {
     closedAt: Date | null;
     id: number;
     isClosed: boolean;
+    mint: PublicKey;
     publicKey: PublicKey;
 };
 

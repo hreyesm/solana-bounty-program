@@ -55,4 +55,14 @@ const getBounty = async (id: number, accessToken: string) => {
     return toBounty(issue, drillResponse);
 };
 
-export { getBounty, getBounties, getBountiesByAssignee };
+const getBountyReward = async (id: number) => {
+    const drillResponse = await getDrillResponse(id);
+
+    if (!drillResponse) {
+        return null;
+    }
+
+    return Number(drillResponse.amount) / 1_000_000;
+};
+
+export { getBounty, getBountyReward, getBounties, getBountiesByAssignee };

@@ -1,7 +1,9 @@
 import { NextApiHandler } from 'next';
-import { authOptions } from '../auth/[...nextauth]';
+import { authOptions } from 'pages/api/auth/[...nextauth]';
 import { getBountiesByAssignee } from 'lib/bounties';
 import { unstable_getServerSession } from 'next-auth';
+
+// GET /api/[username]/bounties
 
 const handler: NextApiHandler = async (req, res) => {
     const username = req.query.username as string;

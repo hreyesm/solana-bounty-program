@@ -4,7 +4,7 @@ import useSWR from 'swr';
 
 export const useBountiesByAssignee = (username: string) => {
     const { data, error } = useSWR<Bounty[]>(
-        () => (username ? `/api/bounties/${username}` : null),
+        () => (username ? `/api/${username}/bounties` : null),
         fetcher,
     );
 

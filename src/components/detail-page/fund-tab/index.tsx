@@ -1,199 +1,228 @@
-/* eslint-disable indent */
 import * as Web3 from '@solana/web3.js';
 
+import { ChangeEvent, useCallback, useState } from 'react';
 import { MdInfoOutline, MdOutlinePayments } from 'react-icons/md';
-import { useEffect, useState } from 'react';
+import {
+    createTransferInstruction,
+    getAssociatedTokenAddress,
+} from '@solana/spl-token';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 
 import { Bounty } from 'types/bounty';
 import Button from 'components/common/button';
 import Card from 'components/common/card';
-import Chip from 'components/common/chip';
+import Image from 'components/common/image';
 import { TbWallet } from 'react-icons/tb';
 import Text from 'components/common/text';
-import TransactionCard from './transaction-card';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { cn } from 'utils';
+import { getWalletImage } from 'utils/wallet';
+import { useBalance } from 'hooks/use-balance';
+import { useSWRConfig } from 'swr';
 
-const FundTab = ({ reward }: Bounty) => {
-    const [balance, setBalance] = useState(0);
-    const { publicKey } = useWallet();
+const FundTab = ({ address, id, mint, reward }: Bounty) => {
+    const { balance } = useBalance(mint);
+    const { connection } = useConnection();
+    const [amount, setAmount] = useState<number>();
+    const { mutate } = useSWRConfig();
+    const { publicKey, sendTransaction, wallet } = useWallet();
 
-    useEffect(() => {
-        try {
-            const connection = new Web3.Connection(
-                Web3.clusterApiUrl('devnet'),
-            );
-            publicKey
-                ? connection.getBalance(publicKey).then(b => {
-                      setBalance(b / Web3.LAMPORTS_PER_SOL);
-                  })
-                : setBalance(0);
-        } catch (error) {
-            setBalance(0);
-            alert(error);
+    const walletName = wallet?.adapter.name;
+    const walletImage = getWalletImage(walletName?.toLowerCase());
+
+    const onAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const newAmount = Number(e.target.value);
+        if (newAmount <= 0) setAmount(null);
+        setAmount(newAmount);
+    };
+
+    const onSend = useCallback(async () => {
+        if (!publicKey) {
+            alert('Wallet not connected');
+            return;
         }
-    }, [publicKey]);
+
+        const associatedToken = await getAssociatedTokenAddress(
+            new Web3.PublicKey(mint),
+            publicKey,
+        );
+
+        let signature: Web3.TransactionSignature = '';
+
+        try {
+            const transaction = new Web3.Transaction().add(
+                createTransferInstruction(
+                    associatedToken,
+                    new Web3.PublicKey(address),
+                    publicKey,
+                    amount * 1_000_000,
+                ),
+            );
+
+            signature = await sendTransaction(transaction, connection);
+
+            await connection.confirmTransaction(signature, 'confirmed');
+
+            // Mutate SWR cache to view updated balance and reward
+            await mutate('balance');
+            await mutate(`/api/bounties/${id}/reward`);
+
+            const message = `Transaction successful: https://explorer.solana.com/tx/${signature}?cluster=devnet`;
+
+            alert(message);
+            console.log(message);
+        } catch (error) {
+            alert('Transaction failed');
+        }
+    }, [
+        publicKey,
+        mint,
+        address,
+        amount,
+        sendTransaction,
+        connection,
+        mutate,
+        id,
+    ]);
 
     return (
-        <section title="actions" className="flex flex-col gap-10 md:flex-row">
-            <div className="flex w-full flex-col gap-7">
+        <section title="actions" className="flex flex-col gap-7">
+            <div className="flex flex-col gap-2">
+                <Text variant="big-heading">Make a payment</Text>
+                <Text variant="label" className="!normal-case text-secondary">
+                    Choose between...
+                </Text>
+            </div>
+            <div className="flex h-max flex-col gap-10 md:flex-row">
                 <div className="flex w-full flex-col gap-5">
-                    <Text
-                        variant="heading"
-                        className="flex-shrink-0 whitespace-nowrap"
-                    >
-                        Current reward
-                    </Text>
-                    <Card className="flex w-full flex-col gap-3 border-none !bg-gradient-to-tr from-primary/75 to-secondary/75 p-5">
-                        <Text variant="sub-heading">
-                            {reward}{' '}
-                            <span className="text-lg font-light">SOL</span>
-                        </Text>
-                        <div className="flex w-full flex-row justify-end">
-                            <Chip highlightValue="3" value="donors" />
+                    <div className="flex flex-row items-center gap-3">
+                        <Text variant="heading">Solana Pay</Text>
+                        <a
+                            href="https://solanapay.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <MdInfoOutline
+                                size={15}
+                                className="aspect-square"
+                            />
+                        </a>
+                    </div>
+                    <Card className="flex w-full items-center justify-center !bg-transparent p-5 md:h-full">
+                        <div className="overflow-hidden rounded-lg">
+                            <Image
+                                alt="Solana Pay QR"
+                                className="aspect-square h-80 w-80"
+                                src={`https://raw.githubusercontent.com/andresmgsl/solana-cohort-june-2022/main/.drill/${id}.jpg`}
+                            />
                         </div>
                     </Card>
                 </div>
-                <div className="flex flex-col gap-5">
-                    <div className="flex flex-col gap-2">
-                        <Text variant="heading">Send payment</Text>
-                        <Text
-                            variant="label"
-                            className="!normal-case text-secondary"
-                        >
-                            Choose between...{' '}
-                        </Text>
-                    </div>
-                    <div className="flex flex-row gap-7">
-                        <div className="flex w-fit flex-col gap-5">
-                            <Text
-                                variant="label"
-                                className="flex w-full flex-row items-center justify-between"
-                            >
-                                Solana Pay
-                                <a
-                                    href="https://solanapay.com/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+
+                <div className="flex h-full w-full flex-col gap-5">
+                    <Text variant="heading">Send manually</Text>
+                    <div className="flex flex-col gap-3">
+                        <Card className="flex w-full flex-col gap-3 border-none !bg-gradient-to-tr from-primary/75 to-secondary/75 p-5">
+                            <Text variant="label">Current funding</Text>
+                            <div className="flex w-full flex-row items-center justify-center gap-3">
+                                <Text variant="big-heading">
+                                    {reward || '-'}
+                                </Text>{' '}
+                                <Text
+                                    variant="sub-heading"
+                                    className="font-light"
                                 >
-                                    <MdInfoOutline
-                                        size={15}
-                                        className="aspect-square"
-                                    />
-                                </a>
+                                    SOL
+                                </Text>
+                            </div>
+                            <div className="flex w-full flex-row justify-end">
+                                <Image
+                                    src="/logo-icon.svg"
+                                    alt="solana icon"
+                                    width={20}
+                                    height={17.89}
+                                    className="saturate-0"
+                                />
+                            </div>
+                        </Card>
+
+                        <Card
+                            className={cn(
+                                'flex w-full flex-col items-end gap-3 p-5',
+                                !publicKey && 'opacity-50',
+                            )}
+                        >
+                            <Text variant="label">
+                                Your {walletName} wallet
                             </Text>
-                            {/* TODO: Placeholder for Sol Pay QR code. */}
-                            <div className="aspect-square h-40 rounded-lg bg-white" />
-                        </div>
-                        <div className="h-48 w-px bg-line" />
-                        <div className="flex h-full w-full max-w-full flex-col gap-5">
-                            <Text variant="label">Using your wallet</Text>
-                            <div className="flex flex-col gap-2">
-                                <Card className="flex flex-row items-center justify-between p-5">
-                                    <div className="flex flex-col gap-2">
-                                        {publicKey ? (
-                                            <Text variant="paragraph">
-                                                {' '}
-                                                {balance}
-                                                <span className="text-sm font-light">
-                                                    {' '}
-                                                    SOL{' '}
-                                                </span>{' '}
-                                            </Text>
-                                        ) : (
-                                            <Text variant="paragraph">
-                                                Wallet Not Connected
-                                            </Text>
-                                        )}
-                                    </div>
-                                    {/* Placehold for user's wallet provider logo */}
-                                    <div className="flex aspect-square h-9 items-center justify-center rounded-full bg-white text-black">
-                                        <TbWallet size={25} />
-                                    </div>
-                                </Card>
-                                <div className="flex flex-row flex-wrap gap-2">
-                                    <div className="background-transparent group flex h-11 w-full min-w-fit flex-[1_1_fit-content] flex-row items-center justify-between gap-3 rounded-full border border-white px-5 py-3 text-white">
+                            <div className="flex w-full flex-col items-center justify-center gap-5">
+                                {publicKey ? (
+                                    <>
                                         <div className="flex flex-row items-center gap-3">
-                                            <MdOutlinePayments size={20} />
-                                            <input
-                                                className="w-28 bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
-                                                placeholder="Enter amount..."
-                                                type="text"
+                                            <Text variant="big-heading">
+                                                {balance?.toFixed(2)}
+                                            </Text>{' '}
+                                            <Text
+                                                variant="sub-heading"
+                                                className="font-light"
+                                            >
+                                                SOL
+                                            </Text>
+                                        </div>
+
+                                        <div className="flex flex-row flex-wrap gap-2">
+                                            <div className="background-transparent group flex h-11 w-full min-w-fit flex-[1_1_fit-content] flex-row items-center justify-between gap-3 rounded-full border border-white px-5 py-3">
+                                                <div className="flex flex-row items-center gap-3">
+                                                    <MdOutlinePayments
+                                                        size={20}
+                                                    />
+                                                    <input
+                                                        className="w-28 bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
+                                                        onChange={
+                                                            onAmountChange
+                                                        }
+                                                        placeholder="Enter amount..."
+                                                        type="text"
+                                                    />
+                                                </div>
+                                                <Text variant="label">SOL</Text>
+                                            </div>
+                                            <Button
+                                                className="flex-[2_2_fit-content]"
+                                                onClick={onSend}
+                                                text="Send"
+                                                variant="orange"
                                             />
                                         </div>
-                                        <Text variant="label">SOL</Text>
+                                    </>
+                                ) : (
+                                    <div className="flex flex-row items-center gap-2">
+                                        <Text variant="paragraph">
+                                            Not connected
+                                        </Text>
+                                        <div
+                                            className="tooltip"
+                                            data-tip="Connect a wallet via the integration menu to see your balance"
+                                        >
+                                            <MdInfoOutline
+                                                size={15}
+                                                className="aspect-square"
+                                            />
+                                        </div>
                                     </div>
-                                    <Button
-                                        variant="orange"
-                                        text="Send"
-                                        className="flex-[2_2_fit-content]"
-                                    />
-                                </div>
+                                )}
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="flex flex-col gap-5">
-                <Text variant="heading"> Recent donations </Text>
-
-                <div className="flex w-full flex-col gap-3 md:w-98">
-                    <div className="flex flex-row justify-between gap-3 px-3 text-base-content">
-                        <div className="flex w-2/3 flex-row items-center gap-3">
-                            <Text variant="label" className="w-2/3">
-                                Signature
-                            </Text>
-                            <Text variant="label" className="w-1/3">
-                                Amt · SOL
-                            </Text>
-                        </div>
-                        <div className="flex w-1/3 flex-row items-center gap-3">
-                            <Text variant="label" className="w-1/2">
-                                Date
-                            </Text>
-                            <Text variant="label" className="w-1/2 text-right">
-                                Status
-                            </Text>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col gap-3">
-                        <TransactionCard
-                            signature="3ddYMpSzCPx4cBAqxnj7ZhDmbphbd8ebQb2xLGYe2qYTVsQTYpsW1D1DCjenMvcbb9RC7PQWj8Np3rkhEqxGZpxc"
-                            amount={300}
-                            date="Aug 08"
-                            status="success"
-                        />
-                        <TransactionCard
-                            signature="3ddYMpSzCPx4cBAqxnj7ZhDmbphbd8ebQb2xLGYe2qYTVsQTYpsW1D1DCjenMvcbb9RC7PQWj8Np3rkhEqxGZpxc"
-                            amount={300}
-                            date="Aug 08"
-                            status="failed"
-                        />
-                        <TransactionCard
-                            signature="3ddYMpSzCPx4cBAqxnj7ZhDmbphbd8ebQb2xLGYe2qYTVsQTYpsW1D1DCjenMvcbb9RC7PQWj8Np3rkhEqxGZpxc"
-                            amount={300}
-                            date="Aug 08"
-                            status="pending"
-                        />
-                        <TransactionCard
-                            signature="3ddYMpSzCPx4cBAqxnj7ZhDmbphbd8ebQb2xLGYe2qYTVsQTYpsW1D1DCjenMvcbb9RC7PQWj8Np3rkhEqxGZpxc"
-                            amount={300}
-                            date="Aug 08"
-                            status="success"
-                        />
-                        <TransactionCard
-                            signature="3ddYMpSzCPx4cBAqxnj7ZhDmbphbd8ebQb2xLGYe2qYTVsQTYpsW1D1DCjenMvcbb9RC7PQWj8Np3rkhEqxGZpxc"
-                            amount={300}
-                            date="Aug 08"
-                            status="failed"
-                        />
-                        <TransactionCard
-                            signature="3ddYMpSzCPx4cBAqxnj7ZhDmbphbd8ebQb2xLGYe2qYTVsQTYpsW1D1DCjenMvcbb9RC7PQWj8Np3rkhEqxGZpxc"
-                            amount={300}
-                            date="Aug 08"
-                            status="success"
-                        />
+                            <div className="flex w-full flex-row justify-start">
+                                {publicKey ? (
+                                    <Image
+                                        src={walletImage}
+                                        alt="wallet icon"
+                                        height={20}
+                                    />
+                                ) : (
+                                    <TbWallet size={20} />
+                                )}
+                            </div>
+                        </Card>
                     </div>
                 </div>
             </div>
