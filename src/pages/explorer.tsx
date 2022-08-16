@@ -90,16 +90,16 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                     </div>
 
                     <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
-                            {tabs.map((tab, index) => (
-                                <NavElement
-                                    as={index === 0 && `/explorer`}
-                                    href={`/explorer?tab=${tab.id}`}
-                                    key={tab.id}
-                                    label={tab.label}
-                                    chipLabel={tab.amount.toString()}
-                                    scroll={false}
-                                />
-                            ))}
+                        {tabs.map((tab, index) => (
+                            <NavElement
+                                as={index === 0 && `/explorer`}
+                                href={`/explorer?tab=${tab.id}`}
+                                key={tab.id}
+                                label={tab.label}
+                                chipLabel={tab.amount.toString()}
+                                scroll={false}
+                            />
+                        ))}
                     </div>
 
                     {currentTab.content}
