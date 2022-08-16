@@ -5,6 +5,7 @@ export const useBountyReward = (id: number) => {
     const { data, error } = useSWR<number>(
         `/api/bounties/${id}/reward`,
         fetcher,
+        { refreshInterval: 3000 },
     );
 
     return {
