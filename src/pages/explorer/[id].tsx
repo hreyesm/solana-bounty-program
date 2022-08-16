@@ -11,8 +11,10 @@ import Markdown from 'components/common/markdown';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
 import { authOptions } from 'pages/api/auth/[...nextauth]';
+import { claimBounty } from 'lib/drill';
 import { getBounty } from 'lib/bounties';
 import { unstable_getServerSession } from 'next-auth';
+import { useBountyReward } from 'hooks/use-bounty-reward';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
@@ -25,8 +27,9 @@ type BountyDetailsPageProps = {
 const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
     const { githubUrl, description, id, name, state, createdAt } = bounty;
 
+    const { reward, isLoading: isRewardLoading } = useBountyReward(id);
     const { data: session } = useSession();
-    const { wallet } = useWallet();
+    const { publicKey, wallet } = useWallet();
 
     const tabs = useMemo(
         () => [
@@ -36,12 +39,14 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                 label: 'Description',
             },
             state === 'open' && {
-                content: <FundTab {...bounty} />,
+                content: (
+                    <FundTab {...bounty} reward={!isRewardLoading && reward} />
+                ),
                 id: 'fund',
                 label: 'Fund',
             },
         ],
-        [bounty, description, state],
+        [bounty, description, isRewardLoading, reward, state],
     );
 
     const router = useRouter();
@@ -51,6 +56,30 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
         () => tabs.find(tab => tab.id === currentTabId),
         [currentTabId, tabs],
     );
+
+    const onClaimButtonClick = async () => {
+        await claimBounty(id, publicKey);
+    };
+
+    const onCloseButtonClick = async () => {
+        try {
+            const response = await fetch(`/api/bounties/${id}`, {
+                headers: { 'Content-Type': 'application/json' },
+                method: 'PATCH',
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                router.push(`/explorer`);
+            } else {
+                alert(JSON.stringify(data));
+            }
+        } catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    };
 
     return (
         <div className="flex flex-col gap-8 p-5 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
@@ -65,7 +94,11 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
 
                 <div className="flex w-fit flex-row flex-wrap gap-3">
                     {session && bounty.owner === session.login && (
-                        <Button variant="danger" text="Close" />
+                        <Button
+                            onClick={onCloseButtonClick}
+                            variant="danger"
+                            text="Close"
+                        />
                     )}
                     {session && bounty.hunter === session.login && (
                         <div
@@ -81,6 +114,7 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                         >
                             <Button
                                 disabled={state !== 'closed' || !wallet}
+                                onClick={onClaimButtonClick}
                                 text="Claim"
                                 variant="orange"
                             />
@@ -126,7 +160,13 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
 
             <Text variant="nav-heading">Basics</Text>
 
-            <BountyCard {...bounty} maxTags={7} name="" showDetails />
+            <BountyCard
+                {...bounty}
+                maxTags={7}
+                name=""
+                reward={!isRewardLoading && reward}
+                showDetails
+            />
 
             <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
                 {tabs.map((tab, index) => (

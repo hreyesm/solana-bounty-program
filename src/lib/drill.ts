@@ -6,8 +6,25 @@ import { Drill } from 'utils/drill';
 import { getAccount } from '@solana/spl-token';
 import { getProgram } from 'utils/drill/get-program';
 
-const boardId = parseInt(process.env.BOARD_ID);
+const baseUrl = process.env.NEXT_PUBLIC_GATEWAY_URL;
+const boardId = parseInt(process.env.NEXT_PUBLIC_BOARD_ID);
+
 const rpcEndpoint = process.env.RPC_ENDPOINT;
+
+const claimBounty = async (bountyId: number, userVault: PublicKey) => {
+    const url = `${baseUrl}/claim-bounty/${boardId}/${bountyId}`;
+
+    try {
+        const response = await fetch(url, {
+            body: JSON.stringify({ userVault: userVault.toBase58() }),
+            method: 'POST',
+        });
+
+        console.log(response);
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
 const getBoardPublicKey = async (programId: PublicKey) => {
     const [boardPublicKey] = await PublicKey.findProgramAddress(
@@ -75,6 +92,10 @@ const getDrillBounty = async (
         bountyPublicKey,
     );
 
+    const boardAccount = await program.account.board.fetchNullable(
+        boardPublicKey,
+    );
+
     if (!bountyAccount) {
         return null;
     }
@@ -89,6 +110,7 @@ const getDrillBounty = async (
             : null,
         id: bountyAccount.bountyId,
         isClosed: bountyAccount.isClosed,
+        mint: boardAccount.acceptedMint,
         publicKey: bountyPublicKey,
     };
 };
@@ -129,4 +151,4 @@ const getDrillResponse = async (
     return { ...bounty, ...bountyVault };
 };
 
-export { getDrillResponse };
+export { claimBounty, getDrillResponse };

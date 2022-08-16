@@ -1,10 +1,9 @@
-import { cn, numberToCurrencyString } from 'utils';
-
 import { Bounty } from 'types/bounty';
 import Card from 'components/common/card';
 import Chip from 'components/common/chip';
 import Link from 'next/link';
 import Text from 'components/common/text';
+import { cn } from 'utils';
 
 /**
  * Properties for a "Featured Bounty" card component.
@@ -89,7 +88,7 @@ const RewardSection = ({ reward, showDetails, responsive }) => (
             variant="heading"
             className="flex max-w-full flex-row items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap text-primary"
         >
-            {numberToCurrencyString(reward)}
+            {reward}
         </Text>
     </div>
 );
@@ -147,7 +146,7 @@ const BountyCard = ({
                     )}
 
                     <RewardSection
-                        reward={reward}
+                        reward={reward || 0}
                         showDetails={showDetails}
                         responsive={responsive}
                     />
