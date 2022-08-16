@@ -15,7 +15,7 @@ const Headlines = () => {
         },
         {
             heading: 'Grow & Earn',
-            body: 'Epand your open-source portfolio by completing bounties that interest you and get paid for your work.',
+            body: 'Expand your open-source portfolio by completing bounties that interest you and get paid for your work.',
         }
     ];
 
