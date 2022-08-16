@@ -13,6 +13,7 @@ import { TbBrandGithub } from 'react-icons/tb';
 import Text from 'components/common/text';
 import { cn } from 'utils';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
 const NewPage: NextPage = () => {
     const [validBountyName, setValidBountyName] = useState(true);
@@ -148,105 +149,118 @@ const NewPage: NextPage = () => {
     }
 
     return (
-        <form className="flex flex-col" onSubmit={onSubmit}>
-            <section
-                title="bounty-name"
-                className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
-            >
-                <Text variant="label">New bounty</Text>
-                <div
-                    className={cn(
-                        'tooltip-bottom tooltip-error',
-                        !validBountyName && 'tooltip tooltip-open',
-                    )}
-                    data-tip="Enter a bounty name"
+        <>
+            <NextSeo title="Create new Bounty" description='Create a new bounty.'></NextSeo>
+            <form className="flex flex-col" onSubmit={onSubmit}>
+                <section
+                    title="bounty-name"
+                    className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
                 >
-                    <div className="flex h-12 flex-col justify-between md:h-20">
-                        <input
-                            ref={titleRef}
-                            className="peer border-none bg-transparent text-4xl font-medium placeholder-black/20 outline-none md:text-6xl"
-                            onChange={e => {
-                                setTitle(e.target.value);
-                                if (e.target.value !== '' && !validBountyName)
-                                    setValidBountyName(true);
-                            }}
-                            placeholder="Bounty name..."
-                            value={title}
-                        />
-                        <div className="h-px w-full bg-line transition-all duration-300 peer-focus:h-1 peer-focus:bg-white" />
-                    </div>
-                </div>
-            </section>
-            <section
-                title="bounty-details"
-                className="flex w-full flex-col gap-7 p-5 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
-            >
-                <Text variant="label">Details</Text>
-                <div ref={hunterRef} className="flex flex-col gap-3">
-                    <Text variant="heading">Hunter</Text>
-                    <Text
-                        variant="label"
-                        className="!normal-case text-secondary"
-                    >
-                        {' '}
-                        Enter a valid username for the GitHub user you wish to
-                        assign this bounty to...{' '}
-                    </Text>
+                    <Text variant="label">New bounty</Text>
                     <div
                         className={cn(
-                            'tooltip-error w-full sm:w-fit',
-                            !validHunter && 'tooltip tooltip-open',
+                            'tooltip-bottom tooltip-error',
+                            !validBountyName && 'tooltip-open tooltip',
                         )}
-                        data-tip="Enter a valid GitHub username"
+                        data-tip="Enter a bounty name"
                     >
-                        <div className="background-transparent group flex h-11 w-full max-w-full flex-row items-center gap-3 rounded-full border border-white px-5 py-3 sm:w-96">
-                            <MdPersonOutline size={20} />
+                        <div className="flex h-12 flex-col justify-between md:h-20">
                             <input
-                                className="w-28 max-w-full bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
+                                ref={titleRef}
+                                className="peer border-none bg-transparent text-4xl font-medium placeholder-black/20 outline-none md:text-6xl"
                                 onChange={e => {
-                                    setHunter(e.target.value);
-                                    if (e.target.value !== '' && !validHunter)
-                                        setValidHunter(true);
+                                    setTitle(e.target.value);
+                                    if (
+                                        e.target.value !== '' &&
+                                        !validBountyName
+                                    )
+                                        setValidBountyName(true);
                                 }}
-                                placeholder="Enter user..."
-                                type="text"
-                                value={hunter}
+                                placeholder="Bounty name..."
+                                value={title}
+                            />
+                            <div className="h-px w-full bg-line transition-all duration-300 peer-focus:h-1 peer-focus:bg-white" />
+                        </div>
+                    </div>
+                </section>
+                <section
+                    title="bounty-details"
+                    className="flex w-full flex-col gap-7 p-5 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
+                >
+                    <Text variant="label">Details</Text>
+                    <div ref={hunterRef} className="flex flex-col gap-3">
+                        <Text variant="heading">Hunter</Text>
+                        <Text
+                            variant="label"
+                            className="!normal-case text-secondary"
+                        >
+                            {' '}
+                            Enter a valid username for the GitHub user you wish
+                            to assign this bounty to...{' '}
+                        </Text>
+                        <div
+                            className={cn(
+                                'tooltip-error w-full sm:w-fit',
+                                !validHunter && 'tooltip-open tooltip',
+                            )}
+                            data-tip="Enter a valid GitHub username"
+                        >
+                            <div className="background-transparent group flex h-11 w-full max-w-full flex-row items-center gap-3 rounded-full border border-white px-5 py-3 sm:w-96">
+                                <MdPersonOutline size={20} />
+                                <input
+                                    className="w-28 max-w-full bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
+                                    onChange={e => {
+                                        setHunter(e.target.value);
+                                        if (
+                                            e.target.value !== '' &&
+                                            !validHunter
+                                        )
+                                            setValidHunter(true);
+                                    }}
+                                    placeholder="Enter user..."
+                                    type="text"
+                                    value={hunter}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex flex-col gap-5">
+                        <Text variant="heading">Description</Text>
+
+                        <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-4 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
+                            <div className="flex h-full flex-row gap-8">
+                                {tabs.map((tab, index) => (
+                                    <NavElement
+                                        as={index === 0 && '/explorer/new'}
+                                        href={`/explorer/new?tab=${tab.id}`}
+                                        key={tab.id}
+                                        label={tab.label}
+                                        scroll={false} // TODO: Scroll to navbar position.
+                                    />
+                                ))}
+                            </div>
+
+                            <div
+                                className="tooltip mt-1"
+                                data-tip="The textbox below supports Markdown"
+                            >
+                                <BsMarkdown size={20} />
+                            </div>
+                        </div>
+
+                        {currentTab.content}
+
+                        <div className="width-full flex flex-row justify-end">
+                            <Button
+                                type="submit"
+                                variant="orange"
+                                text="Create"
                             />
                         </div>
                     </div>
-                </div>
-                <div className="flex flex-col gap-5">
-                    <Text variant="heading">Description</Text>
-
-                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-4 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
-                        <div className="flex h-full flex-row gap-8">
-                            {tabs.map((tab, index) => (
-                                <NavElement
-                                    as={index === 0 && '/explorer/new'}
-                                    href={`/explorer/new?tab=${tab.id}`}
-                                    key={tab.id}
-                                    label={tab.label}
-                                    scroll={false} // TODO: Scroll to navbar position.
-                                />
-                            ))}
-                        </div>
-
-                        <div
-                            className="tooltip mt-1"
-                            data-tip="The textbox below supports Markdown"
-                        >
-                            <BsMarkdown size={20} />
-                        </div>
-                    </div>
-
-                    {currentTab.content}
-
-                    <div className="width-full flex flex-row justify-end">
-                        <Button type="submit" variant="orange" text="Create" />
-                    </div>
-                </div>
-            </section>
-        </form>
+                </section>
+            </form>
+        </>
     );
 };
 
