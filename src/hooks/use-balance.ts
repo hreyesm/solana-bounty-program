@@ -20,8 +20,6 @@ export const useBalance = (mint: string) => {
                 associatedTokenAddress,
             );
 
-            console.log(responseAndContext);
-
             return responseAndContext.value.uiAmount;
         } catch (e) {
             console.log(`error getting balance: `, e);
