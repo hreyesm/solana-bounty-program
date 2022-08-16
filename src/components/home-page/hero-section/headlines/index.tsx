@@ -14,7 +14,7 @@ const Headlines = () => {
             body: 'Track the progress of the bounties linked to your GitHub account and find new bounties to work on.',
         },
         {
-            heading: 'Grow',
+            heading: 'Grow & Earn',
             body: 'Epand your open-source portfolio by completing bounties that interest you and get paid for your work.',
         }
     ];
