@@ -33,7 +33,6 @@ const BountyList = ({ bounties: initialBounties }: BountyListProps) => {
                 </Text>
                 <div className="flex w-full justify-between">
                     <Text variant="label">Participants</Text>
-                    <Text variant="label">Reward</Text>
                 </div>
             </div>
             <div className="flex flex-col gap-6">

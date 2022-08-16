@@ -1,9 +1,8 @@
+import { getIssue, getIssues, getIssuesByAssignee } from './github';
 import {
-    getDrillResponsesFromIssues,
     toBounty,
     toBountyList,
 } from 'utils/bounties';
-import { getIssue, getIssues, getIssuesByAssignee } from './github';
 
 import { getDrillResponse } from './drill';
 
@@ -14,13 +13,13 @@ const getBounties = async (accessToken: string) => {
         return null;
     }
 
-    const drillResponses = await getDrillResponsesFromIssues(issues);
+    // const drillResponses = await getDrillResponsesFromIssues(issues);
 
-    if (!drillResponses) {
-        return null;
-    }
+    // if (!drillResponses) {
+    //     return null;
+    // }
 
-    return toBountyList(issues, drillResponses);
+    return toBountyList(issues, []);
 };
 
 const getBountiesByAssignee = async (username: string, accessToken: string) => {
@@ -30,13 +29,13 @@ const getBountiesByAssignee = async (username: string, accessToken: string) => {
         return null;
     }
 
-    const drillResponses = await getDrillResponsesFromIssues(issuesByAssignee);
+    // const drillResponses = await getDrillResponsesFromIssues(issuesByAssignee);
 
-    if (!drillResponses) {
-        return null;
-    }
+    // if (!drillResponses) {
+    //     return null;
+    // }
 
-    return toBountyList(issuesByAssignee, drillResponses);
+    return toBountyList(issuesByAssignee, []);
 };
 
 const getBounty = async (id: number, accessToken: string) => {
