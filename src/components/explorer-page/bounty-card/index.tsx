@@ -88,7 +88,7 @@ const RewardSection = ({ reward, showDetails, responsive }) => (
             variant="heading"
             className="flex max-w-full flex-row items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap text-primary"
         >
-            {reward}
+            {(+reward).toFixed(2)}
         </Text>
     </div>
 );
@@ -145,11 +145,13 @@ const BountyCard = ({
                         <ParticipantSection owner={owner} hunter={hunter} />
                     )}
 
-                    <RewardSection
-                        reward={reward ?? '-'}
-                        showDetails={showDetails}
-                        responsive={responsive}
-                    />
+                    {showDetails && (
+                        <RewardSection
+                            reward={reward ?? '-'}
+                            showDetails={showDetails}
+                            responsive={responsive}
+                        />
+                    )}
                 </div>
             </Card>
         </a>
