@@ -20,6 +20,7 @@ type TextProps = {
     className?: string;
     href?: string;
     children?: React.ReactNode;
+    id?: string;
 };
 
 /**
@@ -47,7 +48,7 @@ const variants = {
  * @param className Custom classes to be applied to the element.
  * @param children Child elements to be rendered within the component.
  */
-const Text = ({ variant, className, href, children }: TextProps) => (
+const Text = ({ variant, className, href, children, id }: TextProps) => (
     <text className={cn(className, variants[variant])}>
         {href ? (
             <Link href={href}>
