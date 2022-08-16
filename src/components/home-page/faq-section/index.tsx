@@ -5,7 +5,6 @@ import Text from 'components/common/text';
 
 const FaqSection = () => (
     <section
-        title="faq"
         className="px-4 sm:px-8 md:gap-32 md:px-16 lg:px-32 xl:px-48"
     >
         <div className="flex flex-col gap-8">

@@ -153,7 +153,6 @@ const NewPage: NextPage = () => {
             <NextSeo title="Create new Bounty" description='Create a new bounty.'></NextSeo>
             <form className="flex flex-col" onSubmit={onSubmit}>
                 <section
-                    title="bounty-name"
                     className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
                 >
                     <Text variant="label">New bounty</Text>
@@ -250,7 +249,13 @@ const NewPage: NextPage = () => {
 
                         {currentTab.content}
 
-                        <div className="width-full flex flex-row justify-end">
+                        <div className="width-full flex flex-row gap-2 justify-end">
+                            <Button
+                                variant="danger"
+                                text="Cancel"
+                                onClick={() => router.back()}
+                                
+                            />
                             <Button
                                 type="submit"
                                 variant="orange"

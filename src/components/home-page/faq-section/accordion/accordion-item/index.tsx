@@ -1,4 +1,6 @@
+import Text from 'components/common/text';
 import { useRef, useState } from 'react';
+import { MdExpandMore } from 'react-icons/md';
 
 import { cn } from 'utils';
 
@@ -36,34 +38,25 @@ const AccordionItem = ({
 
     return (
         <div className="border border-x-0 border-b-0 border-white py-2 first:border-0 first:pt-0 last:pb-0">
-            <h3 id={id}>
+            <Text variant="paragraph" id={id}>
                 <button
                     type="button"
-                    className="my-2 flex w-full items-center justify-between px-0 text-left font-medium text-gray-400 transition duration-300 ease-in-out"
+                    className="my-2 flex w-full items-center justify-between px-0 text-left font-medium transition duration-300 ease-in-out"
                     data-accordion-target={dataAccordionTarget}
                     aria-expanded={expanded}
                     aria-controls={ariaControls}
                     onClick={expand}
                 >
-                    <span className="font-medium text-white">{title}</span>
-                    <svg
-                        data-accordion-icon
+                    {title}
+                    <MdExpandMore 
+                        size={23} 
                         className={cn(
-                            'ease h-6 w-6 shrink-0 transform transition duration-300',
+                            'ease h-6 w-6 shrink-0 transform transition duration-300 text-secondary',
                             expanded && 'rotate-180',
                         )}
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            fillRule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                        />
-                    </svg>
+                    />
                 </button>
-            </h3>
+            </Text>
             <div
                 id={ariaControls}
                 className="overflow-auto transition-[max-height] duration-300 ease-in-out"

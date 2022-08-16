@@ -85,7 +85,7 @@ const FundTab = ({ address, id, mint, reward }: Bounty) => {
     ]);
 
     return (
-        <section title="actions" className="flex flex-col gap-7">
+        <section className="flex flex-col gap-7">
             <div className="flex flex-col gap-2">
                 <Text variant="big-heading">Make a payment</Text>
                 <Text variant="label" className="!normal-case text-secondary">
