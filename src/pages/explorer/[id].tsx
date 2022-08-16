@@ -14,6 +14,7 @@ import { authOptions } from 'pages/api/auth/[...nextauth]';
 import { claimBounty } from 'lib/drill';
 import { getBounty } from 'lib/bounties';
 import { unstable_getServerSession } from 'next-auth';
+import { useBountyReward } from 'hooks/use-bounty-reward';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
@@ -26,6 +27,7 @@ type BountyDetailsPageProps = {
 const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
     const { githubUrl, description, id, name, state, createdAt } = bounty;
 
+    const { reward, isLoading: isRewardLoading } = useBountyReward(id);
     const { data: session } = useSession();
     const { publicKey, wallet } = useWallet();
 
@@ -37,12 +39,14 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                 label: 'Description',
             },
             state === 'open' && {
-                content: <FundTab {...bounty} />,
+                content: (
+                    <FundTab {...bounty} reward={!isRewardLoading && reward} />
+                ),
                 id: 'fund',
                 label: 'Fund',
             },
         ],
-        [bounty, description, state],
+        [bounty, description, isRewardLoading, reward, state],
     );
 
     const router = useRouter();
@@ -132,7 +136,13 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
 
             <Text variant="nav-heading">Basics</Text>
 
-            <BountyCard {...bounty} maxTags={7} name="" showDetails />
+            <BountyCard
+                {...bounty}
+                maxTags={7}
+                name=""
+                reward={!isRewardLoading && reward}
+                showDetails
+            />
 
             <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
                 {tabs.map((tab, index) => (

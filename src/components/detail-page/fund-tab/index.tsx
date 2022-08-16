@@ -62,14 +62,27 @@ const FundTab = ({ address, id, mint, reward }: Bounty) => {
 
             await connection.confirmTransaction(signature, 'confirmed');
 
-            // Mutate SWR cache to view updated balance
-            mutate('balance');
+            // Mutate SWR cache to view updated balance and reward
+            await mutate('balance');
+            await mutate(`/api/bounties/${id}/reward`);
 
-            alert(`Transaction successful: ${signature}`);
+            const message = `Transaction successful: https://explorer.solana.com/tx/${signature}?cluster=devnet`;
+
+            alert(message);
+            console.log(message);
         } catch (error) {
             alert('Transaction failed');
         }
-    }, [publicKey, mint, address, amount, sendTransaction, connection, mutate]);
+    }, [
+        publicKey,
+        mint,
+        address,
+        amount,
+        sendTransaction,
+        connection,
+        mutate,
+        id,
+    ]);
 
     return (
         <section title="actions" className="flex flex-col gap-7">
@@ -122,7 +135,9 @@ const FundTab = ({ address, id, mint, reward }: Bounty) => {
                         <Card className="flex w-full flex-col gap-3 border-none !bg-gradient-to-tr from-primary/75 to-secondary/75 p-5">
                             <Text variant="label">Current funding</Text>
                             <div className="flex w-full flex-row items-center justify-center gap-3">
-                                <Text variant="big-heading">{reward}</Text>{' '}
+                                <Text variant="big-heading">
+                                    {reward || '-'}
+                                </Text>{' '}
                                 <Text
                                     variant="sub-heading"
                                     className="font-light"
