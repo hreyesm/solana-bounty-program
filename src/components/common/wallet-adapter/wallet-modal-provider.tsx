@@ -8,7 +8,10 @@ export interface WalletModalProviderProps extends WalletModalProps {
     children: ReactNode;
 }
 
-export const WalletModalProvider: FC<WalletModalProviderProps> = ({ children, ...props }) => {
+export const WalletModalProvider: FC<WalletModalProviderProps> = ({
+    children,
+    ...props
+}) => {
     const [visible, setVisible] = useState(false);
 
     return (

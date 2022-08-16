@@ -4,7 +4,6 @@ import React, { useMemo } from 'react';
 import { Bounty } from 'types/bounty';
 import BountyList from 'components/common/bounty-list';
 import Button from 'components/common/button';
-import FilterBar from 'components/common/bounty-list/filter-bar';
 import Hero from 'components/profile-page/hero';
 import Link from 'next/link';
 import { MdAdd } from 'react-icons/md';
@@ -16,6 +15,7 @@ import { getBountiesByAssignee } from 'lib/bounties';
 import { getUser } from 'lib/user';
 import { unstable_getServerSession } from 'next-auth';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
 type ProfilePageProps = {
     bounties: Bounty[];
@@ -69,29 +69,33 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
     );
 
     return (
-        <div>
-            <div className="flex flex-col gap-16 ">
-                <Hero {...user} />
-                <div className="flex flex-col gap-7 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">
-                    <div className="flex flex-row flex-wrap items-center justify-between gap-2">
-                        <Text variant="big-heading"> Bounties </Text>
-                        {/* TODO: Verify if user has perms to create issues in this repo, otherwise disable button and show tooltip. */}
-                        {user.isCurrentUser && (
-                            <Link href="/explorer/new" passHref>
-                                <a>
-                                    <Button
-                                        variant="orange"
-                                        text="Create new"
-                                        icon={MdAdd}
-                                        reversed
-                                    />
-                                </a>
-                            </Link>
-                        )}
-                    </div>
+        <>
+            <NextSeo
+                title={username}
+                description="Build your profile to contribute in style."
+            ></NextSeo>
+            <div>
+                <div className="flex flex-col gap-16 ">
+                    <Hero {...user} />
+                    <div className="flex flex-col gap-7 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">
+                        <div className="flex flex-row flex-wrap items-center justify-between gap-2">
+                            <Text variant="big-heading"> Bounties </Text>
+                            {/* TODO: Verify if user has perms to create issues in this repo, otherwise disable button and show tooltip. */}
+                            {user.isCurrentUser && (
+                                <Link href="/explorer/new" passHref>
+                                    <a>
+                                        <Button
+                                            variant="orange"
+                                            text="Create new"
+                                            icon={MdAdd}
+                                            reversed
+                                        />
+                                    </a>
+                                </Link>
+                            )}
+                        </div>
 
-                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black pt-4">
-                        <div className="flex h-full flex-row gap-8">
+                        <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
                             {tabs.map((tab, index) => (
                                 <NavElement
                                     as={index === 0 && `/${username}`}
@@ -104,13 +108,11 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                             ))}
                         </div>
 
-                        <FilterBar />
+                        {currentTab.content}
                     </div>
-
-                    {currentTab.content}
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

@@ -1,5 +1,5 @@
+/* eslint-disable indent */
 import { MdLink, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
-import { TbBrandGithub, TbWallet, TbWalletOff } from 'react-icons/tb';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useMemo, useRef, useState } from 'react';
 
@@ -8,8 +8,10 @@ import Card from '../card';
 import Chip from '../chip';
 import Image from '../image';
 import Link from 'next/link';
+import { TbBrandGithub } from 'react-icons/tb';
 import Text from '../text';
 import { WalletMultiButton } from '../wallet-adapter';
+import { getWalletImage } from 'utils/wallet';
 import { useUser } from 'hooks/use-user';
 import { useWallet } from '@solana/wallet-adapter-react';
 
@@ -18,13 +20,14 @@ const OverflowMenu = () => {
     const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
     const { user } = useUser(session?.login as string);
+    const { publicKey, wallet } = useWallet();
+
+    const walletAddress = useMemo(() => publicKey?.toBase58(), [publicKey]);
+    const walletName = wallet?.adapter.name;
+    const walletImage = getWalletImage(walletName?.toLowerCase());
 
     const closedBountiesCount = user?.closedBountiesCount.toString() ?? '-';
-    const level = `Lv. ${user?.level ?? '-'}`;
-
-    const { publicKey, wallet, disconnect } = useWallet();
-    const walletAddress = useMemo(() => publicKey?.toBase58(), [publicKey]);
-    const walletName = useMemo(() => wallet?.adapter.name, [wallet]);
+    const level = `${user?.level ?? '-'}`;
 
     const onProfileClick = async () => {
         if (session) {
@@ -36,7 +39,7 @@ const OverflowMenu = () => {
 
     return (
         <>
-            <div className="dropdown-end dropdown">
+            <div className="dropdown dropdown-end">
                 <label tabIndex={0}>
                     <div className="flex flex-row items-center gap-3">
                         <Button
@@ -49,7 +52,7 @@ const OverflowMenu = () => {
                 </label>
                 <Card
                     tabIndex={0}
-                    className="bg-opacity-85 dropdown-content mt-3 block w-[calc(100vw-3rem)] !bg-[#222227] sm:w-80" // TODO: Background is temporarily solid color due to blur issue.
+                    className="bg-opacity-85 dropdown-content mt-3 block w-[calc(100vw-3rem)] !bg-[#232225] sm:w-80" // TODO: Background is temporarily solid color due to blur issue.
                 >
                     <div className="flex flex-col gap-3 p-5">
                         <div className="flex items-center justify-between">
@@ -81,9 +84,7 @@ const OverflowMenu = () => {
                                         variant="label"
                                         className="!normal-case text-secondary"
                                     >
-                                        Informative text about enhanced
-                                        experience, public profile and claiming
-                                        bounties.
+                                        Connect your GitHub account for an enhanced user experience, including the ability to create new and claim completed bounties.
                                     </Text>
                                 ) : (
                                     <div className="flex flex-row items-center gap-1">
@@ -91,7 +92,11 @@ const OverflowMenu = () => {
                                             highlightValue={closedBountiesCount}
                                             value="Bounties"
                                         />
-                                        <Chip value={level} />
+                                        <Chip
+                                            value="Lv."
+                                            highlightValue={level}
+                                            reversed={true}
+                                        />
                                     </div>
                                 )}
                             </div>
@@ -114,8 +119,8 @@ const OverflowMenu = () => {
                         />
                     </div>
                     <div className="h-px w-full bg-line" />
-                    <div className="flex flex-col gap-3 p-5">
-                        <div className="flex items-center justify-between">
+                    <div className="flex w-full min-w-0 flex-col gap-3 p-5">
+                        <div className="flex w-full min-w-0 flex-1 items-center justify-between">
                             <div className="flex w-full flex-col gap-1">
                                 <Text
                                     variant="label"
@@ -134,25 +139,29 @@ const OverflowMenu = () => {
                                             variant="label"
                                             className="!normal-case text-secondary"
                                         >
-                                            Informative text about enhanced
-                                            experience, public profile and
-                                            claiming bounties.
+                                            By connecting your wallet, you gain the ability to transfer funds directly to a bounty, as well as to claim completed bounties.
                                         </Text>
                                     </>
                                 ) : (
-                                    <div className="flex flex-row items-center gap-1">
+                                    <div className="w-max-full flex flex-row items-center gap-1 overflow-x-auto">
                                         <Chip
                                             highlightValue={walletAddress}
                                             icon={MdLink}
-                                            className="w-60 !normal-case sm:w-28"
+                                            className="w-24 !normal-case"
                                             href={`https://explorer.solana.com/address/${walletAddress}`}
                                         />
                                         <Chip copyValue={walletAddress} />
                                     </div>
                                 )}
                             </div>
-                            {/* Wallet logo instead of `MdAccountBalanceWallet`. */}
-                            {wallet && <TbWallet size={25} />}
+                            {wallet && (
+                                <Image
+                                    alt="Wallet logo"
+                                    src={walletImage}
+                                    height={40}
+                                    className="flex-shrink-0 basis-10"
+                                />
+                            )}
                         </div>
 
                         <WalletMultiButton />

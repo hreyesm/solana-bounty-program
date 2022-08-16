@@ -1,16 +1,15 @@
+/* eslint-disable @next/next/no-img-element */
 import Accordion from './accordion';
 import Card from 'components/common/card';
+import Text from 'components/common/text';
 
 const FaqSection = () => (
     <section
-        title="faq"
         className="px-4 sm:px-8 md:gap-32 md:px-16 lg:px-32 xl:px-48"
     >
         <div className="flex flex-col gap-8">
-            <h2 className="text-lg text-white">FAQ</h2>
-            <p className="text-4xl font-medium text-white md:text-6xl">
-                Find out more about Bounties
-            </p>
+            <Text variant="label"> FAQ </Text>
+            <Text variant="big-heading">Find out more about Bounties</Text>
             <div className="flex items-center">
                 <div className="invisible absolute opacity-30 bg-blend-overlay md:visible md:relative md:ml-auto md:w-1/2">
                     <img src="/back.webp" alt="" />

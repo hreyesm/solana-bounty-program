@@ -1,64 +1,147 @@
 import AccordionItem, { AccordionItemProps } from './accordion-item';
+import { MdCode, MdOutlineEngineering } from 'react-icons/md';
 
+import Button from 'components/common/button';
+import Text from 'components/common/text';
 import { useState } from 'react';
 
 const initialAccordionItems: Omit<AccordionItemProps, 'onExpand'>[] = [
     {
         ariaControls: 'accordion-collapse-body-1',
         children: (
-            <p className="text-secondary">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ad sed
-                adipiscing volutpat tincidunt amet vulputate porta est.
-            </p>
+            <>
+                <Text variant="paragraph" className="text-base !text-secondary">
+                    Anyone can participate as a Funder either by using Solana
+                    Pay or transferring funds manually from their crypto wallet.
+                </Text>
+                <br />
+                <br />
+                <Text variant="paragraph" className="text-base !text-secondary">
+                    Please not that Hunters are assigned to bounties{' '}
+                    <span className="text-primary">manually</span> by project
+                    Maintainers.
+                </Text>
+            </>
         ),
         dataAccordionTarget: '#accordion-collapse-body-1',
         expanded: false,
         id: 'accordion-collapse-heading-1',
-        title: 'Lorem ipsum dolor sit amet?',
+        title: 'How can I participate in the Bounty Program?',
     },
     {
         ariaControls: 'accordion-collapse-body-2',
         children: (
             <>
-                <p className="text-secondary">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ad
-                    sed adipiscing volutpat tincidunt amet vulputate porta est.
-                </p>
-                <p className="text-secondary">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ad
-                    sed adipiscing volutpat tincidunt amet vulputate porta est.
-                </p>
+                <Text variant="paragraph" className="text-base !text-secondary">
+                    You&apos;re{' '}
+                    <span className="text-primary">not required</span> to sign
+                    in with a GitHub account to simply view and fund bounties.
+                    However, doing so will ensure an{' '}
+                    <span className="text-primary">
+                        enhanced user experience
+                    </span>
+                    .
+                </Text>
+                <br />
+                <br />
+                <Text variant="paragraph" className="text-base !text-secondary">
+                    Specifically, to <span className="text-primary">claim</span>{' '}
+                    bounties, you must be signed in and have a wallet connected.
+                </Text>
+                <br />
+                <br />
+                <Text variant="paragraph" className="text-base !text-secondary">
+                    To fund bounties without a wallet, please use{' '}
+                    <span className="text-primary">Solana Pay</span> by scanning
+                    the QR code on the bounty page.
+                </Text>
             </>
         ),
         dataAccordionTarget: '#accordion-collapse-body-2',
         expanded: false,
         id: 'accordion-collapse-heading-2',
-        title: 'Lorem ipsum dolor sit amet?',
+        title: 'Am I required to connect my GitHub account and crypto wallet?',
     },
     {
         ariaControls: 'accordion-collapse-body-3',
         children: (
-            <p className="text-secondary">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
+            <>
+                <Text variant="paragraph" className="text-base !text-secondary">
+                    A{' '}
+                    <span className="rounded-full bg-black/50 p-1.5 !text-xs uppercase tracking-wide text-primary">
+                        Claim
+                    </span>
+                    -button will appear on closed bounties assigned to you,
+                    after you have signed in with your GitHub account and
+                    connected your crypto wallet. Maintainers can close bounties
+                    they <span className="text-primary">deem finished</span>.
+                </Text>
+                <br />
+                <br />
+                <Text variant="paragraph" className="text-base !text-secondary">
+                    Upon claiming a bounty, the bounty&apos;s reward is{' '}
+                    <span className="text-primary">transferred directly</span>{' '}
+                    to your crypto wallet.
+                </Text>
+                <br />
+                <br />
+                <Text variant="paragraph" className="text-base !text-secondary">
+                    <span className="text-primary">Please note</span> that it
+                    may take about{' '}
+                    <span className="text-primary">15 minutes</span> for a
+                    bounty to be closed on-chain after completing it.
+                </Text>
+            </>
         ),
         dataAccordionTarget: '#accordion-collapse-body-3',
         expanded: false,
         id: 'accordion-collapse-heading-3',
-        title: 'Lorem ipsum dolor sit amet?',
+        title: 'How do I claim a bounty after completing it?',
     },
     {
         ariaControls: 'accordion-collapse-body-4',
         children: (
-            <p className="text-secondary">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ad sed
-                adipiscing volutpat tincidunt amet vulputate porta est.
-            </p>
+            <div className="flex flex-col gap-3">
+                <Text variant="paragraph" className="text-base !text-secondary">
+                    Both the Bounty Program front-end (this website) and the
+                    back-end (the Heavy Duty Drill platform) are open-source,
+                    and can can be found on{' '}
+                    <span className="text-primary">GitHub</span>.
+                </Text>
+                <div className="flex flex-row flex-wrap gap-3">
+                    <a
+                        href="https://github.com/andresmgsl/solana-cohort-june-2022/"
+                        rel="noreferrer"
+                        target="_blank"
+                        className="flex-1"
+                    >
+                        <Button
+                            variant="orange"
+                            text="Bounty Program"
+                            icon={MdCode}
+                            className="!w-full"
+                        />
+                    </a>
+                    <a
+                        href="https://github.com/heavy-duty/platform/"
+                        rel="noreferrer"
+                        target="_blank"
+                        className="flex-1"
+                    >
+                        <Button
+                            variant="transparent"
+                            text="Heavy Duty platform"
+                            icon={MdOutlineEngineering}
+                            className="!w-full"
+                        />
+                    </a>
+                </div>
+            </div>
         ),
         dataAccordionTarget: '#accordion-collapse-body-4',
         expanded: false,
         id: 'accordion-collapse-heading-4',
-        title: 'Lorem ipsum dolor sit amet?',
+        title: 'How do I follow along with the development of the Bounty Program itself?',
     },
 ];
 

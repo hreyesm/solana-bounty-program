@@ -1,7 +1,9 @@
 import { NextApiHandler } from 'next';
-import { authOptions } from './auth/[...nextauth]';
+import { authOptions } from 'pages/api/auth/[...nextauth]';
 import { getUser } from 'lib/user';
 import { unstable_getServerSession } from 'next-auth';
+
+// GET /api/[username]/
 
 const handler: NextApiHandler = async (req, res) => {
     const username = req.query.username as string;

@@ -1,5 +1,5 @@
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
 import { cn } from 'utils';
 
 /**
@@ -20,6 +20,7 @@ type TextProps = {
     className?: string;
     href?: string;
     children?: React.ReactNode;
+    id?: string;
 };
 
 /**
@@ -33,7 +34,7 @@ const variants = {
     'nav-heading': 'text-lg font-medium sm:text-xl',
     nav: 'font-medium',
     paragraph: 'text-lg',
-    "sub-paragraph": 'text-base font-medium text-inherit',
+    'sub-paragraph': 'text-base font-medium text-inherit',
     input: 'text-sm uppercase tracking-wide',
     label: 'text-xs uppercase tracking-wide',
 };
@@ -47,8 +48,8 @@ const variants = {
  * @param className Custom classes to be applied to the element.
  * @param children Child elements to be rendered within the component.
  */
-const Text = ({ variant, className, href, children}: TextProps) => (
-    <text className={cn(className, variants[variant])}> 
+const Text = ({ variant, className, href, children }: TextProps) => (
+    <text className={cn(className, variants[variant])}>
         {href ? (
             <Link href={href}>
                 <a className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
@@ -57,7 +58,7 @@ const Text = ({ variant, className, href, children}: TextProps) => (
             </Link>
         ) : (
             children
-        )}                    
+        )}
     </text>
 );
 

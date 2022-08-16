@@ -1,21 +1,32 @@
+/* eslint-disable indent */
+import type { FC, MouseEvent } from 'react';
+import React, {
+    useCallback,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
+
+import { Collapse } from './Collapse';
+import type { Wallet } from '@solana/wallet-adapter-react';
+import { WalletListItem } from './wallet-list-item';
 import type { WalletName } from '@solana/wallet-adapter-base';
 import { WalletReadyState } from '@solana/wallet-adapter-base';
-import type { Wallet } from '@solana/wallet-adapter-react';
-import { useWallet } from '@solana/wallet-adapter-react';
-import type { FC, MouseEvent } from 'react';
-import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { Collapse } from './Collapse';
-import { useWalletModal } from './use-wallet-modal';
-import { WalletListItem } from './wallet-list-item';
 import { WalletSVG } from './wallet-svg';
+import { createPortal } from 'react-dom';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useWalletModal } from './use-wallet-modal';
 
 export interface WalletModalProps {
     className?: string;
     container?: string;
 }
 
-export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 'body' }) => {
+export const WalletModal: FC<WalletModalProps> = ({
+    className = '',
+    container = 'body',
+}) => {
     const ref = useRef<HTMLDivElement>(null);
     const { wallets, select } = useWallet();
     const { setVisible } = useWalletModal();
@@ -41,18 +52,31 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
         return [installed, [...loadable, ...notDetected]];
     }, [wallets]);
 
-    const getStartedWallet = useMemo(() => {
-        return installedWallets.length
-            ? installedWallets[0]
-            : wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Torus') ||
-                  wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Phantom') ||
-                  wallets.find((wallet: { readyState: any }) => wallet.readyState === WalletReadyState.Loadable) ||
-                  otherWallets[0];
-    }, [installedWallets, wallets, otherWallets]);
+    const getStartedWallet = useMemo(
+        () =>
+            installedWallets.length
+                ? installedWallets[0]
+                : wallets.find(
+                      (wallet: { adapter: { name: WalletName } }) =>
+                          wallet.adapter.name === 'Torus',
+                  ) ||
+                  wallets.find(
+                      (wallet: { adapter: { name: WalletName } }) =>
+                          wallet.adapter.name === 'Phantom',
+                  ) ||
+                  wallets.find(
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      (wallet: { readyState: any }) =>
+                          wallet.readyState === WalletReadyState.Loadable,
+                  ) ||
+                  otherWallets[0],
+        [installedWallets, wallets, otherWallets],
+    );
 
     const hideModal = useCallback(() => {
         setFadeIn(false);
         setTimeout(() => setVisible(false), 150);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleClose = useCallback(
@@ -60,7 +84,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
             event.preventDefault();
             hideModal();
         },
-        [hideModal]
+        [hideModal],
     );
 
     const handleWalletClick = useCallback(
@@ -68,10 +92,13 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
             select(walletName);
             handleClose(event);
         },
-        [select, handleClose]
+        [select, handleClose],
     );
 
-    const handleCollapseClick = useCallback(() => setExpanded(!expanded), [expanded]);
+    const handleCollapseClick = useCallback(
+        () => setExpanded(!expanded),
+        [expanded],
+    );
 
     const handleTabKey = useCallback(
         (event: KeyboardEvent) => {
@@ -97,7 +124,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                 }
             }
         },
-        [ref]
+        [ref],
     );
 
     useLayoutEffect(() => {
@@ -125,7 +152,10 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
         };
     }, [hideModal, handleTabKey]);
 
-    useLayoutEffect(() => setPortal(document.querySelector(container)), [container]);
+    useLayoutEffect(
+        () => setPortal(document.querySelector(container)),
+        [container],
+    );
 
     return (
         portal &&
@@ -217,7 +247,8 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                         ) : (
                             <>
                                 <h1 className="wallet-adapter-modal-title">
-                                    You'll need a wallet on Solana to continue
+                                    You&apos;ll need a wallet on Solana to
+                                    continue
                                 </h1>
                                 <div className="wallet-adapter-modal-middle">
                                     <WalletSVG />
