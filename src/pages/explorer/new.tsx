@@ -150,7 +150,6 @@ const NewPage: NextPage = () => {
     return (
         <form className="flex flex-col" onSubmit={onSubmit}>
             <section
-                title="bounty-name"
                 className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
             >
                 <Text variant="label">New bounty</Text>
@@ -178,7 +177,6 @@ const NewPage: NextPage = () => {
                 </div>
             </section>
             <section
-                title="bounty-details"
                 className="flex w-full flex-col gap-7 p-5 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
             >
                 <Text variant="label">Details</Text>

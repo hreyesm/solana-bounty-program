@@ -33,7 +33,6 @@ const statItems = [
 
 const StatsSection = () => (
     <section
-        title="faq"
         className="grid min-h-[70px] text-black sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-4"
     >
         {statItems.map(

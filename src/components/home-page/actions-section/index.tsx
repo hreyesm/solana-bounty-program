@@ -7,7 +7,6 @@ import { BiRocket } from 'react-icons/bi';
 
 const ActionsSection = () => (
     <section
-        title="actions"
         className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
     >
         <Card className="flex flex-1 flex-col justify-between gap-10 p-12">

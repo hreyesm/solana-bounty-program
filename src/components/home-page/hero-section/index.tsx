@@ -26,7 +26,6 @@ const HeroSection = () => {
 
     return (
         <section
-            title="hero"
             className={cn(
                 'relative flex h-[calc(100vh_-_5rem)] w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-black to-transparent md:mt-0 md:flex-row md:justify-start',
             )}
@@ -52,7 +51,7 @@ const HeroSection = () => {
                 </Text>
                 <Headlines />
                 <div className="flex flex-row flex-wrap w-full justify-center gap-4 md:justify-start">
-                    <Link href={session ? `/${session.login}` : ""} passHref>
+                    <Link href={session ? `/${session.login}` : "/#"} passHref>
                         <a className="flex-1 sm:flex-none">
                             <Button
                                 icon={!session && TbBrandGithub}
