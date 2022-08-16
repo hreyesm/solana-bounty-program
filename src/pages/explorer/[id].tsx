@@ -4,6 +4,7 @@ import { MdChevronLeft, MdLink } from 'react-icons/md';
 import { Bounty } from 'types/bounty';
 import BountyCard from 'components/explorer-page/bounty-card';
 import Button from 'components/common/button';
+import Chip from 'components/common/chip';
 import FundTab from 'components/detail-page/fund-tab';
 import Link from 'next/link';
 import Markdown from 'components/common/markdown';
@@ -16,7 +17,6 @@ import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import Chip from 'components/common/chip';
 
 type BountyDetailsPageProps = {
     bounty: Bounty;
@@ -63,13 +63,15 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                     </a>
                 </Link>
 
-                <div className="w-fit flex flex-row flex-wrap gap-3">
-                    {(session && bounty.owner === session.login) && (
+                <div className="flex w-fit flex-row flex-wrap gap-3">
+                    {session && bounty.owner === session.login && (
                         <Button variant="danger" text="Close" />
                     )}
                     {session && bounty.hunter === session.login && (
                         <div
-                            className={`${(state !== 'closed' || !wallet) && "tooltip"} tooltip-left`}
+                            className={`${
+                                (state !== 'closed' || !wallet) && 'tooltip'
+                            } tooltip-left`}
                             data-tip={
                                 state !== 'closed'
                                     ? 'Complete this bounty to claim it'
@@ -85,8 +87,20 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                         </div>
                     )}
                     <a href={githubUrl}>
-                        <Button text="View on GitHub" icon={MdLink} variant="transparent" reversed={true} className="hidden sm:flex" />
-                        <Button text="GitHub" icon={MdLink} variant="transparent" reversed={true} className="flex sm:hidden" />
+                        <Button
+                            text="View on GitHub"
+                            icon={MdLink}
+                            variant="transparent"
+                            reversed={true}
+                            className="hidden sm:flex"
+                        />
+                        <Button
+                            text="GitHub"
+                            icon={MdLink}
+                            variant="transparent"
+                            reversed={true}
+                            className="flex sm:hidden"
+                        />
                     </a>
                 </div>
             </div>

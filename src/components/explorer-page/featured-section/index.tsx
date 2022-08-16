@@ -1,7 +1,6 @@
+import { Bounty } from 'types/bounty';
 import BountyCard from '../bounty-card';
 import Text from 'components/common/text';
-import { Bounty } from 'types/bounty';
-
 
 type FeaturedSectionProps = {
     bounties: Bounty[];

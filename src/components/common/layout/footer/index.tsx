@@ -14,10 +14,7 @@ const Footer = () => (
                     height={17.89}
                     className="saturate-0"
                 />
-                <Text
-                    variant="label"
-                    className="font-thin !tracking-widest"
-                >
+                <Text variant="label" className="font-thin !tracking-widest">
                     {' '}
                     Bounty{' '}
                 </Text>
