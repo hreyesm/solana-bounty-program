@@ -7,7 +7,7 @@ const Headlines = () => {
     const headlines = [
         {
             heading: 'Fund',
-            body: 'Drive the open-source community forward by providing funding for the software you love and ',
+            body: 'Drive the open-source community forward by providing funding for the software you love and use on a daily-basis.',
         },
         {
             heading: 'Explore',
