@@ -83,7 +83,10 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
 
     return (
         <>
-            <NextSeo title={name}></NextSeo>
+            <NextSeo
+                title={name}
+                description="Claim and complete the bounty to get reward. Fund for the software you love and use on a daily-basis."
+            ></NextSeo>
             <div className="flex flex-col gap-8 p-5 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                 <div className="flex flex-row flex-wrap items-center justify-between gap-5">
                     <Link href="/explorer" passHref>
@@ -94,52 +97,52 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                         </a>
                     </Link>
 
-                <div className="flex w-fit flex-row flex-wrap gap-3">
-                    {session && bounty.owner === session.login && (
-                        <Button
-                            onClick={onCloseButtonClick}
-                            variant="danger"
-                            text="Close"
-                        />
-                    )}
-                    {session && bounty.hunter === session.login && (
-                        <div
-                            className={`${
-                                (state !== 'closed' || !wallet) && 'tooltip'
-                            } tooltip-left`}
-                            data-tip={
-                                state !== 'closed'
-                                    ? 'Complete this bounty to claim it'
-                                    : !wallet &&
-                                      'Connect a wallet to claim this bounty'
-                            }
-                        >
+                    <div className="flex w-fit flex-row flex-wrap gap-3">
+                        {session && bounty.owner === session.login && (
                             <Button
-                                disabled={state !== 'closed' || !wallet}
-                                onClick={onClaimButtonClick}
-                                text="Claim"
-                                variant="orange"
+                                onClick={onCloseButtonClick}
+                                variant="danger"
+                                text="Close"
                             />
-                        </div>
-                    )}
-                    <a href={githubUrl}>
-                        <Button
-                            text="View on GitHub"
-                            icon={MdLink}
-                            variant="transparent"
-                            reversed={true}
-                            className="hidden sm:flex"
-                        />
-                        <Button
-                            text="GitHub"
-                            icon={MdLink}
-                            variant="transparent"
-                            reversed={true}
-                            className="flex sm:hidden"
-                        />
-                    </a>
+                        )}
+                        {session && bounty.hunter === session.login && (
+                            <div
+                                className={`${
+                                    (state !== 'closed' || !wallet) && 'tooltip'
+                                } tooltip-left`}
+                                data-tip={
+                                    state !== 'closed'
+                                        ? 'Complete this bounty to claim it'
+                                        : !wallet &&
+                                          'Connect a wallet to claim this bounty'
+                                }
+                            >
+                                <Button
+                                    disabled={state !== 'closed' || !wallet}
+                                    onClick={onClaimButtonClick}
+                                    text="Claim"
+                                    variant="orange"
+                                />
+                            </div>
+                        )}
+                        <a href={githubUrl}>
+                            <Button
+                                text="View on GitHub"
+                                icon={MdLink}
+                                variant="transparent"
+                                reversed={true}
+                                className="hidden sm:flex"
+                            />
+                            <Button
+                                text="GitHub"
+                                icon={MdLink}
+                                variant="transparent"
+                                reversed={true}
+                                className="flex sm:hidden"
+                            />
+                        </a>
+                    </div>
                 </div>
-            </div>
 
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-row gap-2">
@@ -162,25 +165,25 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
 
                 <Text variant="nav-heading">Basics</Text>
 
-            <BountyCard
-                {...bounty}
-                maxTags={7}
-                name=""
-                reward={!isRewardLoading && reward}
-                showDetails
-            />
+                <BountyCard
+                    {...bounty}
+                    maxTags={7}
+                    name=""
+                    reward={!isRewardLoading && reward}
+                    showDetails
+                />
 
-            <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
-                {tabs.map((tab, index) => (
-                    <NavElement
-                        as={index === 0 && `/explorer/${id}`}
-                        href={`/explorer/${id}?tab=${tab.id}`}
-                        key={tab.id}
-                        label={tab.label}
-                        scroll={false} // TODO: Scroll to navbar position.
-                    />
-                ))}
-            </div>
+                <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
+                    {tabs.map((tab, index) => (
+                        <NavElement
+                            as={index === 0 && `/explorer/${id}`}
+                            href={`/explorer/${id}?tab=${tab.id}`}
+                            key={tab.id}
+                            label={tab.label}
+                            scroll={false} // TODO: Scroll to navbar position.
+                        />
+                    ))}
+                </div>
 
                 <section className="flex flex-col gap-5">
                     {currentTab.content}
