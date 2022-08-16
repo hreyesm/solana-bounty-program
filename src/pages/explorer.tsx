@@ -66,7 +66,10 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
 
     return (
         <>
-            <NextSeo title="Explorer"></NextSeo>
+            <NextSeo
+                title="Explorer"
+                description="Explore and contribute to bounties that interest you and get paid for your work"
+            ></NextSeo>
             <div className="flex flex-col gap-12">
                 <FeaturedSection bounties={openBounties.slice(0, 5)} />
                 <div className="flex flex-col gap-0">
@@ -92,18 +95,18 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
                             </div>
                         </div>
 
-                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
-                        {tabs.map((tab, index) => (
-                            <NavElement
-                                as={index === 0 && `/explorer`}
-                                href={`/explorer?tab=${tab.id}`}
-                                key={tab.id}
-                                label={tab.label}
-                                chipLabel={tab.amount.toString()}
-                                scroll={false}
-                            />
-                        ))}
-                    </div>
+                        <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
+                            {tabs.map((tab, index) => (
+                                <NavElement
+                                    as={index === 0 && `/explorer`}
+                                    href={`/explorer?tab=${tab.id}`}
+                                    key={tab.id}
+                                    label={tab.label}
+                                    chipLabel={tab.amount.toString()}
+                                    scroll={false}
+                                />
+                            ))}
+                        </div>
 
                         {currentTab.content}
                     </div>
