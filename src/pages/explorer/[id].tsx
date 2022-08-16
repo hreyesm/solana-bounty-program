@@ -1,5 +1,7 @@
+/* eslint-disable indent */
 import { GetServerSideProps, NextPage } from 'next';
 import { MdChevronLeft, MdLink } from 'react-icons/md';
+
 import { Bounty } from 'types/bounty';
 import BountyCard from 'components/explorer-page/bounty-card';
 import Button from 'components/common/button';
@@ -8,9 +10,11 @@ import FundTab from 'components/detail-page/fund-tab';
 import Link from 'next/link';
 import Markdown from 'components/common/markdown';
 import NavElement from 'components/common/layout/header/nav-element';
+import { NextSeo } from 'next-seo';
+import { PublicKey } from '@solana/web3.js';
 import Text from 'components/common/text';
 import { authOptions } from 'pages/api/auth/[...nextauth]';
-import { claimBounty } from 'lib/drill';
+import { getAssociatedTokenAddress } from '@solana/spl-token';
 import { getBounty } from 'lib/bounties';
 import { unstable_getServerSession } from 'next-auth';
 import { useBountyReward } from 'hooks/use-bounty-reward';
@@ -18,14 +22,13 @@ import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { NextSeo } from 'next-seo';
 
 type BountyDetailsPageProps = {
     bounty: Bounty;
 };
 
 const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
-    const { githubUrl, description, id, name, state, createdAt } = bounty;
+    const { githubUrl, description, id, mint, name, state, createdAt } = bounty;
 
     const { reward, isLoading: isRewardLoading } = useBountyReward(id);
     const { data: session } = useSession();
@@ -38,7 +41,7 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                 id: 'description',
                 label: 'Description',
             },
-            state === 'open' && {
+            {
                 content: (
                     <FundTab {...bounty} reward={!isRewardLoading && reward} />
                 ),
@@ -46,7 +49,7 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                 label: 'Fund',
             },
         ],
-        [bounty, description, isRewardLoading, reward, state],
+        [bounty, description, isRewardLoading, reward],
     );
 
     const router = useRouter();
@@ -58,7 +61,26 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
     );
 
     const onClaimButtonClick = async () => {
-        await claimBounty(id, publicKey);
+        const response = await fetch(`/api/bounties/${id}/claim`, {
+            body: JSON.stringify({
+                userVault: await getAssociatedTokenAddress(
+                    new PublicKey(mint),
+                    publicKey,
+                ),
+            }),
+            method: 'POST',
+        });
+
+        const data = await response.json();
+
+        if (data.signature) {
+            alert(
+                `Transaction successful: https://explorer.solana.com/tx/${data.signature}?cluster=devnet`,
+            );
+            await router.push('/explorer');
+        } else {
+            alert(JSON.stringify(data));
+        }
     };
 
     const onCloseButtonClick = async () => {
@@ -98,13 +120,15 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                     </Link>
 
                     <div className="flex w-fit flex-row flex-wrap gap-3">
-                        {session && bounty.owner === session.login && (
-                            <Button
-                                onClick={onCloseButtonClick}
-                                variant="danger"
-                                text="Close"
-                            />
-                        )}
+                        {session &&
+                            bounty.owner === session.login &&
+                            bounty.state === 'open' && (
+                                <Button
+                                    onClick={onCloseButtonClick}
+                                    variant="danger"
+                                    text="Close"
+                                />
+                            )}
                         {session && bounty.hunter === session.login && (
                             <div
                                 className={`${

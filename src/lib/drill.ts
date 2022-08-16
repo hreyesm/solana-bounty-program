@@ -11,16 +11,24 @@ const boardId = parseInt(process.env.NEXT_PUBLIC_BOARD_ID);
 
 const rpcEndpoint = process.env.RPC_ENDPOINT;
 
-const claimBounty = async (bountyId: number, userVault: PublicKey) => {
+const claimBounty = async (
+    bountyId: number,
+    userVault: PublicKey,
+    githubToken: string,
+) => {
     const url = `${baseUrl}/claim-bounty/${boardId}/${bountyId}`;
 
     try {
         const response = await fetch(url, {
             body: JSON.stringify({ userVault: userVault.toBase58() }),
+            headers: {
+                Authorization: `Bearer ${githubToken}`,
+                'Content-Type': 'application/json',
+            },
             method: 'POST',
         });
 
-        console.log(response);
+        return response.json();
     } catch (error) {
         throw new Error(error);
     }
