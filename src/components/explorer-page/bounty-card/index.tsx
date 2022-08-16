@@ -146,7 +146,7 @@ const BountyCard = ({
                     )}
 
                     <RewardSection
-                        reward={reward || 0}
+                        reward={reward ?? '-'}
                         showDetails={showDetails}
                         responsive={responsive}
                     />

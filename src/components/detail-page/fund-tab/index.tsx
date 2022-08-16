@@ -136,7 +136,7 @@ const FundTab = ({ address, id, mint, reward }: Bounty) => {
                             <Text variant="label">Current funding</Text>
                             <div className="flex w-full flex-row items-center justify-center gap-3">
                                 <Text variant="big-heading">
-                                    {reward || '-'}
+                                    {reward ?? '-'}
                                 </Text>{' '}
                                 <Text
                                     variant="sub-heading"
