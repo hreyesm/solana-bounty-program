@@ -1,10 +1,9 @@
-import { cn, numberToCurrencyString } from 'utils';
-
 import { Bounty } from 'types/bounty';
 import Card from 'components/common/card';
 import Chip from 'components/common/chip';
 import Link from 'next/link';
 import Text from 'components/common/text';
+import { cn } from 'utils';
 
 /**
  * Properties for a "Featured Bounty" card component.
@@ -22,7 +21,7 @@ type BountyCardProps = Omit<Bounty, 'githubUrl' | 'tags'> & {
 };
 
 const ParticipantSection = ({ owner, hunter }) => (
-    <div className="flex h-16 w-full flex-row gap-3">
+    <div className="flex h-16 w-full min-w-0 flex-1 flex-row gap-3">
         <div className="flex h-full w-full flex-col justify-between gap-3 overflow-hidden">
             <Text variant="label" className="text-secondary">
                 Owner
@@ -34,7 +33,7 @@ const ParticipantSection = ({ owner, hunter }) => (
                 {owner}
             </Text>
         </div>
-        <div className="flex h-full w-full flex-col justify-between gap-3 ">
+        <div className="flex h-full w-full flex-col justify-between gap-3 overflow-hidden">
             <Text variant="label" className="text-secondary">
                 Hunter
             </Text>
@@ -81,7 +80,7 @@ const TagsSection = ({ tags, maxTags }) => (
 );
 
 const RewardSection = ({ reward, showDetails, responsive }) => (
-    <div className="flex h-16 w-28 flex-col items-end justify-between overflow-hidden">
+    <div className="basis-18 flex h-16 flex-shrink-0 flex-col items-end justify-between overflow-hidden">
         <Text variant="label" className="inline text-secondary">
             {(!responsive || showDetails) && 'Reward ·'} SOL
         </Text>
@@ -89,7 +88,7 @@ const RewardSection = ({ reward, showDetails, responsive }) => (
             variant="heading"
             className="flex max-w-full flex-row items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap text-primary"
         >
-            {numberToCurrencyString(reward)}
+            {reward}
         </Text>
     </div>
 );
@@ -125,7 +124,7 @@ const BountyCard = ({
         <a>
             <Card
                 className={cn(
-                    'flex h-fit w-98 flex-shrink-0 snap-start flex-col items-start justify-between gap-5 p-6',
+                    'flex h-fit w-80 flex-shrink-0 snap-start flex-col items-start justify-between gap-5 p-6 sm:w-98',
                     responsive && '!w-full 2lg:flex-row 2lg:items-center',
                     !showDetails &&
                         'transition-all duration-300 hover:bg-opacity-[97%]',
@@ -139,7 +138,7 @@ const BountyCard = ({
                     )}
                 </div>
 
-                <div className="flex w-full flex-row justify-between">
+                <div className="flex w-full max-w-full flex-row justify-between overflow-hidden">
                     {showDetails ? (
                         <TagsSection tags={tags} maxTags={maxTags} />
                     ) : (
@@ -147,7 +146,7 @@ const BountyCard = ({
                     )}
 
                     <RewardSection
-                        reward={reward}
+                        reward={reward || 0}
                         showDetails={showDetails}
                         responsive={responsive}
                     />

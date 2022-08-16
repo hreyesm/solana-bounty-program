@@ -1,6 +1,6 @@
-import { Action, useRegisterActions } from "kbar";
-import { useMemo } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { Action, useRegisterActions } from 'kbar';
+import { useMemo } from 'react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 export default function useIntegrationsActions() {
     const { data: session } = useSession();
@@ -26,25 +26,25 @@ export default function useIntegrationsActions() {
 
         if (session) {
             totalActions.push({
-                id: "integrate-github",
-                name: "Sign out from GitHub...",
-                keywords: "sign out logout sign-out",
-                shortcut: ["g"],
-                section: "Integrations",
+                id: 'integrate-github',
+                name: 'Sign out from GitHub...',
+                keywords: 'sign out logout sign-out',
+                shortcut: ['g'],
+                section: 'Integrations',
                 perform: () => onProfileClick(),
             });
         } else {
             totalActions.push({
-                id: "integrate-github",
-                name: "Sign in with GitHub...",
-                keywords: "sign in login sign-in",
-                shortcut: ["g"],
-                section: "Integrations",
+                id: 'integrate-github',
+                name: 'Sign in with GitHub...',
+                keywords: 'sign in login sign-in',
+                shortcut: ['g'],
+                section: 'Integrations',
                 perform: () => onProfileClick(),
             });
         }
         return totalActions;
     }, [session, onProfileClick]);
-    
+
     useRegisterActions(actions);
 }

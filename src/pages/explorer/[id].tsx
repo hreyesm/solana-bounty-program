@@ -1,22 +1,23 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { MdChevronLeft, MdLink } from 'react-icons/md';
-
 import { Bounty } from 'types/bounty';
 import BountyCard from 'components/explorer-page/bounty-card';
 import Button from 'components/common/button';
+import Chip from 'components/common/chip';
 import FundTab from 'components/detail-page/fund-tab';
 import Link from 'next/link';
 import Markdown from 'components/common/markdown';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
 import { authOptions } from 'pages/api/auth/[...nextauth]';
+import { claimBounty } from 'lib/drill';
 import { getBounty } from 'lib/bounties';
 import { unstable_getServerSession } from 'next-auth';
+import { useBountyReward } from 'hooks/use-bounty-reward';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import Chip from 'components/common/chip';
 import { NextSeo } from 'next-seo';
 
 type BountyDetailsPageProps = {
@@ -26,23 +27,26 @@ type BountyDetailsPageProps = {
 const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
     const { githubUrl, description, id, name, state, createdAt } = bounty;
 
+    const { reward, isLoading: isRewardLoading } = useBountyReward(id);
     const { data: session } = useSession();
-    const { wallet } = useWallet();
+    const { publicKey, wallet } = useWallet();
 
     const tabs = useMemo(
         () => [
             {
                 content: <Markdown>{description}</Markdown>,
-                id: 'about',
-                label: 'About',
+                id: 'description',
+                label: 'Description',
             },
             state === 'open' && {
-                content: <FundTab {...bounty} />,
+                content: (
+                    <FundTab {...bounty} reward={!isRewardLoading && reward} />
+                ),
                 id: 'fund',
                 label: 'Fund',
             },
         ],
-        [bounty, description, state],
+        [bounty, description, isRewardLoading, reward, state],
     );
 
     const router = useRouter();
@@ -53,11 +57,35 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
         [currentTabId, tabs],
     );
 
+    const onClaimButtonClick = async () => {
+        await claimBounty(id, publicKey);
+    };
+
+    const onCloseButtonClick = async () => {
+        try {
+            const response = await fetch(`/api/bounties/${id}`, {
+                headers: { 'Content-Type': 'application/json' },
+                method: 'PATCH',
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                router.push(`/explorer`);
+            } else {
+                alert(JSON.stringify(data));
+            }
+        } catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    };
+
     return (
         <>
             <NextSeo title={name}></NextSeo>
-            <div className="flex flex-col gap-8 p-5 !pb-0 text-white sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                <div className="flex flex-row items-center justify-between">
+            <div className="flex flex-col gap-8 p-5 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                <div className="flex flex-row flex-wrap items-center justify-between gap-5">
                     <Link href="/explorer" passHref>
                         <a>
                             <Button reversed text="Back" variant="label">
@@ -66,36 +94,52 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                         </a>
                     </Link>
 
-                    <div className="flex flex-row gap-3">
-                        {session && bounty.owner === session.login && (
-                            <Button variant="danger" text="Close" />
-                        )}
-                        {session && bounty.hunter === session.login && (
-                            <div
-                                className={`${
-                                    (state !== 'closed' || !wallet) && 'tooltip'
-                                } tooltip-bottom`}
-                                data-tip={
-                                    state !== 'closed'
-                                        ? 'Complete this bounty to claim it'
-                                        : !wallet &&
-                                          'Connect a wallet to claim this bounty'
-                                }
-                            >
-                                <Button
-                                    disabled={state !== 'closed' || !wallet}
-                                    text="Claim"
-                                    variant="orange"
-                                />
-                            </div>
-                        )}
-                        <a href={githubUrl}>
-                            <Button text="View on GitHub" variant="transparent">
-                                <MdLink className="aspect-square h-4" />
-                            </Button>
-                        </a>
-                    </div>
+                <div className="flex w-fit flex-row flex-wrap gap-3">
+                    {session && bounty.owner === session.login && (
+                        <Button
+                            onClick={onCloseButtonClick}
+                            variant="danger"
+                            text="Close"
+                        />
+                    )}
+                    {session && bounty.hunter === session.login && (
+                        <div
+                            className={`${
+                                (state !== 'closed' || !wallet) && 'tooltip'
+                            } tooltip-left`}
+                            data-tip={
+                                state !== 'closed'
+                                    ? 'Complete this bounty to claim it'
+                                    : !wallet &&
+                                      'Connect a wallet to claim this bounty'
+                            }
+                        >
+                            <Button
+                                disabled={state !== 'closed' || !wallet}
+                                onClick={onClaimButtonClick}
+                                text="Claim"
+                                variant="orange"
+                            />
+                        </div>
+                    )}
+                    <a href={githubUrl}>
+                        <Button
+                            text="View on GitHub"
+                            icon={MdLink}
+                            variant="transparent"
+                            reversed={true}
+                            className="hidden sm:flex"
+                        />
+                        <Button
+                            text="GitHub"
+                            icon={MdLink}
+                            variant="transparent"
+                            reversed={true}
+                            className="flex sm:hidden"
+                        />
+                    </a>
                 </div>
+            </div>
 
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-row gap-2">
@@ -118,19 +162,25 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
 
                 <Text variant="nav-heading">Basics</Text>
 
-                <BountyCard {...bounty} maxTags={7} name="" showDetails />
+            <BountyCard
+                {...bounty}
+                maxTags={7}
+                name=""
+                reward={!isRewardLoading && reward}
+                showDetails
+            />
 
-                <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-black bg-opacity-40 pt-4 backdrop-blur-xl">
-                    {tabs.map((tab, index) => (
-                        <NavElement
-                            as={index === 0 && `/explorer/${id}`}
-                            href={`/explorer/${id}?tab=${tab.id}`}
-                            key={tab.id}
-                            label={tab.label}
-                            scroll={false} // TODO: Scroll to navbar position.
-                        />
-                    ))}
-                </div>
+            <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
+                {tabs.map((tab, index) => (
+                    <NavElement
+                        as={index === 0 && `/explorer/${id}`}
+                        href={`/explorer/${id}?tab=${tab.id}`}
+                        key={tab.id}
+                        label={tab.label}
+                        scroll={false} // TODO: Scroll to navbar position.
+                    />
+                ))}
+            </div>
 
                 <section className="flex flex-col gap-5">
                     {currentTab.content}

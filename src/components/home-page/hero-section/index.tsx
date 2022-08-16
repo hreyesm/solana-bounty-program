@@ -37,7 +37,7 @@ const HeroSection = () => {
                 }}
             ></div>
             <div className="relative flex h-full w-full flex-col items-center justify-evenly px-4 pt-20 text-left sm:px-8 sm:pt-10 md:items-start md:px-16 lg:px-32 xl:px-64">
-                <Text variant="hero" className="text-white">
+                <Text variant="hero">
                     <span style={{ color: '#F07546' }}>Bounties</span> are here.
                     <br />
                     Do you have what it takes?
