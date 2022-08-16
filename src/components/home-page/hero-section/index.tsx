@@ -78,7 +78,7 @@ const HeroSection = () => {
                             </Button>
                         </a>
                     </Link>
-                    <Link href="/explorer">
+                    <Link href="/explorer" passHref>
                         <a className="flex-1 sm:flex-none">
                             <Button
                                 icon={MdOutlineExplore}
