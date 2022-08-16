@@ -14,16 +14,20 @@ import Card from 'components/common/card';
 import Image from 'components/common/image';
 import { TbWallet } from 'react-icons/tb';
 import Text from 'components/common/text';
-import TransactionCard from './transaction-card';
+import { cn } from 'utils';
+import { getWalletImage } from 'utils/wallet';
 import { useBalance } from 'hooks/use-balance';
 import { useSWRConfig } from 'swr';
 
-const FundTab = ({ address, mint, reward }: Bounty) => {
+const FundTab = ({ address, id, mint, reward }: Bounty) => {
     const { balance } = useBalance();
     const { connection } = useConnection();
     const [amount, setAmount] = useState<number>();
     const { mutate } = useSWRConfig();
-    const { publicKey, sendTransaction } = useWallet();
+    const { publicKey, sendTransaction, wallet } = useWallet();
+
+    const walletName = wallet?.adapter.name;
+    const walletImage = getWalletImage(walletName?.toLowerCase());
 
     const onAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
         const newAmount = Number(e.target.value);
@@ -43,6 +47,7 @@ const FundTab = ({ address, mint, reward }: Bounty) => {
         );
 
         let signature: Web3.TransactionSignature = '';
+
         try {
             const transaction = new Web3.Transaction().add(
                 createTransferInstruction(
@@ -52,7 +57,6 @@ const FundTab = ({ address, mint, reward }: Bounty) => {
                     amount,
                 ),
             );
-<<<<<<< HEAD
 
             signature = await sendTransaction(transaction, connection);
 
@@ -62,18 +66,8 @@ const FundTab = ({ address, mint, reward }: Bounty) => {
             mutate('balance');
 
             alert(`Transaction successful: ${signature}`);
-            console.log(`Transaction successful: ${signature}`);
-=======
-            publicKey
-                ? connection.getBalance(publicKey).then(b => {
-                      setBalance(b / Web3.LAMPORTS_PER_SOL);
-                  })
-                : setBalance(0);
->>>>>>> dev
         } catch (error) {
             alert('Transaction failed');
-
-            return;
         }
     }, [publicKey, mint, address, amount, sendTransaction, connection, mutate]);
 
@@ -82,7 +76,7 @@ const FundTab = ({ address, mint, reward }: Bounty) => {
             <div className="flex flex-col gap-2">
                 <Text variant="big-heading">Make a payment</Text>
                 <Text variant="label" className="!normal-case text-secondary">
-                    Choose between...{' '}
+                    Choose between...
                 </Text>
             </div>
             <div className="flex h-max flex-col gap-10 md:flex-row">
@@ -101,7 +95,13 @@ const FundTab = ({ address, mint, reward }: Bounty) => {
                         </a>
                     </div>
                     <Card className="flex w-full items-center justify-center !bg-transparent p-5 md:h-full">
-                        <div className="aspect-square h-80 w-80 rounded-lg bg-white" />
+                        <div className="overflow-hidden rounded-lg">
+                            <Image
+                                alt="Solana Pay QR"
+                                className="aspect-square h-80 w-80"
+                                src={`https://raw.githubusercontent.com/andresmgsl/solana-cohort-june-2022/main/.drill/${id}.jpg`}
+                            />
+                        </div>
                     </Card>
                 </div>
 
@@ -120,15 +120,14 @@ const FundTab = ({ address, mint, reward }: Bounty) => {
                     </div>
                     <div className="flex flex-col gap-3">
                         <Card className="flex w-full flex-col gap-3 border-none !bg-gradient-to-tr from-primary/75 to-secondary/75 p-5">
-                            <Text variant="label"> Current funding </Text>
+                            <Text variant="label">Current funding</Text>
                             <div className="flex w-full flex-row items-center justify-center gap-3">
-                                <Text variant="big-heading"> {reward} </Text>
+                                <Text variant="big-heading">{reward}</Text>{' '}
                                 <Text
                                     variant="sub-heading"
                                     className="font-light"
                                 >
-                                    {' '}
-                                    SOL{' '}
+                                    SOL
                                 </Text>
                             </div>
                             <div className="flex w-full flex-row justify-end">
@@ -149,23 +148,20 @@ const FundTab = ({ address, mint, reward }: Bounty) => {
                             )}
                         >
                             <Text variant="label">
-                                {' '}
-                                Your {walletName} wallet{' '}
+                                Your {walletName} wallet
                             </Text>
                             <div className="flex w-full flex-col items-center justify-center gap-5">
                                 {publicKey ? (
                                     <>
                                         <div className="flex flex-row items-center gap-3">
                                             <Text variant="big-heading">
-                                                {' '}
-                                                {balance.toFixed(2)}{' '}
-                                            </Text>
+                                                {balance?.toFixed(2)}
+                                            </Text>{' '}
                                             <Text
                                                 variant="sub-heading"
                                                 className="font-light"
                                             >
-                                                {' '}
-                                                SOL{' '}
+                                                SOL
                                             </Text>
                                         </div>
 
@@ -177,6 +173,9 @@ const FundTab = ({ address, mint, reward }: Bounty) => {
                                                     />
                                                     <input
                                                         className="w-28 bg-transparent text-sm tracking-wide text-secondary outline-none valid:text-primary"
+                                                        onChange={
+                                                            onAmountChange
+                                                        }
                                                         placeholder="Enter amount..."
                                                         type="text"
                                                     />
@@ -184,17 +183,17 @@ const FundTab = ({ address, mint, reward }: Bounty) => {
                                                 <Text variant="label">SOL</Text>
                                             </div>
                                             <Button
-                                                variant="orange"
-                                                text="Send"
                                                 className="flex-[2_2_fit-content]"
+                                                onClick={onSend}
+                                                text="Send"
+                                                variant="orange"
                                             />
                                         </div>
                                     </>
                                 ) : (
                                     <div className="flex flex-row items-center gap-2">
                                         <Text variant="paragraph">
-                                            {' '}
-                                            Not connected{' '}
+                                            Not connected
                                         </Text>
                                         <div
                                             className="tooltip"
