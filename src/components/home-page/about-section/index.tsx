@@ -18,8 +18,8 @@ const AboutSection = () => {
         {
             content:
                 'Completing bounties nets you levels, showcasing your commitment to open-source development and your past performance on the project.\n\nBounties are created by the maintainers of a project, and are assigned to contributors who are interested in working on the project.',
-            id: 'contributor',
-            label: 'Contrbutor',
+            id: 'hunter',
+            label: 'Hunter',
         },
         {
             content:
