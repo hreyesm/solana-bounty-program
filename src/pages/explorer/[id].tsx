@@ -233,7 +233,12 @@ export const getServerSideProps: GetServerSideProps = async context => {
     const bounty = await getBounty(id, accessToken);
 
     if (!bounty) {
-        return { notFound: true };
+        return {
+            redirect: {
+                destination: '/explorer',
+                permanent: false,
+            },
+        };
     }
 
     return { props: { bounty } };

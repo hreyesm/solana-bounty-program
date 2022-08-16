@@ -1,3 +1,7 @@
+import {
+    DRILL_BOUNTY_CLOSED_LABEL,
+    DRILL_BOUNTY_ENABLED_LABEL,
+} from 'lib/github';
 import { GetServerSideProps, NextPage } from 'next';
 
 import { Bounty } from 'types/bounty';
@@ -7,6 +11,7 @@ import FeaturedSection from 'components/explorer-page/featured-section';
 import Link from 'next/link';
 import { MdAdd } from 'react-icons/md';
 import NavElement from 'components/common/layout/header/nav-element';
+import { NextSeo } from 'next-seo';
 import Text from 'components/common/text';
 import { authOptions } from './api/auth/[...nextauth]';
 import { getBounties } from 'lib/bounties';
@@ -14,18 +19,27 @@ import { unstable_getServerSession } from 'next-auth';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import { NextSeo } from 'next-seo';
 
 type ExplorerPageProps = { bounties: Bounty[] };
 
 const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
     const closedBounties = useMemo(
-        () => bounties.filter(({ state }) => state === 'closed'),
+        () =>
+            bounties.filter(
+                ({ state, tags }) =>
+                    state === 'closed' ||
+                    tags.includes({ value: DRILL_BOUNTY_CLOSED_LABEL }),
+            ),
         [bounties],
     );
 
     const openBounties = useMemo(
-        () => bounties.filter(({ state }) => state === 'open'),
+        () =>
+            bounties.filter(
+                ({ state, tags }) =>
+                    state === 'open' ||
+                    tags.includes({ value: DRILL_BOUNTY_ENABLED_LABEL }),
+            ),
         [bounties],
     );
 

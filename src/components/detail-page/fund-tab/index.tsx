@@ -68,19 +68,12 @@ const FundTab = ({ address, id, mint, reward }: Bounty) => {
 
             const message = `Transaction successful: https://explorer.solana.com/tx/${signature}?cluster=devnet`;
 
-            setTimeout(() => {
-                alert(message);
-            }, 6000);
+            alert(message);
 
             console.log(message);
         } catch (error) {
             alert('Transaction failed');
         }
-
-        setTimeout(() => {
-            alert('Reloading page to reflect changes...');
-            window.location.reload();
-        }, 3000);
     }, [
         publicKey,
         mint,
