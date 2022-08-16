@@ -150,7 +150,7 @@ const NewPage: NextPage = () => {
 
     return (
         <>
-            <NextSeo title="New Bounty"></NextSeo>
+            <NextSeo title="Create new Bounty" description='Create a new bounty.'></NextSeo>
             <form className="flex flex-col" onSubmit={onSubmit}>
                 <section
                     title="bounty-name"
