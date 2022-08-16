@@ -84,9 +84,7 @@ const OverflowMenu = () => {
                                         variant="label"
                                         className="!normal-case text-secondary"
                                     >
-                                        Informative text about enhanced
-                                        experience, public profile and claiming
-                                        bounties.
+                                        Connect your GitHub account for an enhanced user experience, including the ability to create new and claim completed bounties.
                                     </Text>
                                 ) : (
                                     <div className="flex flex-row items-center gap-1">
@@ -141,9 +139,7 @@ const OverflowMenu = () => {
                                             variant="label"
                                             className="!normal-case text-secondary"
                                         >
-                                            Informative text about enhanced
-                                            experience, public profile and
-                                            claiming bounties.
+                                            By connect your wallet, you gain the ability to transfer funds directly to a bounty, as well as to claim completed bounties.
                                         </Text>
                                     </>
                                 ) : (
