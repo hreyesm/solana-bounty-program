@@ -20,7 +20,7 @@ import { useBalance } from 'hooks/use-balance';
 import { useSWRConfig } from 'swr';
 
 const FundTab = ({ address, id, mint, reward }: Bounty) => {
-    const { balance } = useBalance();
+    const { balance } = useBalance(mint);
     const { connection } = useConnection();
     const [amount, setAmount] = useState<number>();
     const { mutate } = useSWRConfig();
@@ -54,7 +54,7 @@ const FundTab = ({ address, id, mint, reward }: Bounty) => {
                     associatedToken,
                     new Web3.PublicKey(address),
                     publicKey,
-                    amount,
+                    amount * 1_000_000,
                 ),
             );
 

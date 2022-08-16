@@ -1,16 +1,28 @@
+import * as Web3 from '@solana/web3.js';
+
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 
-import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { getAssociatedTokenAddress } from '@solana/spl-token';
 import useSWR from 'swr';
 
-export const useBalance = () => {
+export const useBalance = (mint: string) => {
     const { connection } = useConnection();
     const { publicKey } = useWallet();
 
     const fetchBalance = async () => {
         try {
-            const res = await connection.getBalance(publicKey, 'confirmed');
-            return res / LAMPORTS_PER_SOL;
+            const associatedTokenAddress = await getAssociatedTokenAddress(
+                new Web3.PublicKey(mint),
+                publicKey,
+            );
+
+            const responseAndContext = await connection.getTokenAccountBalance(
+                associatedTokenAddress,
+            );
+
+            console.log(responseAndContext);
+
+            return responseAndContext.value.uiAmount;
         } catch (e) {
             console.log(`error getting balance: `, e);
         }
