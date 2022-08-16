@@ -5,7 +5,7 @@ import { MdInfoOutline } from 'react-icons/md';
 import Text from 'components/common/text';
 import { User } from 'types/user';
 
-type HeroProps = User;
+type HeroProps = User & { isCurrentUser: boolean };
 
 const Hero = ({
     avatarUrl,

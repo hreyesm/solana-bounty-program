@@ -2,11 +2,15 @@ import { Bounty } from 'types/bounty';
 
 export const mockBounties: Bounty[] = [
     {
+        address: 'a',
         createdAt: '01 Jan',
+        description: 'Lorem ipsum',
         githubUrl: '',
         id: 9999,
         name: 'Really long bounty name',
+        owner: 'johndoe',
         reward: 300,
+        state: 'open',
         tags: [
             { value: 'landing-page' },
             { value: 'enhancement' },
@@ -18,11 +22,15 @@ export const mockBounties: Bounty[] = [
         ],
     },
     {
+        address: 'a',
         createdAt: '01 Jan',
+        description: 'Lorem ipsum',
         githubUrl: '',
         id: 9998,
         name: 'Really long bounty name',
+        owner: 'johndoe',
         reward: 1_000_000,
+        state: 'open',
         tags: [
             { value: 'landing-page' },
             { value: 'enhancement' },
@@ -34,11 +42,15 @@ export const mockBounties: Bounty[] = [
         ],
     },
     {
+        address: 'a',
         createdAt: '01 Jan',
+        description: 'Lorem ipsum',
         githubUrl: '',
         id: 9997,
         name: 'Really long bounty name',
+        owner: 'johndoe',
         reward: 57,
+        state: 'open',
         tags: [
             { value: 'landing-page' },
             { value: 'enhancement' },
@@ -50,11 +62,15 @@ export const mockBounties: Bounty[] = [
         ],
     },
     {
+        address: 'a',
         createdAt: '01 Jan',
+        description: 'Lorem ipsum',
         githubUrl: '',
         id: 9996,
         name: 'Really long bounty name',
+        owner: 'johndoe',
         reward: 300,
+        state: 'open',
         tags: [
             { value: 'landing-page' },
             { value: 'enhancement' },
