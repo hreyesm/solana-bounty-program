@@ -119,18 +119,7 @@ const FundTab = ({ address, id, mint, reward }: Bounty) => {
                 </div>
 
                 <div className="flex h-full w-full flex-col gap-5">
-                    <div className="flex flex-row items-center gap-3">
-                        <Text variant="heading">Send manually</Text>
-                        <div
-                            className="tooltip"
-                            data-tip="Please ensure you know what you're doing - This action cannot be undone"
-                        >
-                            <MdInfoOutline
-                                size={15}
-                                className="aspect-square"
-                            />
-                        </div>
-                    </div>
+                    <Text variant="heading">Send manually</Text>
                     <div className="flex flex-col gap-3">
                         <Card className="flex w-full flex-col gap-3 border-none !bg-gradient-to-tr from-primary/75 to-secondary/75 p-5">
                             <Text variant="label">Current funding</Text>
