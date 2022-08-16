@@ -1,7 +1,4 @@
-import type { WalletName } from '@solana/wallet-adapter-base';
-import { WalletReadyState } from '@solana/wallet-adapter-base';
-import type { Wallet } from '@solana/wallet-adapter-react';
-import { useWallet } from '@solana/wallet-adapter-react';
+/* eslint-disable indent */
 import type { FC, MouseEvent } from 'react';
 import React, {
     useCallback,
@@ -10,11 +7,16 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import { createPortal } from 'react-dom';
+
 import { Collapse } from './Collapse';
-import { useWalletModal } from './use-wallet-modal';
+import type { Wallet } from '@solana/wallet-adapter-react';
 import { WalletListItem } from './wallet-list-item';
+import type { WalletName } from '@solana/wallet-adapter-base';
+import { WalletReadyState } from '@solana/wallet-adapter-base';
 import { WalletSVG } from './wallet-svg';
+import { createPortal } from 'react-dom';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useWalletModal } from './use-wallet-modal';
 
 export interface WalletModalProps {
     className?: string;
@@ -50,27 +52,31 @@ export const WalletModal: FC<WalletModalProps> = ({
         return [installed, [...loadable, ...notDetected]];
     }, [wallets]);
 
-    const getStartedWallet = useMemo(() => {
-        return installedWallets.length
-            ? installedWallets[0]
-            : wallets.find(
-                  (wallet: { adapter: { name: WalletName } }) =>
-                      wallet.adapter.name === 'Torus',
-              ) ||
+    const getStartedWallet = useMemo(
+        () =>
+            installedWallets.length
+                ? installedWallets[0]
+                : wallets.find(
+                      (wallet: { adapter: { name: WalletName } }) =>
+                          wallet.adapter.name === 'Torus',
+                  ) ||
                   wallets.find(
                       (wallet: { adapter: { name: WalletName } }) =>
                           wallet.adapter.name === 'Phantom',
                   ) ||
                   wallets.find(
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       (wallet: { readyState: any }) =>
                           wallet.readyState === WalletReadyState.Loadable,
                   ) ||
-                  otherWallets[0];
-    }, [installedWallets, wallets, otherWallets]);
+                  otherWallets[0],
+        [installedWallets, wallets, otherWallets],
+    );
 
     const hideModal = useCallback(() => {
         setFadeIn(false);
         setTimeout(() => setVisible(false), 150);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleClose = useCallback(
@@ -241,7 +247,8 @@ export const WalletModal: FC<WalletModalProps> = ({
                         ) : (
                             <>
                                 <h1 className="wallet-adapter-modal-title">
-                                    You'll need a wallet on Solana to continue
+                                    You&apos;ll need a wallet on Solana to
+                                    continue
                                 </h1>
                                 <div className="wallet-adapter-modal-middle">
                                     <WalletSVG />

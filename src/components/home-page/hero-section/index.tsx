@@ -3,10 +3,8 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Button from 'components/common/button';
 import Headlines from './headlines';
 import React from 'react';
-import { cn } from 'utils';
 import Text from 'components/common/text';
-
-const pageHeight = 'calc(100vh_-_5rem)'; // TODO: Create variable for header height (`var(--header-height)`)
+import { cn } from 'utils';
 
 const HeroSection = () => {
     const [MousePosition, setMousePosition] = React.useState({
@@ -33,19 +31,19 @@ const HeroSection = () => {
                 }}
             ></div>
             <div
-                className="absolute block h-[130%] aspect-square sm:hidden"
+                className="absolute block aspect-square h-[130%] sm:hidden"
                 style={{
                     background: `radial-gradient(circle at center 30%, rgba(240, 117, 70, 0.765) 0%, rgba(203, 68, 184, 0) 40%, rgba(219, 65, 75, 0) 40%)`,
                 }}
             ></div>
             <div className="relative flex h-full w-full flex-col items-center justify-evenly px-4 pt-20 text-left sm:px-8 sm:pt-10 md:items-start md:px-16 lg:px-32 xl:px-64">
-                <Text variant="hero" className="text-white">
+                <Text variant="hero">
                     <span style={{ color: '#F07546' }}>Bounties</span> are here.
                     <br />
                     Do you have what it takes?
                 </Text>
                 <Headlines />
-                <div className="flex justify-center gap-4 w-full md:justify-start">
+                <div className="flex w-full justify-center gap-4 md:justify-start">
                     <Button
                         text="Fund Bounty"
                         variant="orange"

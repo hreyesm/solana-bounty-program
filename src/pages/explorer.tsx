@@ -2,8 +2,10 @@ import { GetServerSideProps, NextPage } from 'next';
 
 import { Bounty } from 'types/bounty';
 import BountyList from 'components/common/bounty-list';
+import Button from 'components/common/button';
 import FeaturedSection from 'components/explorer-page/featured-section';
-import FilterBar from 'components/common/bounty-list/filter-bar';
+import Link from 'next/link';
+import { MdAdd } from 'react-icons/md';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
 import { authOptions } from './api/auth/[...nextauth]';
@@ -11,10 +13,7 @@ import { getBounties } from 'lib/bounties';
 import { unstable_getServerSession } from 'next-auth';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
-import Button from 'components/common/button';
-import { MdAdd } from 'react-icons/md';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 
 type ExplorerPageProps = { bounties: Bounty[] };
 
@@ -66,42 +65,41 @@ const ExplorerPage: NextPage<ExplorerPageProps> = ({ bounties }) => {
 
     return (
         <div className="flex flex-col gap-12">
-            <FeaturedSection />
+            <FeaturedSection bounties={openBounties.slice(0, 5)} />
             <div className="flex flex-col gap-0">
                 <div className="flex w-full flex-col gap-7 px-5 sm:px-8 md:px-16 lg:px-32 xl:px-48">
                     <Text variant="label"> Browse </Text>
                     <div className="flex flex-row flex-wrap items-center justify-between gap-2">
-                        <Text variant="big-heading"> Bounties </Text>
+                        <Text variant="big-heading"> All Bounties </Text>
                         <div
                             className={!session && 'tooltip'}
-                            data-tip="Log in to create bounties"
+                            data-tip="Sign in to create bounties"
                         >
-                            {/* TODO: Verify if user has perms to create issues in this repo, otherwise disable button and show tooltip. */}
-                            <Link href="/explorer/new">
-                                <Button
-                                    variant="orange"
-                                    text="Create new"
-                                    icon={MdAdd}
-                                    reversed={true}
-                                    disabled={!session}
-                                />
+                            <Link href="/explorer/new" passHref>
+                                <a>
+                                    <Button
+                                        variant="orange"
+                                        text="Create new"
+                                        icon={MdAdd}
+                                        reversed={true}
+                                        disabled={!session}
+                                    />
+                                </a>
                             </Link>
                         </div>
                     </div>
 
-                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black bg-opacity-40 backdrop-blur-xl pt-4">
-                        <div className="flex h-full flex-row gap-8">
-                            {tabs.map((tab, index) => (
-                                <NavElement
-                                    as={index === 0 && `/explorer`}
-                                    href={`/explorer?tab=${tab.id}`}
-                                    key={tab.id}
-                                    label={tab.label}
-                                    chipLabel={tab.amount.toString()} // Amount of bounties in each category.
-                                    scroll={false} // TODO: Scroll to navbar position.
-                                />
-                            ))}
-                        </div>
+                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
+                        {tabs.map((tab, index) => (
+                            <NavElement
+                                as={index === 0 && `/explorer`}
+                                href={`/explorer?tab=${tab.id}`}
+                                key={tab.id}
+                                label={tab.label}
+                                chipLabel={tab.amount.toString()}
+                                scroll={false}
+                            />
+                        ))}
                     </div>
 
                     {currentTab.content}

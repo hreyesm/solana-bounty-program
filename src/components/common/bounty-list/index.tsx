@@ -27,11 +27,11 @@ const BountyList = ({ bounties: initialBounties }: BountyListProps) => {
     return (
         <div className="flex flex-col gap-4">
             <FilterMenu onSearchInputChange={onSearchInputChange} />
-        <div className="sticky top-36 z-30 hidden flex-row justify-between gap-5 px-6 text-base-content bg-black bg-opacity-40 backdrop-blur-xl py-3 2lg:flex">
+            <div className="sticky top-36 z-30 hidden flex-row justify-between gap-5 bg-neutral bg-opacity-40 px-6 py-3 text-base-content backdrop-blur-xl 2lg:flex">
                 <Text variant="label" className="w-full">
                     Basics
                 </Text>
-                <div className="flex w-full justify-between">  
+                <div className="flex w-full justify-between">
                     <Text variant="label">Participants</Text>
                     <Text variant="label">Reward</Text>
                 </div>

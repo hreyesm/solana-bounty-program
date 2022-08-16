@@ -1,7 +1,6 @@
 import CountUp from 'react-countup';
-import VisibilitySensor from 'react-visibility-sensor';
 import Text from 'components/common/text';
-import { cn } from 'utils';
+import VisibilitySensor from 'react-visibility-sensor';
 
 const StatItem = StatProps => (
     <div

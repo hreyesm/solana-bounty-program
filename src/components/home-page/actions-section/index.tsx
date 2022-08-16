@@ -5,7 +5,7 @@ import Text from 'components/common/text';
 const ActionsSection = () => (
     <section
         title="actions"
-        className="w-full p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20 bg-gradient-to-tr from-primary to-secondary"
+        className="w-full bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
     >
         <div className="flex w-full flex-col gap-5 md:flex-row">
             <Card className="w-full p-12">

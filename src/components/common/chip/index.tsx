@@ -43,8 +43,8 @@ const Chip = ({
         <div
             className={cn(
                 (href || copyValue) &&
-                    'cursor-pointer hover:bg-black/30 transition-colors',
-                'flex flex-row items-center gap-2.5 w-fit text-secondary rounded-full bg-black/50 px-2 py-1',
+                    'cursor-pointer transition-colors hover:bg-black/30',
+                'flex w-fit flex-row items-center gap-2.5 rounded-full bg-black/50 px-2 py-1 text-secondary',
             )}
             onClick={() => {
                 if (copyValue) {

@@ -22,35 +22,32 @@ type BountyCardProps = Omit<Bounty, 'githubUrl' | 'tags'> & {
 };
 
 const ParticipantSection = ({ owner, hunter }) => (
-    <div className="flex h-16 w-full flex-row gap-3">
-        <div className="flex flex-col gap-3 justify-between h-full w-full overflow-hidden">
-            <Text
-                variant="label"
-                className="text-secondary"
-            >
+    <div className="flex h-16 w-full min-w-0 flex-1 flex-row gap-3">
+        <div className="flex h-full w-full flex-col justify-between gap-3 overflow-hidden">
+            <Text variant="label" className="text-secondary">
                 Owner
             </Text>
-            <Text variant="paragraph" className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+            <Text
+                variant="paragraph"
+                className="w-full overflow-hidden text-ellipsis whitespace-nowrap"
+            >
                 {owner}
             </Text>
         </div>
-        <div className="flex flex-col gap-3 justify-between h-full w-full ">
-            <Text
-                variant="label"
-                className="text-secondary"
-            >
+        <div className="flex h-full w-full flex-col justify-between gap-3 overflow-hidden">
+            <Text variant="label" className="text-secondary">
                 Hunter
             </Text>
-            <div className="flex flex-row items-center gap-3 w-full overflow-hidden">
+            <div className="flex w-full flex-row items-center gap-3 overflow-hidden">
                 {hunter ? (
-                    <Text variant="paragraph" className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                    <Text
+                        variant="paragraph"
+                        className="w-full overflow-hidden text-ellipsis whitespace-nowrap"
+                    >
                         {hunter}
                     </Text>
                 ) : (
-                    <Text
-                        variant="paragraph"
-                        className="hidden sm:inline"
-                    >
+                    <Text variant="paragraph" className="hidden sm:inline">
                         None
                     </Text>
                 )}
@@ -61,10 +58,7 @@ const ParticipantSection = ({ owner, hunter }) => (
 
 const TagsSection = ({ tags, maxTags }) => (
     <div className="flex h-16 w-full flex-col gap-3">
-        <Text
-            variant="label"
-            className='w-fit text-secondary'
-        >
+        <Text variant="label" className="w-fit text-secondary">
             Tags
         </Text>
         <div className="flex w-full flex-row flex-wrap gap-1.5">
@@ -80,21 +74,16 @@ const TagsSection = ({ tags, maxTags }) => (
                     />
                 ))}
             {tags.length > maxTags && (
-                <Chip
-                    highlightValue={`+${tags.length - maxTags}`}
-                />
+                <Chip highlightValue={`+${tags.length - maxTags}`} />
             )}
         </div>
     </div>
 );
 
 const RewardSection = ({ reward, showDetails, responsive }) => (
-    <div className="flex flex-col items-end h-16 w-28 justify-between overflow-hidden">
-        <Text
-            variant="label"
-            className='inline text-secondary'
-        >
-            { (!responsive || showDetails) && 'Reward ·' } SOL
+    <div className="basis-18 flex h-16 flex-shrink-0 flex-col items-end justify-between overflow-hidden">
+        <Text variant="label" className="inline text-secondary">
+            {(!responsive || showDetails) && 'Reward ·'} SOL
         </Text>
         <Text
             variant="heading"
@@ -106,16 +95,15 @@ const RewardSection = ({ reward, showDetails, responsive }) => (
 );
 
 const BasicsSection = ({ name, createdAt }) => (
-    <div className="h-16 flex flex-col justify-between">
-        <Chip
-            highlightValue={createdAt}
-        />
+    <div className="flex h-16 flex-col justify-between">
+        <Chip highlightValue={createdAt} />
         <Text
             variant="heading"
             className={cn(
                 'inline w-full overflow-hidden text-ellipsis whitespace-nowrap',
                 // responsive && '2lg:hidden',
-            )}>
+            )}
+        >
             {name}
         </Text>
     </div>
@@ -129,7 +117,6 @@ const BountyCard = ({
     name,
     reward,
     tags,
-    state,
     responsive = true,
     maxTags = 5,
     showDetails = false,
@@ -138,9 +125,10 @@ const BountyCard = ({
         <a>
             <Card
                 className={cn(
-                    'flex h-fit w-98 flex-shrink-0 snap-start flex-col items-start justify-between gap-5 p-6',
+                    'flex h-fit w-80 flex-shrink-0 snap-start flex-col items-start justify-between gap-5 p-6 sm:w-98',
                     responsive && '!w-full 2lg:flex-row 2lg:items-center',
-                    !showDetails && "hover:bg-opacity-[97%] transition-all duration-300",
+                    !showDetails &&
+                        'transition-all duration-300 hover:bg-opacity-[97%]',
                 )}
             >
                 <div className="w-full overflow-hidden">
@@ -151,14 +139,18 @@ const BountyCard = ({
                     )}
                 </div>
 
-                <div className="flex flex-row justify-between w-full">
+                <div className="flex w-full max-w-full flex-row justify-between overflow-hidden">
                     {showDetails ? (
                         <TagsSection tags={tags} maxTags={maxTags} />
                     ) : (
                         <ParticipantSection owner={owner} hunter={hunter} />
                     )}
 
-                    <RewardSection reward={reward} showDetails={showDetails} responsive={responsive} />
+                    <RewardSection
+                        reward={reward}
+                        showDetails={showDetails}
+                        responsive={responsive}
+                    />
                 </div>
             </Card>
         </a>

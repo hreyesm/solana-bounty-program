@@ -4,7 +4,6 @@ import React, { useMemo } from 'react';
 import { Bounty } from 'types/bounty';
 import BountyList from 'components/common/bounty-list';
 import Button from 'components/common/button';
-import FilterBar from 'components/common/bounty-list/filter-bar';
 import Hero from 'components/profile-page/hero';
 import Link from 'next/link';
 import { MdAdd } from 'react-icons/md';
@@ -90,19 +89,17 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ bounties, user }) => {
                         )}
                     </div>
 
-                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row justify-between border-b-1.5 border-b-line bg-black bg-opacity-40 backdrop-blur-xl pt-4">
-                        <div className="flex h-full flex-row gap-8">
-                            {tabs.map((tab, index) => (
-                                <NavElement
-                                    as={index === 0 && `/${username}`}
-                                    href={`/${username}?tab=${tab.id}`}
-                                    key={tab.id}
-                                    label={tab.label}
-                                    chipLabel={tab.amount.toString()} // Amount of bounties in each category.
-                                    scroll={false} // TODO: Scroll to navbar position.
-                                />
-                            ))}
-                        </div>
+                    <div className="sticky top-20 z-30 -mt-px flex h-16 flex-row gap-8 border-b-1.5 border-b-line bg-neutral bg-opacity-40 pt-4 backdrop-blur-xl">
+                        {tabs.map((tab, index) => (
+                            <NavElement
+                                as={index === 0 && `/${username}`}
+                                href={`/${username}?tab=${tab.id}`}
+                                key={tab.id}
+                                label={tab.label}
+                                chipLabel={tab.amount.toString()} // Amount of bounties in each category.
+                                scroll={false} // TODO: Scroll to navbar position.
+                            />
+                        ))}
                     </div>
 
                     {currentTab.content}
