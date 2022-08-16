@@ -10,9 +10,7 @@ const FaqSection = () => (
     >
         <div className="flex flex-col gap-8">
             <Text variant="label"> FAQ </Text>
-            <Text variant="big-heading">
-                Find out more about Bounties
-            </Text>
+            <Text variant="big-heading">Find out more about Bounties</Text>
             <div className="flex items-center">
                 <div className="invisible absolute opacity-30 bg-blend-overlay md:visible md:relative md:ml-auto md:w-1/2">
                     <img src="/back.webp" alt="" />

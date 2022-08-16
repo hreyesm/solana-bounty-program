@@ -9,7 +9,7 @@ type HeadlineProps = {
 };
 
 const Headline = ({ heading, body }: HeadlineProps) => (
-    <div className="flex flex-col gap-6 mb-16 md:m-0">
+    <div className="mb-16 flex flex-col gap-6 md:m-0">
         <Text variant="sub-heading">{heading}</Text>
         <Text variant="paragraph">{body}</Text>
     </div>

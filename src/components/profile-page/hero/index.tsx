@@ -1,9 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
-import { MdInfoOutline, MdOutlineEdit } from 'react-icons/md';
-
-import Button from 'components/common/button';
 import Chip from 'components/common/chip';
 import Image from 'components/common/image';
+/* eslint-disable @next/next/no-img-element */
+import { MdInfoOutline } from 'react-icons/md';
 import Text from 'components/common/text';
 import { User } from 'types/user';
 
@@ -53,10 +51,8 @@ const Hero = ({
             </div>
 
             {isCurrentUser && (
-                <div className="flex h-min grow-[2] basis-80 w-full flex-col gap-2">
+                <div className="flex h-min w-full grow-[2] basis-80 flex-col gap-2">
                     <div className="flex flex-row items-center gap-1">
-                        {/* <Chip value="Level" highlightValue={level.toString()} reversed={true} /> */}
-
                         <Text
                             variant="label"
                             className="flex flex-row items-center gap-1 !normal-case text-secondary"
@@ -83,7 +79,7 @@ const Hero = ({
                         value={level}
                         max={100}
                     />
-            </div>
+                </div>
             )}
         </div>
     </div>

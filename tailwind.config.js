@@ -41,7 +41,7 @@ module.exports = {
                 line: '#666666',
             },
             textColor: {
-                neutral: "#ffffff",
+                neutral: '#ffffff',
                 secondary: '#999999',
                 danger: '#F64B62',
             },
