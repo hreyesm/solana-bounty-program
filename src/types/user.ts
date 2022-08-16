@@ -3,6 +3,5 @@ export type User = {
     closedBountiesCount: number;
     fullName: string;
     level: number;
-    isCurrentUser: boolean;
     username: string;
 };
