@@ -203,10 +203,7 @@ const FundTab = ({ address, id, mint, reward }: Bounty) => {
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="flex flex-row items-center gap-2">
-                                        <Text variant="paragraph">
-                                            Not connected
-                                        </Text>
+                                    <div className="flex flex-col items-center gap-2">
                                         <div
                                             className="tooltip"
                                             data-tip="Connect a wallet via the integration menu to see your balance"
@@ -216,6 +213,9 @@ const FundTab = ({ address, id, mint, reward }: Bounty) => {
                                                 className="aspect-square"
                                             />
                                         </div>
+                                        <Text variant="paragraph">
+                                            Not connected
+                                        </Text>
                                     </div>
                                 )}
                             </div>
