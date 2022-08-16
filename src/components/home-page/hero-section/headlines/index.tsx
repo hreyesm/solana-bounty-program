@@ -23,6 +23,7 @@ const Headlines = () => {
         <>
             <Carousel
                 showArrows={false}
+                showThumbs={false}
                 showStatus={false}
                 infiniteLoop={true}
                 className={'inline w-full text-center md:hidden ' + styles.carousel}
