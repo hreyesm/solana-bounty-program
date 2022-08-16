@@ -2,31 +2,31 @@ import StatItem from 'components/home-page/stats-section/stat-item';
 
 const statItems = [
     {
-        bountyName: 'Bounties1',
-        bountyNumber: '135',
+        bountyName: 'Open bounties',
+        bountyNumber: '12',
         borderBottom: 'true',
         borderRight: 'true',
         removeBorderRightMedium: 'false',
     },
     {
-        bountyName: 'Bounties2',
-        bountyNumber: '135',
+        bountyName: 'Total bounties',
+        bountyNumber: '35',
+        borderBottom: 'true',
+        borderRight: 'true',
+        removeBorderRightMedium: 'false',
+    },
+    {
+        bountyName: 'Hunters',
+        bountyNumber: '4',
         borderBottom: 'true',
         borderRight: 'true',
         removeBorderRightMedium: 'true',
     },
     {
-        bountyName: 'Bounties3',
+        bountyName: 'Total funds (SOL)',
         bountyNumber: '1000',
         borderBottom: 'true',
         borderRight: 'true',
-        removeBorderRightMedium: 'false',
-    },
-    {
-        bountyName: 'Bounties4',
-        bountyNumber: '135',
-        borderBottom: 'false',
-        borderRight: 'false',
         removeBorderRightMedium: 'false',
     },
 ];
