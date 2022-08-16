@@ -61,6 +61,26 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
         await claimBounty(id, publicKey);
     };
 
+    const onCloseButtonClick = async () => {
+        try {
+            const response = await fetch(`/api/bounties/${id}`, {
+                headers: { 'Content-Type': 'application/json' },
+                method: 'PATCH',
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                router.push(`/explorer`);
+            } else {
+                alert(JSON.stringify(data));
+            }
+        } catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    };
+
     return (
         <div className="flex flex-col gap-8 p-5 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
             <div className="flex flex-row flex-wrap items-center justify-between gap-5">
@@ -74,7 +94,11 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
 
                 <div className="flex w-fit flex-row flex-wrap gap-3">
                     {session && bounty.owner === session.login && (
-                        <Button variant="danger" text="Close" />
+                        <Button
+                            onClick={onCloseButtonClick}
+                            variant="danger"
+                            text="Close"
+                        />
                     )}
                     {session && bounty.hunter === session.login && (
                         <div

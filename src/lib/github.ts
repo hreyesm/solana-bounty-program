@@ -22,6 +22,28 @@ const getDrillBountyUrlQuery = (params: string[] = []) =>
         } ${params.length ? params.join(' ') : ''}`,
     )}`;
 
+const closeIssue = async (id: number, token: string) => {
+    const url = `${process.env.GITHUB_API}/repos/${process.env.GITHUB_REPOSITORY}/issues/${id}`;
+
+    try {
+        const response = await fetch(url, {
+            body: JSON.stringify({
+                state: 'closed',
+            }),
+            headers: {
+                Accept: 'application/vnd.github+json',
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            method: 'PATCH',
+        });
+
+        return response.json();
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
 const createIssue = async (issue: IssueToCreate, token: string) => {
     const url = `${process.env.GITHUB_API}/repos/${process.env.GITHUB_REPOSITORY}/issues`;
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
@@ -133,4 +155,11 @@ const getUser = async (
     return user;
 };
 
-export { createIssue, getIssue, getIssues, getIssuesByAssignee, getUser };
+export {
+    closeIssue,
+    createIssue,
+    getIssue,
+    getIssues,
+    getIssuesByAssignee,
+    getUser,
+};
