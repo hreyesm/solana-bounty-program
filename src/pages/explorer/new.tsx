@@ -157,7 +157,7 @@ const NewPage: NextPage = () => {
                 <div
                     className={cn(
                         'tooltip-bottom tooltip-error',
-                        !validBountyName && 'tooltip-open tooltip',
+                        !validBountyName && 'tooltip tooltip-open',
                     )}
                     data-tip="Enter a bounty name"
                 >
@@ -195,7 +195,7 @@ const NewPage: NextPage = () => {
                     <div
                         className={cn(
                             'tooltip-error w-full sm:w-fit',
-                            !validHunter && 'tooltip-open tooltip',
+                            !validHunter && 'tooltip tooltip-open',
                         )}
                         data-tip="Enter a valid GitHub username"
                     >
