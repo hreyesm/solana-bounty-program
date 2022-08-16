@@ -1,33 +1,35 @@
 /* eslint-disable @next/next/no-img-element */
-import Button from 'components/common/button';
 import Card from 'components/common/card';
+import { MdOutlineTipsAndUpdates } from 'react-icons/md';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
-import { useRouter } from 'next/router';
 import { useMemo } from 'react';
-import { MdOutlineTipsAndUpdates } from 'react-icons/md';
+import { useRouter } from 'next/router';
 
 const AboutSection = () => {
-    const tabs = [
-        {
-            content:
-                'The Bounty Program streamlines the process of finding motivated and driven developers to contribute to your project.\n\nOpen-source contributors are offerred a monetary incentive for their work, allowing them to contribute to your project without having to become a full-time developer.',
-            id: 'maintainer',
-            label: 'Maintainer',
-        },
-        {
-            content:
-                'Completing bounties nets you levels, showcasing your commitment to open-source development and your past performance on the project.\n\nBounties are created by the maintainers of a project, and are assigned to contributors who are interested in working on the project.',
-            id: 'hunter',
-            label: 'Hunter',
-        },
-        {
-            content:
-                'Funding bounties with crypto ensures that the projects you love have the resources to continue to grow and attract the most driven developers.\n\nTransactions are performed on the powerful and reliable Solana network, and payments can easily be performed using Solana Pay.',
-            id: 'funder',
-            label: 'Funder',
-        },
-    ];
+    const tabs = useMemo(
+        () => [
+            {
+                content:
+                    'The Bounty Program streamlines the process of finding motivated and driven developers to contribute to your project.\n\nOpen-source contributors are offerred a monetary incentive for their work, allowing them to contribute to your project without having to become a full-time developer.',
+                id: 'maintainer',
+                label: 'Maintainer',
+            },
+            {
+                content:
+                    'Completing bounties nets you levels, showcasing your commitment to open-source development and your past performance on the project.\n\nBounties are created by the maintainers of a project, and are assigned to contributors who are interested in working on the project.',
+                id: 'hunter',
+                label: 'Hunter',
+            },
+            {
+                content:
+                    'Funding bounties with crypto ensures that the projects you love have the resources to continue to grow and attract the most driven developers.\n\nTransactions are performed on the powerful and reliable Solana network, and payments can easily be performed using Solana Pay.',
+                id: 'funder',
+                label: 'Funder',
+            },
+        ],
+        [],
+    );
 
     const router = useRouter();
     const currentTabId = (router.query.tab as string) || tabs[0].id;
@@ -38,9 +40,7 @@ const AboutSection = () => {
     );
 
     return (
-        <section
-            className="mt-36 flex justify-center px-4 sm:px-8 md:mt-0 md:px-16 lg:px-32 xl:px-48"
-        >
+        <section className="mt-36 flex justify-center px-4 sm:px-8 md:mt-0 md:px-16 lg:px-32 xl:px-48">
             <div className="absolute order-2 -mt-36 ml-7 w-3/4 opacity-75 bg-blend-overlay md:relative md:-ml-52 md:mt-0 md:w-1/2">
                 <img src="/back.webp" alt="" />
             </div>

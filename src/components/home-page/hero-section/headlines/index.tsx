@@ -1,7 +1,6 @@
-import React, { useMemo } from 'react';
 import { Carousel } from 'react-responsive-carousel';
-import styles from '../style/hero.module.css';
 import Headline from './headline';
+import styles from '../style/hero.module.css';
 
 const Headlines = () => {
     const headlines = [
@@ -16,7 +15,7 @@ const Headlines = () => {
         {
             heading: 'Grow & Earn',
             body: 'Expand your open-source portfolio by completing bounties that interest you and get paid for your work.',
-        }
+        },
     ];
 
     return (
@@ -26,7 +25,9 @@ const Headlines = () => {
                 showThumbs={false}
                 showStatus={false}
                 infiniteLoop={true}
-                className={'inline w-full text-center md:hidden ' + styles.carousel}
+                className={
+                    'inline w-full text-center md:hidden ' + styles.carousel
+                }
             >
                 {headlines.map((headline, index) => (
                     <Headline key={index} {...headline} />
@@ -40,6 +41,6 @@ const Headlines = () => {
             </div>
         </>
     );
-}
+};
 
 export default Headlines;

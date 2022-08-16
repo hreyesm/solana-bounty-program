@@ -1,5 +1,5 @@
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
 import { cn } from 'utils';
 
 /**
@@ -48,7 +48,7 @@ const variants = {
  * @param className Custom classes to be applied to the element.
  * @param children Child elements to be rendered within the component.
  */
-const Text = ({ variant, className, href, children, id }: TextProps) => (
+const Text = ({ variant, className, href, children }: TextProps) => (
     <text className={cn(className, variants[variant])}>
         {href ? (
             <Link href={href}>
