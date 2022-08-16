@@ -85,7 +85,7 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
         <>
             <NextSeo
                 title={name}
-                description="Claim and complete the bounty to get reward. Fund for the software you love and use on a daily-basis."
+                description="Claim and complete the bounty to get reward. Fund for the project you love and use on a daily-basis."
             ></NextSeo>
             <div className="flex flex-col gap-8 p-5 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                 <div className="flex flex-row flex-wrap items-center justify-between gap-5">
