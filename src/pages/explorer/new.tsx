@@ -249,7 +249,13 @@ const NewPage: NextPage = () => {
 
                         {currentTab.content}
 
-                        <div className="width-full flex flex-row justify-end">
+                        <div className="width-full flex flex-row gap-2 justify-end">
+                            <Button
+                                variant="danger"
+                                text="Cancel"
+                                onClick={() => router.back()}
+                                
+                            />
                             <Button
                                 type="submit"
                                 variant="orange"
