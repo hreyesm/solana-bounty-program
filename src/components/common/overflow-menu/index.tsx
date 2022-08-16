@@ -139,7 +139,7 @@ const OverflowMenu = () => {
                                             variant="label"
                                             className="!normal-case text-secondary"
                                         >
-                                            By connect your wallet, you gain the ability to transfer funds directly to a bounty, as well as to claim completed bounties.
+                                            By connecting your wallet, you gain the ability to transfer funds directly to a bounty, as well as to claim completed bounties.
                                         </Text>
                                     </>
                                 ) : (
