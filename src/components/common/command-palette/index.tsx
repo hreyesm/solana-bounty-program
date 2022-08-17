@@ -138,37 +138,12 @@ const CommandPalette = props => {
             perform: () => (window.location.pathname = '/explorer'),
         },
         {
-            id: 'search-bounty',
-            name: 'Search bounties...',
-            keywords: 'search bounty bounties',
-            shortcut: ['s', 'b'],
-            section: 'Actions',
-            perform: () => (window.location.pathname = 'blog'),
-        },
-        {
-            id: 'search-profile',
-            name: 'Search profiles...',
-            keywords: 'search profile user profiles users',
-            shortcut: ['s', 'p'],
-            section: 'Actions',
-            perform: () => (window.location.pathname = 'blog'),
-        },
-        {
             id: 'create-bounty',
             name: 'Create bounty',
             keywords: 'bounty create new plus add',
             shortcut: ['c', 'b'],
             section: 'Actions',
-            perform: () => (window.location.pathname = 'blog'),
-        },
-        {
-            id: 'integrate-wallet',
-            name: 'Connect wallet...',
-            keywords:
-                'connect wallet solana solana-wallet phantom solflare torus sollet ',
-            shortcut: ['w'],
-            section: 'Integrations',
-            perform: () => (window.location.pathname = 'contact'),
+            perform: () => (window.location.pathname = 'explorer/new'),
         },
     ];
 

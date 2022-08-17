@@ -9,11 +9,11 @@ import Markdown from 'components/common/markdown';
 import { MdPersonOutline } from 'react-icons/md';
 import NavElement from 'components/common/layout/header/nav-element';
 import { NextPage } from 'next';
+import { NextSeo } from 'next-seo';
 import { TbBrandGithub } from 'react-icons/tb';
 import Text from 'components/common/text';
 import { cn } from 'utils';
 import { useRouter } from 'next/router';
-import { NextSeo } from 'next-seo';
 
 const NewPage: NextPage = () => {
     const [validBountyName, setValidBountyName] = useState(true);
@@ -111,10 +111,8 @@ const NewPage: NextPage = () => {
             const data = await response.json();
 
             if (response.ok) {
-                const bountyId = data.url.substring(
-                    data.url.lastIndexOf('/') + 1,
-                );
-                router.push(`/explorer/${bountyId}`);
+                alert('Bounty created successfully');
+                router.push('/explorer');
             } else {
                 alert(JSON.stringify(data));
             }
@@ -150,16 +148,17 @@ const NewPage: NextPage = () => {
 
     return (
         <>
-            <NextSeo title="Create new Bounty" description='Create a new bounty.'></NextSeo>
+            <NextSeo
+                title="Create new Bounty"
+                description="Create a new bounty."
+            ></NextSeo>
             <form className="flex flex-col" onSubmit={onSubmit}>
-                <section
-                    className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20"
-                >
+                <section className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                     <Text variant="label">New bounty</Text>
                     <div
                         className={cn(
                             'tooltip-bottom tooltip-error',
-                            !validBountyName && 'tooltip-open tooltip',
+                            !validBountyName && 'tooltip tooltip-open',
                         )}
                         data-tip="Enter a bounty name"
                     >
@@ -200,7 +199,7 @@ const NewPage: NextPage = () => {
                         <div
                             className={cn(
                                 'tooltip-error w-full sm:w-fit',
-                                !validHunter && 'tooltip-open tooltip',
+                                !validHunter && 'tooltip tooltip-open',
                             )}
                             data-tip="Enter a valid GitHub username"
                         >
@@ -249,12 +248,11 @@ const NewPage: NextPage = () => {
 
                         {currentTab.content}
 
-                        <div className="width-full flex flex-row gap-2 justify-end">
+                        <div className="width-full flex flex-row justify-end gap-2">
                             <Button
                                 variant="danger"
                                 text="Cancel"
                                 onClick={() => router.back()}
-                                
                             />
                             <Button
                                 type="submit"

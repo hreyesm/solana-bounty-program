@@ -1,8 +1,8 @@
 import Text from '../text';
 import { cn } from 'utils';
 import { IconType } from 'react-icons';
-import React from 'react';
 import { MdContentCopy, MdDone } from 'react-icons/md';
+import { createElement, useState } from 'react';
 
 /**
  * Properties for a card component.
@@ -37,7 +37,7 @@ const Chip = ({
     reversed,
     href,
 }: ChipProps) => {
-    const [showTooltip, setShowTooltip] = React.useState(false);
+    const [showTooltip, setShowTooltip] = useState(false);
 
     return (
         <div
@@ -94,7 +94,7 @@ const Chip = ({
                             </span>
                         )}
                     </Text>
-                    {icon && React.createElement(icon, { size: 13 })}
+                    {icon && createElement(icon, { size: 13 })}
                     {children}
                 </>
             )}

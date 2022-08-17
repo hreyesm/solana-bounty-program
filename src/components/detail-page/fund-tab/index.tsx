@@ -68,19 +68,12 @@ const FundTab = ({ address, id, mint, reward }: Bounty) => {
 
             const message = `Transaction successful: https://explorer.solana.com/tx/${signature}?cluster=devnet`;
 
-            setTimeout(() => {
-                alert(message);
-            }, 6000);
+            alert(message);
 
             console.log(message);
         } catch (error) {
             alert('Transaction failed');
         }
-
-        setTimeout(() => {
-            alert('Reloading page to reflect changes...');
-            window.location.reload();
-        }, 3000);
     }, [
         publicKey,
         mint,
@@ -96,7 +89,7 @@ const FundTab = ({ address, id, mint, reward }: Bounty) => {
         <section className="flex flex-col gap-7">
             <div className="flex flex-col gap-2">
                 <Text variant="big-heading">Make a payment</Text>
-                <Text variant="label" className="!normal-case text-secondary">
+                <Text variant="paragraph" className="!text-secondary text-base">
                     Choose between...
                 </Text>
             </div>
@@ -116,7 +109,7 @@ const FundTab = ({ address, id, mint, reward }: Bounty) => {
                         </a>
                     </div>
                     <Card className="flex w-full items-center justify-center !bg-transparent p-5 md:h-full">
-                        <div className="overflow-hidden rounded-lg">
+                        <div className="overflow-hidden rounded-3xl">
                             <Image
                                 alt="Solana Pay QR"
                                 className="aspect-square h-80 w-80"

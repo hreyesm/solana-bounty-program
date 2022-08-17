@@ -162,4 +162,6 @@ export {
     getIssues,
     getIssuesByAssignee,
     getUser,
+    DRILL_BOUNTY_CLOSED_LABEL,
+    DRILL_BOUNTY_ENABLED_LABEL,
 };
