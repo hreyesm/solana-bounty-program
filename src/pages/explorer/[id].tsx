@@ -18,16 +18,19 @@ import { getAssociatedTokenAddress } from '@solana/spl-token';
 import { getBounty } from 'lib/bounties';
 import { unstable_getServerSession } from 'next-auth';
 import { useBountyReward } from 'hooks/use-bounty-reward';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { cn } from 'utils';
 
 type BountyDetailsPageProps = {
     bounty: Bounty;
 };
 
 const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
+    const [showTooltip, setShowTooltip] = useState(false);
+
     const { githubUrl, description, id, mint, name, state, createdAt } = bounty;
 
     const { reward, isLoading: isRewardLoading } = useBountyReward(id);
@@ -209,20 +212,33 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                     ))}
 
                     <div className="w-full flex flex-row justify-end">
-                        <Button 
-                            icon={MdShare} 
-                            variant="label" 
-                            className="!text-primary"
-                            onClick={() => {
-                                if (navigator.share) {
-                                    navigator.share({
-                                        title: name,
-                                        text: "Help the development of this open-source project by funding this bounty.",
-                                        url: `https://solana-bounty-program.vercel.app/explorer/${id}?tab=fund`
-                                    })
-                                }
-                            }}
-                        />
+                        <div data-tip="Link copied!" className={cn(
+                            "tooltip-left tooltip-success",
+                            showTooltip && "tooltip",
+                        )}>
+                            <Button 
+                                icon={MdShare} 
+                                variant="label" 
+                                className="!text-primary"
+                                onClick={() => {
+                                    const url = `${window.location.origin}/explorer/${id}/?tab=fund`;
+                                    if (navigator?.share) {
+                                        navigator.share({
+                                            title: name,
+                                            text: "Help the development of this open-source project by funding this bounty.",
+                                            url: url,
+                                        }).then(() => {
+                                            console.log("Link shared.");
+                                        })
+                                        .catch(console.error);
+                                    } else {
+                                        navigator.clipboard.writeText(url);
+                                        setShowTooltip(true);
+                                        setTimeout(() => setShowTooltip(false), 2000);
+                                    }
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
 
