@@ -57,7 +57,7 @@ const initialAccordionItems: Omit<AccordionItemProps, 'onExpand'>[] = [
                         the QR code on the bounty page.
                     </Text>
                 </div>
-                <a href="https://pay.solana.com/" target="_blank">
+                <a href="https://solanapay.com/" target="_blank">
                     <Button variant="transparent" text="More info on Solana Pay" icon={MdLink} reversed={true} className="!w-full" />
                 </a>
             </div>
