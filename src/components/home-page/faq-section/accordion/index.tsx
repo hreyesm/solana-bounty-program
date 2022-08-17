@@ -1,5 +1,5 @@
 import AccordionItem, { AccordionItemProps } from './accordion-item';
-import { MdCode, MdOutlineEngineering } from 'react-icons/md';
+import { MdCode, MdLink, MdOutlineEngineering } from 'react-icons/md';
 
 import Button from 'components/common/button';
 import Text from 'components/common/text';
@@ -31,31 +31,36 @@ const initialAccordionItems: Omit<AccordionItemProps, 'onExpand'>[] = [
     {
         ariaControls: 'accordion-collapse-body-2',
         children: (
-            <>
-                <Text variant="paragraph" className="text-base !text-secondary">
-                    You&apos;re{' '}
-                    <span className="text-primary">not required</span> to sign
-                    in with a GitHub account to simply view and fund bounties.
-                    However, doing so will ensure an{' '}
-                    <span className="text-primary">
-                        enhanced user experience
-                    </span>
-                    .
-                </Text>
-                <br />
-                <br />
-                <Text variant="paragraph" className="text-base !text-secondary">
-                    Specifically, to <span className="text-primary">claim</span>{' '}
-                    bounties, you must be signed in and have a wallet connected.
-                </Text>
-                <br />
-                <br />
-                <Text variant="paragraph" className="text-base !text-secondary">
-                    To fund bounties without a wallet, please use{' '}
-                    <span className="text-primary">Solana Pay</span> by scanning
-                    the QR code on the bounty page.
-                </Text>
-            </>
+            <div className="flex flex-col gap-3">
+                <div>
+                    <Text variant="paragraph" className="text-base !text-secondary">
+                        You&apos;re{' '}
+                        <span className="text-primary">not required</span> to sign
+                        in with a GitHub account to simply view and fund bounties.
+                        However, doing so will ensure an{' '}
+                        <span className="text-primary">
+                            enhanced user experience
+                        </span>
+                        .
+                    </Text>
+                    <br />
+                    <br />
+                    <Text variant="paragraph" className="text-base !text-secondary">
+                        Specifically, to <span className="text-primary">claim</span>{' '}
+                        bounties, you must be signed in and have a wallet connected.
+                    </Text>
+                    <br />
+                    <br />
+                    <Text variant="paragraph" className="text-base !text-secondary">
+                        To fund bounties without a wallet, please use{' '}
+                        <span className="text-primary">Solana Pay</span> by scanning
+                        the QR code on the bounty page.
+                    </Text>
+                </div>
+                <a href="https://pay.solana.com/" target="_blank">
+                    <Button variant="transparent" text="More info on Solana Pay" icon={MdLink} reversed={true} className="!w-full" />
+                </a>
+            </div>
         ),
         dataAccordionTarget: '#accordion-collapse-body-2',
         expanded: false,
