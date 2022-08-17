@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 import { GetServerSideProps, NextPage } from 'next';
-import { MdChevronLeft, MdLink } from 'react-icons/md';
+import { MdChevronLeft, MdLink, MdShare } from 'react-icons/md';
 
 import { Bounty } from 'types/bounty';
 import BountyCard from 'components/explorer-page/bounty-card';
@@ -207,6 +207,23 @@ const BountyDetailsPage: NextPage<BountyDetailsPageProps> = ({ bounty }) => {
                             scroll={false} // TODO: Scroll to navbar position.
                         />
                     ))}
+
+                    <div className="w-full flex flex-row justify-end">
+                        <Button 
+                            icon={MdShare} 
+                            variant="label" 
+                            className="!text-primary"
+                            onClick={() => {
+                                if (navigator.share) {
+                                    navigator.share({
+                                        title: name,
+                                        text: "Help the development of this open-source project by funding this bounty.",
+                                        url: `https://solana-bounty-program.vercel.app/explorer/${id}?tab=fund`
+                                    })
+                                }
+                            }}
+                        />
+                    </div>
                 </div>
 
                 <section className="flex flex-col gap-5">
