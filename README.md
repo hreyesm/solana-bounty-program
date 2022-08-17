@@ -1,90 +1,74 @@
-<div align="center">
+# Solana Bounty Program
 
 [![GitHub contributors](https://img.shields.io/github/contributors/andresmgsl/solana-cohort-june-2022)](https://github.com/andresmgsl/solana-cohort-june-2022/contributors)
-[![GitHub issues](https://img.shields.io/github/issues/andresmgsl/solana-cohort-june-2022)](https://github.com/andresmgsl/solana-cohort-june-2022/issues)
 [![GitHub license](https://img.shields.io/github/license/andresmgsl/solana-cohort-june-2022)](https://github.com/andresmgsl/solana-cohort-june-2022/blob/master/LICENSE)
-[![GitHub forks](https://img.shields.io/github/forks/andresmgsl/solana-cohort-june-2022)](https://github.com/andresmgsl/solana-cohort-june-2022/network)
-[![GitHub stars](https://img.shields.io/github/stars/andresmgsl/solana-cohort-june-2022)](https://github.com/andresmgsl/solana-cohort-june-2022/stargazers)
 [![GitHub Language](https://img.shields.io/github/languages/top/andresmgsl/solana-cohort-june-2022)](https://img.shields.io/github/languages/count/andresmgsl/solana-cohort-june-2022)
+[![Figma](https://badgen.net/badge/icon/Figma%20Prototype/orange?icon=https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg&label)]([https://www.figma.com/proto/uhH23aRZvGQsOViY0bnnVP/Gomoku?node-id=64%3A19](https://www.figma.com/file/sNkHueU0kTpW4FAWoIfhPN/Solana-Bounty))
+[![Notion](https://badgen.net/badge/icon/Notion%20Workspace/black?icon=https://cdn.worldvectorlogo.com/logos/notion-logo-1.svg&label)]([https://opposite-brain-cb0.notion.site/CS408-1e5c4e3c9b0d4291b6a968855d9270e9](https://www.notion.so/Solana-bounty-13550fcc0bc045a484f51d7d56d2a160))
 
-</div>
-
-## 📝 Table of Contents
-
-- [About](#about)
-- [Get started](#get-started)
-  - [Installation](#Install)
-  - [Running](#running)
-- [Technology](#tech)
-- [Demo Video](#video)
-- [Screenshots](#Screenshots)
-- [Contributors](#Contributors)
-
-## 📙 About <a name = "about"></a>
-
-- Bounties can help new developers on Solana jump into the ecosystem without a huge commitment.
-- Bounties also help teams find potential candidates to hire based on the body of work.
-- This project covers creating a bounty workflow so that devs can find smaller bodies of work, apply, and submit products.
-
-## 🏁 Getting Started <a name = "get-started"></a>
-
-> This is an list of needed instructions to set up your project locally, to get a local copy up and running follow these
-> instructuins.
-
-### Installation <a name = "Install"></a>
-
-1. **_Clone the repository_**
-
-```sh
-$ git clone https://github.com/andresmgsl/solana-cohort-june-2022.git
-```
-
-2. **_Navigate to repository directory_**
-
-```sh
-$ cd solana-cohort-june-2022
-```
-
-3. **_Install dependencies_**
-
-```sh
-npm install
-```
-
-### Running <a name = "running"></a>
-
-1. **_Running on development mode_**
-
-```sh
-npm run dev
-```
-or
-```sh
-yarn dev
-```
-
-Open http://localhost:3000 with your browser to see the result
+| <!-- -->    | <!-- -->    |
+:-------------------------:|:-------------------------:
+![screencapture-solana-bounty-program-vercel-app-explorer-2022-08-17-03_03_51](https://user-images.githubusercontent.com/14112766/185019856-1096365f-6eac-46fc-bd3e-62ee36cec187.png) |  ![screencapture-solana-bounty-program-vercel-app-explorer-2022-08-17-03_04_07](https://user-images.githubusercontent.com/14112766/185019858-0de0b6de-acf4-4d34-aa1d-269a4a2bf0a7.png)
 
 
-## 💻 Built Using <a name = "tech"></a>
+<details>
+    <summary> Table of Contents </summary>
+    <ol> 
+        <li> <a href="#target-audience"> Target audience </a> </li>
+            <ol>
+                <li> <a href="#how-does-the-software-benefit-each-group"> How does this software benefit each group? </a> </li>
+            </ol>
+        <li> <a href="#tech-stack"> Tech stack </a> </li>
+        <li> <a href="#development-process"> Development process </a> </li>
+            <ol>
+                <li> <a href="#design"> Design </a> </li>
+                <li> <a href="#back-end"> Back-end </a> </li>
+                <li> <a href="#web3"> Web3 </a> </li>
+            </ol>
+        <li> <a href="#team-members"> Team members </a> </li>
+</details>
 
-- **Next.js**
+## Target audience
+This software aims to benefit the following groups of people:
+- Maintainers:
+   - Owners of open-source repositories who wish to find talented and driven contributors and developers.
+- Hunters
+   - Hackers wanting to join Web3 space or discover new, rewarding projects - without committing to a full-time position.
+- Funders
+   - Crypto and open-source fans that want to drive the development of their favourite projects.
 
-## 📷 Demo Video <a name = "video"></a>
+### How does the software benefit each group?
 
-## 📷 Demo Screenshots <a name = "Screenshots"></a>
+- Maintainer:
+   - The Bounty Program makes it easy to find enthusiastic developers for open-source projects.
+   - Open-source contributors get compensated for their work, enabling them to participate without becoming full-time developers.
+   - It can additionally be used as an effective project management tool.
+- Hunter:
+   - Completing bounties nets the bounty hunter levels, showcasing their commitment to open-source development as well as your past performance on the project.
+   - Bounties are created by the maintainers of a project, and are assigned to contributors who are interested in working on the project.
+- Funder:
+   -  Funding bounties with crypto ensures that the projects you love have the resources to continue to grow and attract the most driven developers.
+   -  Transactions are performed on the powerful and reliable Solana network, and payments can easily be performed using Solana Pay.
 
-<div align="center">
-<h3 align='left'>Home Page</h3>
-   <img src="">
-   <hr>
-   <img src="">
-   <hr>
-</div>
+## Tech stack
 
+## Development process
 
+### Design
 
-## Contributors <a name = "Contributors"></a>
+The UI was designed in a circular manner. Basic prototypes were created in Figma to establish the style system and map out basic interactions. Afterwards, the front-end was implemented using [TailwindCSS](https://tailwindcss.com/). This approach allowed for the design to be iterated upon over time, without sacrificing agility during development and ensuring a rapid turnaround time.
+
+### Back-end
+
+The backend is based primarily on [Drill](https://github.com/heavy-duty/platform), a Web3 ecosystem by [Heavy Duty](https://heavyduty.builders/) that includes web services as well as NPM packages allowing the creation of bounty programs that are deeply integrated with Solana and GitHub. Using GitHub Actions, Drill automates the process of creating, funding, closing, and claiming bounties (with hunter, owner, and additional metadata stored as GitHub issues interacted with via authenticated GitHub API requests), of which only the critical information is stored on-chain. Therefore, the Bounty Program can be thought of as a fully-managed, two-part service that leverages both the GitHub API and Solana’s [spl-token](https://solana-labs.github.io/solana-program-library/token/js/) library for all of its transactions.
+
+### Web3
+
+Crypto integration required the implementation of a custom Solana-based wallet adapter to ensure the flow of the design system remained consistent. The claiming and funding flows were achieved using Solana’s [web3.js](https://solana-labs.github.io/solana-web3.js/) library and SWR. Solana Pay QR Code are dynamically added to smoothen the funding process for users.
+
+## Demo & verification
+
+## Team members
 
 <table>
   <tr>
