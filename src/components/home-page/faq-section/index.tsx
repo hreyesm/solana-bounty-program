@@ -12,7 +12,7 @@ const FaqSection = () => (
             <Text variant="big-heading">Find out more about Bounties</Text>
             <div className="flex items-center">
                 <div className="invisible absolute opacity-30 bg-blend-overlay md:visible md:relative md:ml-auto md:w-1/2">
-                    <img src="/back.webp" alt="" />
+                    <img src="/landing-img-1.png" alt="" />
                 </div>
                 <div className="w-full md:relative md:-ml-36 md:h-3/4 md:w-2/3">
                     <Card className="p-4">
